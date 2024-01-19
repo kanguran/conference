@@ -138,6 +138,18 @@ Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 
 Refer to [Using JHipster in production][] for more details.
 
+### Database Schema generation from JDL file
+Node V18 is in use
+Install JHipster
+```
+sudo npm install -g generator-jhipster@7.9.4
+```
+
+Generate files with command
+```
+jhipster jdl conference.jdl
+```
+
 ### Packaging as war
 
 To package your application as a war in order to deploy it to an application server, run:

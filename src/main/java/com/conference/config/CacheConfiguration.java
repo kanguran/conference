@@ -48,6 +48,12 @@ public class CacheConfiguration {
             createCache(cm, com.conference.domain.User.class.getName());
             createCache(cm, com.conference.domain.Authority.class.getName());
             createCache(cm, com.conference.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.conference.domain.Event.class.getName());
+            createCache(cm, com.conference.domain.Event.class.getName() + ".eventContexts");
+            createCache(cm, com.conference.domain.EventContext.class.getName());
+            createCache(cm, com.conference.domain.EventContext.class.getName() + ".eventContextRegistrations");
+            createCache(cm, com.conference.domain.EventRegistration.class.getName());
+            createCache(cm, com.conference.domain.Room.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

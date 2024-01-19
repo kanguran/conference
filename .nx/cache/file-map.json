@@ -1,0 +1,2604 @@
+{
+  "version": "6.0",
+  "nxVersion": "17.2.8",
+  "deps": {
+    "@angular/common": "14.2.0",
+    "@angular/compiler": "14.2.0",
+    "@angular/core": "14.2.0",
+    "@angular/forms": "14.2.0",
+    "@angular/localize": "14.2.0",
+    "@angular/platform-browser": "14.2.0",
+    "@angular/platform-browser-dynamic": "14.2.0",
+    "@angular/router": "14.2.0",
+    "@fortawesome/angular-fontawesome": "0.11.1",
+    "@fortawesome/fontawesome-svg-core": "6.2.0",
+    "@fortawesome/free-solid-svg-icons": "6.2.0",
+    "@ng-bootstrap/ng-bootstrap": "13.0.0",
+    "@nrwl/angular": "^17.2.8",
+    "@popperjs/core": "2.11.6",
+    "bootstrap": "5.2.0",
+    "bootswatch": "5.2.0",
+    "dayjs": "1.11.5",
+    "ngx-infinite-scroll": "14.0.0",
+    "ngx-webstorage": "10.0.1",
+    "rxjs": "7.5.6",
+    "tslib": "2.4.0",
+    "zone.js": "0.11.6",
+    "@angular-builders/custom-webpack": "14.0.1",
+    "@angular-builders/jest": "14.0.1",
+    "@angular-devkit/build-angular": "14.2.1",
+    "@angular-eslint/eslint-plugin": "14.0.3",
+    "@angular/cli": "14.2.1",
+    "@angular/compiler-cli": "14.2.0",
+    "@angular/service-worker": "14.2.0",
+    "@types/jest": "28.1.8",
+    "@types/node": "16.11.56",
+    "@typescript-eslint/eslint-plugin": "5.36.1",
+    "@typescript-eslint/parser": "5.36.1",
+    "browser-sync": "2.27.10",
+    "browser-sync-webpack-plugin": "2.3.0",
+    "concurrently": "7.3.0",
+    "copy-webpack-plugin": "11.0.0",
+    "eslint": "8.23.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-webpack-plugin": "3.2.0",
+    "generator-jhipster": "7.9.4",
+    "husky": "7.0.4",
+    "jest": "28.1.3",
+    "jest-date-mock": "1.0.8",
+    "jest-environment-jsdom": "28.1.3",
+    "jest-junit": "14.0.1",
+    "jest-preset-angular": "12.2.2",
+    "jest-sonar": "0.2.12",
+    "lint-staged": "13.0.3",
+    "prettier": "2.7.1",
+    "prettier-plugin-java": "1.6.2",
+    "prettier-plugin-packagejson": "2.2.18",
+    "rimraf": "3.0.2",
+    "swagger-ui-dist": "4.14.0",
+    "ts-jest": "28.0.8",
+    "typescript": "4.8.2",
+    "wait-on": "6.0.1",
+    "webpack-bundle-analyzer": "4.6.1",
+    "webpack-merge": "5.8.0",
+    "webpack-notifier": "1.15.0"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "conference": [
+        {
+          "file": ".browserslistrc",
+          "hash": "695025333517374179"
+        },
+        {
+          "file": ".devcontainer/Dockerfile",
+          "hash": "7035148545016013533"
+        },
+        {
+          "file": ".devcontainer/devcontainer.json",
+          "hash": "2440168699663581528"
+        },
+        {
+          "file": ".editorconfig",
+          "hash": "13778135464114245626"
+        },
+        {
+          "file": ".eslintignore",
+          "hash": "13973676572849682584"
+        },
+        {
+          "file": ".eslintrc.json",
+          "hash": "10043338725935415715"
+        },
+        {
+          "file": ".gitattributes",
+          "hash": "4743146119223801276"
+        },
+        {
+          "file": ".gitignore",
+          "hash": "5602557798838958900"
+        },
+        {
+          "file": ".husky/pre-commit",
+          "hash": "12399060066918617778"
+        },
+        {
+          "file": ".lintstagedrc.js",
+          "hash": "9939502154295123145"
+        },
+        {
+          "file": ".prettierignore",
+          "hash": "9444287742198034727"
+        },
+        {
+          "file": ".prettierrc",
+          "hash": "10678801172273004051"
+        },
+        {
+          "file": ".yo-rc-global.json",
+          "hash": "17817789368957211949"
+        },
+        {
+          "file": ".yo-rc.json",
+          "hash": "14936227444578187400"
+        },
+        {
+          "file": "README.md",
+          "hash": "608871502226649345"
+        },
+        {
+          "file": "angular.json",
+          "hash": "6325467077990266568"
+        },
+        {
+          "file": "build.gradle",
+          "hash": "10903600312474044018"
+        },
+        {
+          "file": "checkstyle.xml",
+          "hash": "5064841749661468463"
+        },
+        {
+          "file": "conference.jdl",
+          "hash": "15357218071718967779"
+        },
+        {
+          "file": "gradle.properties",
+          "hash": "11000163259117293417"
+        },
+        {
+          "file": "gradle/docker.gradle",
+          "hash": "15487901905618335233"
+        },
+        {
+          "file": "gradle/profile_dev.gradle",
+          "hash": "11994367878546023572"
+        },
+        {
+          "file": "gradle/profile_prod.gradle",
+          "hash": "13513314352356231221"
+        },
+        {
+          "file": "gradle/sonar.gradle",
+          "hash": "5877456931819536485"
+        },
+        {
+          "file": "gradle/war.gradle",
+          "hash": "6625158594155499091"
+        },
+        {
+          "file": "gradle/wrapper/gradle-wrapper.jar",
+          "hash": "17111259880925534468"
+        },
+        {
+          "file": "gradle/wrapper/gradle-wrapper.properties",
+          "hash": "2706009779961149981"
+        },
+        {
+          "file": "gradle/zipkin.gradle",
+          "hash": "13432192161808044407"
+        },
+        {
+          "file": "gradlew",
+          "hash": "5672449845342018919"
+        },
+        {
+          "file": "gradlew.bat",
+          "hash": "410257071541801752"
+        },
+        {
+          "file": "jest.conf.js",
+          "hash": "2780334036746053377",
+          "deps": [
+            "npm:ts-jest"
+          ]
+        },
+        {
+          "file": "ngsw-config.json",
+          "hash": "17384300172734177802"
+        },
+        {
+          "file": "npmw",
+          "hash": "8442694104322047471"
+        },
+        {
+          "file": "npmw.cmd",
+          "hash": "11987736352008767176"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "3403024682760242292"
+        },
+        {
+          "file": "package.json",
+          "hash": "17723209979737184964",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/compiler",
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/localize",
+            "npm:@angular/platform-browser",
+            "npm:@angular/platform-browser-dynamic",
+            "npm:@angular/router",
+            "npm:@fortawesome/angular-fontawesome",
+            "npm:@fortawesome/fontawesome-svg-core",
+            "npm:@fortawesome/free-solid-svg-icons",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:@popperjs/core",
+            "npm:bootstrap",
+            "npm:bootswatch",
+            "npm:dayjs",
+            "npm:ngx-infinite-scroll",
+            "npm:ngx-webstorage",
+            "npm:rxjs",
+            "npm:tslib",
+            "npm:zone.js",
+            "npm:@angular-builders/custom-webpack",
+            "npm:@angular-builders/jest",
+            "npm:@angular-devkit/build-angular",
+            "npm:@angular-eslint/eslint-plugin",
+            "npm:@angular/cli",
+            "npm:@angular/compiler-cli",
+            "npm:@angular/service-worker",
+            "npm:@types/jest",
+            "npm:@types/node",
+            "npm:@typescript-eslint/eslint-plugin",
+            "npm:@typescript-eslint/parser",
+            "npm:browser-sync",
+            "npm:browser-sync-webpack-plugin",
+            "npm:concurrently",
+            "npm:copy-webpack-plugin",
+            "npm:eslint",
+            "npm:eslint-config-prettier",
+            "npm:eslint-webpack-plugin",
+            "npm:generator-jhipster",
+            "npm:husky",
+            "npm:jest",
+            "npm:jest-date-mock",
+            "npm:jest-environment-jsdom",
+            "npm:jest-junit",
+            "npm:jest-preset-angular",
+            "npm:jest-sonar",
+            "npm:lint-staged",
+            "npm:prettier",
+            "npm:prettier-plugin-java",
+            "npm:prettier-plugin-packagejson",
+            "npm:rimraf",
+            "npm:swagger-ui-dist",
+            "npm:ts-jest",
+            "npm:typescript",
+            "npm:wait-on",
+            "npm:webpack-bundle-analyzer",
+            "npm:webpack-merge",
+            "npm:webpack-notifier"
+          ]
+        },
+        {
+          "file": "settings.gradle",
+          "hash": "6294848858747664036"
+        },
+        {
+          "file": "sonar-project.properties",
+          "hash": "11864305531413894045"
+        },
+        {
+          "file": "src/main/docker/app.yml",
+          "hash": "4366596408808726093"
+        },
+        {
+          "file": "src/main/docker/central-server-config/README.md",
+          "hash": "1654223697869894452"
+        },
+        {
+          "file": "src/main/docker/grafana/provisioning/dashboards/JVM.json",
+          "hash": "2399676515841718417"
+        },
+        {
+          "file": "src/main/docker/grafana/provisioning/dashboards/dashboard.yml",
+          "hash": "9229724166412317477"
+        },
+        {
+          "file": "src/main/docker/grafana/provisioning/datasources/datasource.yml",
+          "hash": "17837959412308604529"
+        },
+        {
+          "file": "src/main/docker/jhipster-control-center.yml",
+          "hash": "16651312587909336720"
+        },
+        {
+          "file": "src/main/docker/jib/entrypoint.sh",
+          "hash": "10343341423706859670"
+        },
+        {
+          "file": "src/main/docker/monitoring.yml",
+          "hash": "4716333024872247560"
+        },
+        {
+          "file": "src/main/docker/postgresql.yml",
+          "hash": "7748257644748065728"
+        },
+        {
+          "file": "src/main/docker/prometheus/prometheus.yml",
+          "hash": "14690390137704025537"
+        },
+        {
+          "file": "src/main/docker/sonar.yml",
+          "hash": "1159083889260082904"
+        },
+        {
+          "file": "src/main/docker/zipkin.yml",
+          "hash": "8377192475388820449"
+        },
+        {
+          "file": "src/main/java/com/conference/ApplicationWebXml.java",
+          "hash": "18117260386248170881"
+        },
+        {
+          "file": "src/main/java/com/conference/ConferenceApp.java",
+          "hash": "2383622421254638733"
+        },
+        {
+          "file": "src/main/java/com/conference/GeneratedByJHipster.java",
+          "hash": "13807859770136090895"
+        },
+        {
+          "file": "src/main/java/com/conference/aop/logging/LoggingAspect.java",
+          "hash": "10985264750215965016"
+        },
+        {
+          "file": "src/main/java/com/conference/config/ApplicationProperties.java",
+          "hash": "18236199023729496745"
+        },
+        {
+          "file": "src/main/java/com/conference/config/AsyncConfiguration.java",
+          "hash": "6268350271085118201"
+        },
+        {
+          "file": "src/main/java/com/conference/config/CRLFLogConverter.java",
+          "hash": "3062170233778362878"
+        },
+        {
+          "file": "src/main/java/com/conference/config/CacheConfiguration.java",
+          "hash": "15238578038000605336"
+        },
+        {
+          "file": "src/main/java/com/conference/config/Constants.java",
+          "hash": "17213506849525583632"
+        },
+        {
+          "file": "src/main/java/com/conference/config/DatabaseConfiguration.java",
+          "hash": "9981147211183356794"
+        },
+        {
+          "file": "src/main/java/com/conference/config/DateTimeFormatConfiguration.java",
+          "hash": "1994584116706464775"
+        },
+        {
+          "file": "src/main/java/com/conference/config/JacksonConfiguration.java",
+          "hash": "10452478895420652662"
+        },
+        {
+          "file": "src/main/java/com/conference/config/LiquibaseConfiguration.java",
+          "hash": "16266305502893544604"
+        },
+        {
+          "file": "src/main/java/com/conference/config/LocaleConfiguration.java",
+          "hash": "6470461147188910344"
+        },
+        {
+          "file": "src/main/java/com/conference/config/LoggingAspectConfiguration.java",
+          "hash": "4627782285875376811"
+        },
+        {
+          "file": "src/main/java/com/conference/config/LoggingConfiguration.java",
+          "hash": "17331976287751935226"
+        },
+        {
+          "file": "src/main/java/com/conference/config/SecurityConfiguration.java",
+          "hash": "3710381686218762612"
+        },
+        {
+          "file": "src/main/java/com/conference/config/StaticResourcesWebConfiguration.java",
+          "hash": "16786413536598521288"
+        },
+        {
+          "file": "src/main/java/com/conference/config/WebConfigurer.java",
+          "hash": "3496826936086040227"
+        },
+        {
+          "file": "src/main/java/com/conference/config/package-info.java",
+          "hash": "15593112892289034756"
+        },
+        {
+          "file": "src/main/java/com/conference/domain/AbstractAuditingEntity.java",
+          "hash": "13285480433536698443"
+        },
+        {
+          "file": "src/main/java/com/conference/domain/Authority.java",
+          "hash": "7849765537503327012"
+        },
+        {
+          "file": "src/main/java/com/conference/domain/User.java",
+          "hash": "14959079051260440719"
+        },
+        {
+          "file": "src/main/java/com/conference/domain/package-info.java",
+          "hash": "15460484952670118816"
+        },
+        {
+          "file": "src/main/java/com/conference/management/SecurityMetersService.java",
+          "hash": "16209314925494367480"
+        },
+        {
+          "file": "src/main/java/com/conference/repository/AuthorityRepository.java",
+          "hash": "11150026816871792542"
+        },
+        {
+          "file": "src/main/java/com/conference/repository/UserRepository.java",
+          "hash": "2774906709705653359"
+        },
+        {
+          "file": "src/main/java/com/conference/repository/package-info.java",
+          "hash": "15848015945797891844"
+        },
+        {
+          "file": "src/main/java/com/conference/security/AuthoritiesConstants.java",
+          "hash": "14550285579605921302"
+        },
+        {
+          "file": "src/main/java/com/conference/security/DomainUserDetailsService.java",
+          "hash": "9922080233341458955"
+        },
+        {
+          "file": "src/main/java/com/conference/security/SecurityUtils.java",
+          "hash": "10672993266324612277"
+        },
+        {
+          "file": "src/main/java/com/conference/security/SpringSecurityAuditorAware.java",
+          "hash": "17280353981133073395"
+        },
+        {
+          "file": "src/main/java/com/conference/security/UserNotActivatedException.java",
+          "hash": "11252990663211853900"
+        },
+        {
+          "file": "src/main/java/com/conference/security/jwt/JWTConfigurer.java",
+          "hash": "12967493962739982082"
+        },
+        {
+          "file": "src/main/java/com/conference/security/jwt/JWTFilter.java",
+          "hash": "15252197060078738016"
+        },
+        {
+          "file": "src/main/java/com/conference/security/jwt/TokenProvider.java",
+          "hash": "17380096991326716577"
+        },
+        {
+          "file": "src/main/java/com/conference/security/package-info.java",
+          "hash": "2958116193155431112"
+        },
+        {
+          "file": "src/main/java/com/conference/service/EmailAlreadyUsedException.java",
+          "hash": "2889266198010093623"
+        },
+        {
+          "file": "src/main/java/com/conference/service/InvalidPasswordException.java",
+          "hash": "11470967262966455565"
+        },
+        {
+          "file": "src/main/java/com/conference/service/MailService.java",
+          "hash": "12296480938874724686"
+        },
+        {
+          "file": "src/main/java/com/conference/service/UserService.java",
+          "hash": "16619272989583730619"
+        },
+        {
+          "file": "src/main/java/com/conference/service/UsernameAlreadyUsedException.java",
+          "hash": "2645856251862119636"
+        },
+        {
+          "file": "src/main/java/com/conference/service/dto/AdminUserDTO.java",
+          "hash": "10589707905424644404"
+        },
+        {
+          "file": "src/main/java/com/conference/service/dto/PasswordChangeDTO.java",
+          "hash": "5238166955066733304"
+        },
+        {
+          "file": "src/main/java/com/conference/service/dto/UserDTO.java",
+          "hash": "9268607468763291902"
+        },
+        {
+          "file": "src/main/java/com/conference/service/dto/package-info.java",
+          "hash": "16867011349158666169"
+        },
+        {
+          "file": "src/main/java/com/conference/service/mapper/UserMapper.java",
+          "hash": "17650241806567607625"
+        },
+        {
+          "file": "src/main/java/com/conference/service/mapper/package-info.java",
+          "hash": "13707983932482997764"
+        },
+        {
+          "file": "src/main/java/com/conference/service/package-info.java",
+          "hash": "4823876618246680260"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/AccountResource.java",
+          "hash": "1455452781494489938"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/ClientForwardController.java",
+          "hash": "16682415402168223409"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/PublicUserResource.java",
+          "hash": "2334432300595705169"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/UserJWTController.java",
+          "hash": "2728246840783600337"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/UserResource.java",
+          "hash": "14446281392847303610"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/errors/BadRequestAlertException.java",
+          "hash": "15045201518755638667"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/errors/EmailAlreadyUsedException.java",
+          "hash": "675217238333387630"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/errors/ErrorConstants.java",
+          "hash": "17364716439546005553"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/errors/ExceptionTranslator.java",
+          "hash": "1621776895509594049"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/errors/FieldErrorVM.java",
+          "hash": "4904588992224766653"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/errors/InvalidPasswordException.java",
+          "hash": "511559383117583113"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/errors/LoginAlreadyUsedException.java",
+          "hash": "15123822315912793088"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/errors/package-info.java",
+          "hash": "13940162626544499929"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/package-info.java",
+          "hash": "3753164878889671051"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/vm/KeyAndPasswordVM.java",
+          "hash": "3532304937620335350"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/vm/LoginVM.java",
+          "hash": "5668632007890596277"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/vm/ManagedUserVM.java",
+          "hash": "10824459735139690139"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/vm/package-info.java",
+          "hash": "4386033111504356543"
+        },
+        {
+          "file": "src/main/resources/.h2.server.properties",
+          "hash": "8549650257110336857"
+        },
+        {
+          "file": "src/main/resources/banner.txt",
+          "hash": "13947227162452626925"
+        },
+        {
+          "file": "src/main/resources/config/application-dev.yml",
+          "hash": "15089043189318946148"
+        },
+        {
+          "file": "src/main/resources/config/application-prod.yml",
+          "hash": "16333618496231228910"
+        },
+        {
+          "file": "src/main/resources/config/application-tls.yml",
+          "hash": "11556846225576784761"
+        },
+        {
+          "file": "src/main/resources/config/application.yml",
+          "hash": "15758878718397597616"
+        },
+        {
+          "file": "src/main/resources/config/bootstrap-prod.yml",
+          "hash": "15321351246019340444"
+        },
+        {
+          "file": "src/main/resources/config/bootstrap.yml",
+          "hash": "9225864824271435892"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/changelog/00000000000000_initial_schema.xml",
+          "hash": "8851776568953871713"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/data/authority.csv",
+          "hash": "11997263253237822955"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/data/user.csv",
+          "hash": "1925927633818710820"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/data/user_authority.csv",
+          "hash": "14450543454296712703"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/master.xml",
+          "hash": "7647786041551535189"
+        },
+        {
+          "file": "src/main/resources/config/tls/keystore.p12",
+          "hash": "16090787246365351751"
+        },
+        {
+          "file": "src/main/resources/i18n/messages.properties",
+          "hash": "15873462887008326649"
+        },
+        {
+          "file": "src/main/resources/logback-spring.xml",
+          "hash": "12153974672183066382"
+        },
+        {
+          "file": "src/main/resources/templates/error.html",
+          "hash": "14449838687640937573"
+        },
+        {
+          "file": "src/main/resources/templates/mail/activationEmail.html",
+          "hash": "10520258306770867753"
+        },
+        {
+          "file": "src/main/resources/templates/mail/creationEmail.html",
+          "hash": "6665029510534912877"
+        },
+        {
+          "file": "src/main/resources/templates/mail/passwordResetEmail.html",
+          "hash": "5217453094691752257"
+        },
+        {
+          "file": "src/main/webapp/404.html",
+          "hash": "7885638040365803952"
+        },
+        {
+          "file": "src/main/webapp/WEB-INF/web.xml",
+          "hash": "11172337706224415693"
+        },
+        {
+          "file": "src/main/webapp/app/account/account.module.ts",
+          "hash": "11530483703981193371",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/account.route.ts",
+          "hash": "14561628491793815918",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/activate/activate.component.html",
+          "hash": "6577026344684696211"
+        },
+        {
+          "file": "src/main/webapp/app/account/activate/activate.component.spec.ts",
+          "hash": "15810554339202512085",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/activate/activate.component.ts",
+          "hash": "17931537772715149111",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/activate/activate.route.ts",
+          "hash": "13319542551915356091",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/activate/activate.service.spec.ts",
+          "hash": "1402313482060214605",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/activate/activate.service.ts",
+          "hash": "10123682369572096563",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/finish/password-reset-finish.component.html",
+          "hash": "16215419461259763341"
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/finish/password-reset-finish.component.spec.ts",
+          "hash": "5110567243033852938",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/finish/password-reset-finish.component.ts",
+          "hash": "9272627469192135453",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/finish/password-reset-finish.route.ts",
+          "hash": "10077188129698141160",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/finish/password-reset-finish.service.spec.ts",
+          "hash": "6445476352607666830",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/finish/password-reset-finish.service.ts",
+          "hash": "10995527483494764916",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/init/password-reset-init.component.html",
+          "hash": "14246108325624319857"
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/init/password-reset-init.component.spec.ts",
+          "hash": "9889536101295794428",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/init/password-reset-init.component.ts",
+          "hash": "17735710055971153838",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/init/password-reset-init.route.ts",
+          "hash": "17929850672033789455",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/init/password-reset-init.service.spec.ts",
+          "hash": "3703215891030735669",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password-reset/init/password-reset-init.service.ts",
+          "hash": "16793379482876821898",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password/password-strength-bar/password-strength-bar.component.html",
+          "hash": "9642473679254177864"
+        },
+        {
+          "file": "src/main/webapp/app/account/password/password-strength-bar/password-strength-bar.component.scss",
+          "hash": "8243147778911953004"
+        },
+        {
+          "file": "src/main/webapp/app/account/password/password-strength-bar/password-strength-bar.component.spec.ts",
+          "hash": "15315138787396073120",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password/password-strength-bar/password-strength-bar.component.ts",
+          "hash": "6795642174023964482",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password/password.component.html",
+          "hash": "10563499525771935082"
+        },
+        {
+          "file": "src/main/webapp/app/account/password/password.component.spec.ts",
+          "hash": "5671757625459866909",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password/password.component.ts",
+          "hash": "10724772103748155649",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password/password.route.ts",
+          "hash": "13885220286162790881",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password/password.service.spec.ts",
+          "hash": "6183290757758098034",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/password/password.service.ts",
+          "hash": "17805292709173718939",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/register/register.component.html",
+          "hash": "4908168252831977487"
+        },
+        {
+          "file": "src/main/webapp/app/account/register/register.component.spec.ts",
+          "hash": "15059104535662138405",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/register/register.component.ts",
+          "hash": "3131594845753392977",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/register/register.model.ts",
+          "hash": "993161674221853279"
+        },
+        {
+          "file": "src/main/webapp/app/account/register/register.route.ts",
+          "hash": "11129644903089563742",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/register/register.service.spec.ts",
+          "hash": "665279511770513251",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/register/register.service.ts",
+          "hash": "7279013641540530668",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/settings/settings.component.html",
+          "hash": "4877190706397216174"
+        },
+        {
+          "file": "src/main/webapp/app/account/settings/settings.component.spec.ts",
+          "hash": "11451952017045458952",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/settings/settings.component.ts",
+          "hash": "527442819234720531",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/account/settings/settings.route.ts",
+          "hash": "12220329795375847930",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/admin-routing.module.ts",
+          "hash": "17591965405713918075",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/configuration/configuration.component.html",
+          "hash": "8847344098759717686"
+        },
+        {
+          "file": "src/main/webapp/app/admin/configuration/configuration.component.spec.ts",
+          "hash": "5020241394743566445",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/configuration/configuration.component.ts",
+          "hash": "17393637413343529082",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/configuration/configuration.model.ts",
+          "hash": "3626153208551572722"
+        },
+        {
+          "file": "src/main/webapp/app/admin/configuration/configuration.module.ts",
+          "hash": "6593638814320699813",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/configuration/configuration.route.ts",
+          "hash": "10498553841146913008",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/configuration/configuration.service.spec.ts",
+          "hash": "14291823999295450323",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/configuration/configuration.service.ts",
+          "hash": "9987842658669664188",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/docs/docs.component.html",
+          "hash": "3372043408636752136"
+        },
+        {
+          "file": "src/main/webapp/app/admin/docs/docs.component.scss",
+          "hash": "194971860547745744"
+        },
+        {
+          "file": "src/main/webapp/app/admin/docs/docs.component.ts",
+          "hash": "2237646760701383323",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/docs/docs.module.ts",
+          "hash": "9592756017743383742",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/docs/docs.route.ts",
+          "hash": "6811105087765834308",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/health/health.component.html",
+          "hash": "15854255891691366327"
+        },
+        {
+          "file": "src/main/webapp/app/admin/health/health.component.spec.ts",
+          "hash": "5780893365932426899",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/health/health.component.ts",
+          "hash": "5311813953610359539",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/health/health.model.ts",
+          "hash": "8212496536502621025"
+        },
+        {
+          "file": "src/main/webapp/app/admin/health/health.module.ts",
+          "hash": "5226607209927937732",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/health/health.route.ts",
+          "hash": "7444492933855157267",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/health/health.service.spec.ts",
+          "hash": "9332606308386241094",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/health/health.service.ts",
+          "hash": "7797940059950057888",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/health/modal/health-modal.component.html",
+          "hash": "10779665016260411742"
+        },
+        {
+          "file": "src/main/webapp/app/admin/health/modal/health-modal.component.spec.ts",
+          "hash": "8364325754591959140",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/health/modal/health-modal.component.ts",
+          "hash": "13875224587562225324",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/logs/log.model.ts",
+          "hash": "7669392052015979505"
+        },
+        {
+          "file": "src/main/webapp/app/admin/logs/logs.component.html",
+          "hash": "10875218832317969177"
+        },
+        {
+          "file": "src/main/webapp/app/admin/logs/logs.component.spec.ts",
+          "hash": "939629034244249641",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/logs/logs.component.ts",
+          "hash": "4516665279721042694",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/logs/logs.module.ts",
+          "hash": "17956213564740315911",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/logs/logs.route.ts",
+          "hash": "83405958974601624",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/logs/logs.service.spec.ts",
+          "hash": "3234514639521280210",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/logs/logs.service.ts",
+          "hash": "14353166384186862028",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/jvm-memory/jvm-memory.component.html",
+          "hash": "16366421790757918900"
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/jvm-memory/jvm-memory.component.ts",
+          "hash": "4286819604887329615",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/jvm-threads/jvm-threads.component.html",
+          "hash": "8767181045628663580"
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/jvm-threads/jvm-threads.component.ts",
+          "hash": "11598738236881037647",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-cache/metrics-cache.component.html",
+          "hash": "1464673545162379743"
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-cache/metrics-cache.component.ts",
+          "hash": "2392519757344806507",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-datasource/metrics-datasource.component.html",
+          "hash": "17579357653398609229"
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-datasource/metrics-datasource.component.ts",
+          "hash": "5617052903852446563",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-endpoints-requests/metrics-endpoints-requests.component.html",
+          "hash": "16477155340543439590"
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-endpoints-requests/metrics-endpoints-requests.component.ts",
+          "hash": "17803624554258034581",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-garbagecollector/metrics-garbagecollector.component.html",
+          "hash": "9239489971865760061"
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-garbagecollector/metrics-garbagecollector.component.ts",
+          "hash": "9813363393922462569",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-modal-threads/metrics-modal-threads.component.html",
+          "hash": "12783282596542910558"
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-modal-threads/metrics-modal-threads.component.ts",
+          "hash": "7229704594132734084",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-request/metrics-request.component.html",
+          "hash": "947789265802321595"
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-request/metrics-request.component.ts",
+          "hash": "3873440880658897888",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-system/metrics-system.component.html",
+          "hash": "7985877934934151849"
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/blocks/metrics-system/metrics-system.component.ts",
+          "hash": "9590272255840145412",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/metrics.component.html",
+          "hash": "12386356942337951880"
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/metrics.component.spec.ts",
+          "hash": "1047390369471296087",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/metrics.component.ts",
+          "hash": "14484450142028433741",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/metrics.model.ts",
+          "hash": "14085563532908131517"
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/metrics.module.ts",
+          "hash": "9244222385822560988",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/metrics.route.ts",
+          "hash": "15246735127251823098",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/metrics.service.spec.ts",
+          "hash": "2299235683644254530",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/metrics/metrics.service.ts",
+          "hash": "7776580020479079345",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/delete/user-management-delete-dialog.component.html",
+          "hash": "11280289986877616800"
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/delete/user-management-delete-dialog.component.spec.ts",
+          "hash": "9405095529021339010",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/delete/user-management-delete-dialog.component.ts",
+          "hash": "2966270617011752101",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/detail/user-management-detail.component.html",
+          "hash": "12318411455405794102"
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/detail/user-management-detail.component.spec.ts",
+          "hash": "9378249314579104927",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/detail/user-management-detail.component.ts",
+          "hash": "5314601768167705557",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/list/user-management.component.html",
+          "hash": "16635159081151771885"
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/list/user-management.component.spec.ts",
+          "hash": "10540138049809581593",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/list/user-management.component.ts",
+          "hash": "284622470246719967",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/service/user-management.service.spec.ts",
+          "hash": "15850343690271234591",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/service/user-management.service.ts",
+          "hash": "7719078806407860346",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/update/user-management-update.component.html",
+          "hash": "9628894848530735820"
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/update/user-management-update.component.spec.ts",
+          "hash": "8064400470774383328",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/update/user-management-update.component.ts",
+          "hash": "12391378364129395524",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/user-management.model.ts",
+          "hash": "18244267764930769227"
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/user-management.module.ts",
+          "hash": "335240852585358737",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/admin/user-management/user-management.route.ts",
+          "hash": "13412876465366064405",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/app-routing.module.ts",
+          "hash": "8995972106511453696",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/app.constants.ts",
+          "hash": "9444794980929343075"
+        },
+        {
+          "file": "src/main/webapp/app/app.module.ts",
+          "hash": "14258037622515312349",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/platform-browser",
+            "npm:@angular/service-worker",
+            "npm:@fortawesome/angular-fontawesome",
+            "npm:ngx-webstorage",
+            "npm:dayjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/config/authority.constants.ts",
+          "hash": "9852604514562003324"
+        },
+        {
+          "file": "src/main/webapp/app/config/datepicker-adapter.ts",
+          "hash": "4581066979432461859",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/config/dayjs.ts",
+          "hash": "10725144101478805978",
+          "deps": [
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/config/error.constants.ts",
+          "hash": "2303416965647490586"
+        },
+        {
+          "file": "src/main/webapp/app/config/font-awesome-icons.ts",
+          "hash": "14067546556274226021",
+          "deps": [
+            "npm:@fortawesome/free-solid-svg-icons"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/config/input.constants.ts",
+          "hash": "15526039301055779417"
+        },
+        {
+          "file": "src/main/webapp/app/config/navigation.constants.ts",
+          "hash": "4586196195203836493"
+        },
+        {
+          "file": "src/main/webapp/app/config/pagination.constants.ts",
+          "hash": "4033899708326916073"
+        },
+        {
+          "file": "src/main/webapp/app/config/uib-pagination.config.ts",
+          "hash": "3653053443228170164",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/auth/account.model.ts",
+          "hash": "1800214761864401029"
+        },
+        {
+          "file": "src/main/webapp/app/core/auth/account.service.spec.ts",
+          "hash": "2298285557546568761",
+          "deps": [
+            "npm:@angular/router",
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:ngx-webstorage"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/auth/account.service.ts",
+          "hash": "4434647921382678505",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/auth/auth-jwt.service.spec.ts",
+          "hash": "1019139821643484295",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:ngx-webstorage"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/auth/auth-jwt.service.ts",
+          "hash": "6886122899140356455",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:ngx-webstorage"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/auth/state-storage.service.ts",
+          "hash": "14563971671626384606",
+          "deps": [
+            "npm:@angular/core",
+            "npm:ngx-webstorage"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/auth/user-route-access.service.ts",
+          "hash": "10786584163081988297",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/config/application-config.service.spec.ts",
+          "hash": "1699229605000125156",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/config/application-config.service.ts",
+          "hash": "7665315651888623641",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/interceptor/auth-expired.interceptor.ts",
+          "hash": "1407257948072267074",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/interceptor/auth.interceptor.ts",
+          "hash": "12071892032132837194",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:ngx-webstorage"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/interceptor/error-handler.interceptor.ts",
+          "hash": "1391724128165873141",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/interceptor/index.ts",
+          "hash": "13477698899654491779",
+          "deps": [
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/interceptor/notification.interceptor.ts",
+          "hash": "7282054615188804823",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/request/request-util.ts",
+          "hash": "6830133314732564464",
+          "deps": [
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/request/request.model.ts",
+          "hash": "181148718022341560"
+        },
+        {
+          "file": "src/main/webapp/app/core/util/alert.service.spec.ts",
+          "hash": "1289965513583156824",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/util/alert.service.ts",
+          "hash": "13197669263902529453",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/util/data-util.service.spec.ts",
+          "hash": "1230830277789675382",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/util/data-util.service.ts",
+          "hash": "4853738378574236090",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/util/event-manager.service.spec.ts",
+          "hash": "8787019227613250888",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/util/event-manager.service.ts",
+          "hash": "7576983788226002110",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/util/operators.spec.ts",
+          "hash": "12384539187483138410"
+        },
+        {
+          "file": "src/main/webapp/app/core/util/operators.ts",
+          "hash": "11387899918729602149"
+        },
+        {
+          "file": "src/main/webapp/app/core/util/parse-links.service.spec.ts",
+          "hash": "13647403523547386709",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/core/util/parse-links.service.ts",
+          "hash": "17688973275583320517",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/entity-navbar-items.ts",
+          "hash": "13088724853770838302"
+        },
+        {
+          "file": "src/main/webapp/app/entities/entity-routing.module.ts",
+          "hash": "11461017943442439612",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/user/user.model.ts",
+          "hash": "7113428518766115871"
+        },
+        {
+          "file": "src/main/webapp/app/entities/user/user.service.spec.ts",
+          "hash": "1744603059119352454",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/user/user.service.ts",
+          "hash": "16670817370364245475",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/home/home.component.html",
+          "hash": "18263263360301063067"
+        },
+        {
+          "file": "src/main/webapp/app/home/home.component.scss",
+          "hash": "1896697291813992824"
+        },
+        {
+          "file": "src/main/webapp/app/home/home.component.spec.ts",
+          "hash": "4313852334171303435",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/home/home.component.ts",
+          "hash": "8381501727428828486",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/home/home.module.ts",
+          "hash": "11973389100332427176",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/home/home.route.ts",
+          "hash": "1824075614761849451",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/layouts/error/error.component.html",
+          "hash": "17591326266992809136"
+        },
+        {
+          "file": "src/main/webapp/app/layouts/error/error.component.ts",
+          "hash": "16567520961025816766",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/layouts/error/error.route.ts",
+          "hash": "11397234795505198287",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/layouts/footer/footer.component.html",
+          "hash": "5137293787680532688"
+        },
+        {
+          "file": "src/main/webapp/app/layouts/footer/footer.component.ts",
+          "hash": "14099458146349869240",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/layouts/main/main.component.html",
+          "hash": "16859255331227590247"
+        },
+        {
+          "file": "src/main/webapp/app/layouts/main/main.component.spec.ts",
+          "hash": "17422962461769669894",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:@angular/platform-browser",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/layouts/main/main.component.ts",
+          "hash": "9404719498080241570",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/layouts/navbar/navbar.component.html",
+          "hash": "15030957192128533259"
+        },
+        {
+          "file": "src/main/webapp/app/layouts/navbar/navbar.component.scss",
+          "hash": "2278357688465449325"
+        },
+        {
+          "file": "src/main/webapp/app/layouts/navbar/navbar.component.spec.ts",
+          "hash": "691401853846841602",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:ngx-webstorage"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/layouts/navbar/navbar.component.ts",
+          "hash": "15121057769268787619",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/layouts/navbar/navbar.route.ts",
+          "hash": "2593031090210397248",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/layouts/profiles/page-ribbon.component.scss",
+          "hash": "10013252226611817818"
+        },
+        {
+          "file": "src/main/webapp/app/layouts/profiles/page-ribbon.component.spec.ts",
+          "hash": "10369333271491780243",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/layouts/profiles/page-ribbon.component.ts",
+          "hash": "1733777625273497740",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/layouts/profiles/profile-info.model.ts",
+          "hash": "6676962881996924207"
+        },
+        {
+          "file": "src/main/webapp/app/layouts/profiles/profile.service.ts",
+          "hash": "14186844856427119872",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/login/login.component.html",
+          "hash": "1506788238654719250"
+        },
+        {
+          "file": "src/main/webapp/app/login/login.component.spec.ts",
+          "hash": "4528768116230138058",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/login/login.component.ts",
+          "hash": "1698737375346447144",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/login/login.model.ts",
+          "hash": "5534254674990171634"
+        },
+        {
+          "file": "src/main/webapp/app/login/login.module.ts",
+          "hash": "6381286676333414436",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/login/login.route.ts",
+          "hash": "4797989195105796303",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/login/login.service.ts",
+          "hash": "12109346638464219560",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/alert/alert-error.component.html",
+          "hash": "3991716925896802872"
+        },
+        {
+          "file": "src/main/webapp/app/shared/alert/alert-error.component.spec.ts",
+          "hash": "5664595289773560906",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/alert/alert-error.component.ts",
+          "hash": "5850429593813557424",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/alert/alert-error.model.ts",
+          "hash": "11545342803558736595"
+        },
+        {
+          "file": "src/main/webapp/app/shared/alert/alert.component.html",
+          "hash": "3991716925896802872"
+        },
+        {
+          "file": "src/main/webapp/app/shared/alert/alert.component.spec.ts",
+          "hash": "9199133076179988758",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/alert/alert.component.ts",
+          "hash": "6677145643956651439",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/auth/has-any-authority.directive.spec.ts",
+          "hash": "11630525318923843608",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/auth/has-any-authority.directive.ts",
+          "hash": "6879589448100116144",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/date/duration.pipe.ts",
+          "hash": "4834706954105107831",
+          "deps": [
+            "npm:@angular/core",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/date/format-medium-date.pipe.spec.ts",
+          "hash": "5838706806179846965",
+          "deps": [
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/date/format-medium-date.pipe.ts",
+          "hash": "17038931422639479379",
+          "deps": [
+            "npm:@angular/core",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/date/format-medium-datetime.pipe.spec.ts",
+          "hash": "15298158796203450998",
+          "deps": [
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/date/format-medium-datetime.pipe.ts",
+          "hash": "10588433273991216461",
+          "deps": [
+            "npm:@angular/core",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/filter/filter.component.html",
+          "hash": "15850413451097078217"
+        },
+        {
+          "file": "src/main/webapp/app/shared/filter/filter.component.ts",
+          "hash": "7006424068474602624",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/filter/filter.model.spec.ts",
+          "hash": "9583643415391109499",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/filter/filter.model.ts",
+          "hash": "13600666557125164332",
+          "deps": [
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/pagination/item-count.component.spec.ts",
+          "hash": "4781595681871284136",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/pagination/item-count.component.ts",
+          "hash": "7482305630222137926",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/shared-libs.module.ts",
+          "hash": "15201973853106945796",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:ngx-infinite-scroll",
+            "npm:@fortawesome/angular-fontawesome"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/shared.module.ts",
+          "hash": "8039837198536396983",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/sort/sort-by.directive.spec.ts",
+          "hash": "5667240165319444091",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser",
+            "npm:@fortawesome/angular-fontawesome",
+            "npm:@fortawesome/free-solid-svg-icons"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/sort/sort-by.directive.ts",
+          "hash": "2684312006053023150",
+          "deps": [
+            "npm:@angular/core",
+            "npm:rxjs",
+            "npm:@fortawesome/angular-fontawesome",
+            "npm:@fortawesome/free-solid-svg-icons"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/sort/sort.directive.spec.ts",
+          "hash": "18049871256986087195",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/sort/sort.directive.ts",
+          "hash": "4530319370828732630",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/shared/sort/sort.service.ts",
+          "hash": "16003233065863215641",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/bootstrap.ts",
+          "hash": "505557433703037101",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser-dynamic"
+          ]
+        },
+        {
+          "file": "src/main/webapp/content/css/loading.css",
+          "hash": "7588531972993187437"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_0.svg",
+          "hash": "9163750749717892782"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_0_head-192.png",
+          "hash": "3514473160484230872"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_0_head-256.png",
+          "hash": "17786283446985359618"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_0_head-384.png",
+          "hash": "10491581293569081700"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_0_head-512.png",
+          "hash": "12252947585561517252"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_1.svg",
+          "hash": "8253630578017012815"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_1_head-192.png",
+          "hash": "15326133517524950657"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_1_head-256.png",
+          "hash": "17118250592667235732"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_1_head-384.png",
+          "hash": "2098408006077351885"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_1_head-512.png",
+          "hash": "10267211588720303547"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_2.svg",
+          "hash": "12127270104519138684"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_2_head-192.png",
+          "hash": "13669422520981215349"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_2_head-256.png",
+          "hash": "6991209728539796287"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_2_head-384.png",
+          "hash": "15365362353975467713"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_2_head-512.png",
+          "hash": "1226032996478499360"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_3.svg",
+          "hash": "17896790044162453663"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_3_head-192.png",
+          "hash": "13740986388836338957"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_3_head-256.png",
+          "hash": "15018399562588854900"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_3_head-384.png",
+          "hash": "15603227498592349136"
+        },
+        {
+          "file": "src/main/webapp/content/images/jhipster_family_member_3_head-512.png",
+          "hash": "15665482840294606313"
+        },
+        {
+          "file": "src/main/webapp/content/images/logo-jhipster.png",
+          "hash": "3650672163733026577"
+        },
+        {
+          "file": "src/main/webapp/content/scss/_bootstrap-variables.scss",
+          "hash": "16563908097867915668"
+        },
+        {
+          "file": "src/main/webapp/content/scss/global.scss",
+          "hash": "9962613075849728419"
+        },
+        {
+          "file": "src/main/webapp/content/scss/vendor.scss",
+          "hash": "17341859233839268594"
+        },
+        {
+          "file": "src/main/webapp/declarations.d.ts",
+          "hash": "5420022257609620029"
+        },
+        {
+          "file": "src/main/webapp/favicon.ico",
+          "hash": "1551300838853130043"
+        },
+        {
+          "file": "src/main/webapp/index.html",
+          "hash": "6927665167760441182"
+        },
+        {
+          "file": "src/main/webapp/main.ts",
+          "hash": "15680640379862188532"
+        },
+        {
+          "file": "src/main/webapp/manifest.webapp",
+          "hash": "12402559182670960813"
+        },
+        {
+          "file": "src/main/webapp/polyfills.ts",
+          "hash": "7401278453571408467",
+          "deps": [
+            "npm:zone.js",
+            "npm:@angular/localize"
+          ]
+        },
+        {
+          "file": "src/main/webapp/robots.txt",
+          "hash": "17106844822299164471"
+        },
+        {
+          "file": "src/main/webapp/swagger-ui/dist/images/throbber.gif",
+          "hash": "11243986190446097949"
+        },
+        {
+          "file": "src/main/webapp/swagger-ui/index.html",
+          "hash": "2715584434116837913"
+        },
+        {
+          "file": "src/test/java/com/conference/IntegrationTest.java",
+          "hash": "6170534390225229192"
+        },
+        {
+          "file": "src/test/java/com/conference/TechnicalStructureTest.java",
+          "hash": "16629803626252198919"
+        },
+        {
+          "file": "src/test/java/com/conference/config/AsyncSyncConfiguration.java",
+          "hash": "3667751681186824076"
+        },
+        {
+          "file": "src/test/java/com/conference/config/EmbeddedSQL.java",
+          "hash": "5549432258266415218"
+        },
+        {
+          "file": "src/test/java/com/conference/config/PostgreSqlTestContainer.java",
+          "hash": "11088658204139512185"
+        },
+        {
+          "file": "src/test/java/com/conference/config/SpringBootTestClassOrderer.java",
+          "hash": "4386609903848550721"
+        },
+        {
+          "file": "src/test/java/com/conference/config/SqlTestContainer.java",
+          "hash": "2863305319145732631"
+        },
+        {
+          "file": "src/test/java/com/conference/config/StaticResourcesWebConfigurerTest.java",
+          "hash": "12193161783080295103"
+        },
+        {
+          "file": "src/test/java/com/conference/config/TestContainersSpringContextCustomizerFactory.java",
+          "hash": "4393125275277519175"
+        },
+        {
+          "file": "src/test/java/com/conference/config/WebConfigurerTest.java",
+          "hash": "6390798838158849110"
+        },
+        {
+          "file": "src/test/java/com/conference/config/WebConfigurerTestController.java",
+          "hash": "9753671929173439159"
+        },
+        {
+          "file": "src/test/java/com/conference/config/timezone/HibernateTimeZoneIT.java",
+          "hash": "15756363856427207151"
+        },
+        {
+          "file": "src/test/java/com/conference/management/SecurityMetersServiceTests.java",
+          "hash": "17917932253759990433"
+        },
+        {
+          "file": "src/test/java/com/conference/repository/timezone/DateTimeWrapper.java",
+          "hash": "2458928946680614086"
+        },
+        {
+          "file": "src/test/java/com/conference/repository/timezone/DateTimeWrapperRepository.java",
+          "hash": "5559792342456780127"
+        },
+        {
+          "file": "src/test/java/com/conference/security/DomainUserDetailsServiceIT.java",
+          "hash": "17831311033349715434"
+        },
+        {
+          "file": "src/test/java/com/conference/security/SecurityUtilsUnitTest.java",
+          "hash": "3408360146150128868"
+        },
+        {
+          "file": "src/test/java/com/conference/security/jwt/JWTFilterTest.java",
+          "hash": "9347363318037761201"
+        },
+        {
+          "file": "src/test/java/com/conference/security/jwt/TokenProviderSecurityMetersTests.java",
+          "hash": "15490048750846154937"
+        },
+        {
+          "file": "src/test/java/com/conference/security/jwt/TokenProviderTest.java",
+          "hash": "2472869522642337436"
+        },
+        {
+          "file": "src/test/java/com/conference/service/MailServiceIT.java",
+          "hash": "13070465782531476029"
+        },
+        {
+          "file": "src/test/java/com/conference/service/UserServiceIT.java",
+          "hash": "17851125389048332"
+        },
+        {
+          "file": "src/test/java/com/conference/service/mapper/UserMapperTest.java",
+          "hash": "14213981302477682937"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/AccountResourceIT.java",
+          "hash": "17191570969090732488"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/ClientForwardControllerTest.java",
+          "hash": "4411279481457172271"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/PublicUserResourceIT.java",
+          "hash": "10936722521188057499"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/TestUtil.java",
+          "hash": "9579037358883109101"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/UserJWTControllerIT.java",
+          "hash": "2019844076726592648"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/UserResourceIT.java",
+          "hash": "462920340695938474"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/WithUnauthenticatedMockUser.java",
+          "hash": "15325129746640956018"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/errors/ExceptionTranslatorIT.java",
+          "hash": "6367669093786760024"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/errors/ExceptionTranslatorTestController.java",
+          "hash": "3456896084052222597"
+        },
+        {
+          "file": "src/test/resources/META-INF/spring.factories",
+          "hash": "11900920371651726023"
+        },
+        {
+          "file": "src/test/resources/config/application-testdev.yml",
+          "hash": "3692457116478519819"
+        },
+        {
+          "file": "src/test/resources/config/application-testprod.yml",
+          "hash": "2187924111690640825"
+        },
+        {
+          "file": "src/test/resources/config/application.yml",
+          "hash": "9599626253363243103"
+        },
+        {
+          "file": "src/test/resources/config/bootstrap.yml",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/test/resources/i18n/messages_en.properties",
+          "hash": "7649556592255671072"
+        },
+        {
+          "file": "src/test/resources/junit-platform.properties",
+          "hash": "17735484621649451239"
+        },
+        {
+          "file": "src/test/resources/logback.xml",
+          "hash": "17436213454815484781"
+        },
+        {
+          "file": "src/test/resources/templates/mail/activationEmail.html",
+          "hash": "10451791313638065317"
+        },
+        {
+          "file": "src/test/resources/templates/mail/creationEmail.html",
+          "hash": "2829633680574726584"
+        },
+        {
+          "file": "src/test/resources/templates/mail/passwordResetEmail.html",
+          "hash": "14418676308024992012"
+        },
+        {
+          "file": "src/test/resources/templates/mail/testEmail.html",
+          "hash": "15575587392697151749"
+        },
+        {
+          "file": "src/test/resources/testcontainers.properties",
+          "hash": "5211040591979896402"
+        },
+        {
+          "file": "tsconfig.app.json",
+          "hash": "4496261650573357425"
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "15511086981129535291"
+        },
+        {
+          "file": "tsconfig.spec.json",
+          "hash": "7729986352668659636"
+        },
+        {
+          "file": "webpack/environment.js",
+          "hash": "5461878215046770559"
+        },
+        {
+          "file": "webpack/logo-jhipster.png",
+          "hash": "3943036427625776837"
+        },
+        {
+          "file": "webpack/proxy.conf.js",
+          "hash": "11240197706552691901"
+        },
+        {
+          "file": "webpack/webpack.custom.js",
+          "hash": "17352675335210253183",
+          "deps": [
+            "npm:webpack",
+            "npm:webpack-merge",
+            "npm:path",
+            "npm:browser-sync-webpack-plugin",
+            "npm:webpack-bundle-analyzer",
+            "npm:webpack-notifier",
+            "npm:copy-webpack-plugin",
+            "npm:eslint-webpack-plugin",
+            "npm:swagger-ui-dist",
+            "npm:axios"
+          ]
+        }
+      ]
+    },
+    "nonProjectFiles": []
+  }
+}

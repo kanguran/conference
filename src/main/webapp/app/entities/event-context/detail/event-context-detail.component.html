@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="eventContext">
+      <h2 data-cy="eventContextDetailsHeading"><span>Event Context</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ eventContext.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ eventContext.name }}</span>
+        </dd>
+        <dt><span>Event Context Status</span></dt>
+        <dd>
+          <span>{{ eventContext.eventContextStatus }}</span>
+        </dd>
+        <dt><span>Start</span></dt>
+        <dd>
+          <span>{{ eventContext.start | formatMediumDate }}</span>
+        </dd>
+        <dt><span>End</span></dt>
+        <dd>
+          <span>{{ eventContext.end | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Event</span></dt>
+        <dd>
+          <div *ngIf="eventContext.event">
+            <a [routerLink]="['/event', eventContext.event.id, 'view']">{{ eventContext.event.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/event-context', eventContext.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

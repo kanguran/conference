@@ -1,0 +1,47 @@
+{
+  "applications": "*",
+  "changelogDate": "20240119211627",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "event_context",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eventContextStatus",
+      "fieldType": "EventContextStatus",
+      "fieldValues": "AVAILABLE,FULLY_BOOKED,CANCELLED"
+    },
+    {
+      "fieldName": "start",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "end",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "EventContext",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "eventRegistration",
+      "otherEntityRelationshipName": "eventContext",
+      "relationshipName": "eventContextRegistration",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "event",
+      "otherEntityRelationshipName": "eventContext",
+      "relationshipName": "event",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}
