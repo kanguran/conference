@@ -1,0 +1,96 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-event-context-heading" data-cy="EventContextCreateUpdateHeading">Create or edit a Event Context</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventContextStatus">Event Context Status</label>
+          <select
+            class="form-control"
+            name="eventContextStatus"
+            formControlName="eventContextStatus"
+            id="field_eventContextStatus"
+            data-cy="eventContextStatus"
+          >
+            <option [ngValue]="null"></option>
+            <option *ngFor="let eventContextStatus of eventContextStatusValues" [value]="eventContextStatus">eventContextStatus</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_start">Start</label>
+          <div class="input-group">
+            <input
+              id="field_start"
+              data-cy="start"
+              type="text"
+              class="form-control"
+              name="start"
+              ngbDatepicker
+              #startDp="ngbDatepicker"
+              formControlName="start"
+            />
+            <button type="button" class="btn btn-secondary" (click)="startDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_end">End</label>
+          <div class="input-group">
+            <input
+              id="field_end"
+              data-cy="end"
+              type="text"
+              class="form-control"
+              name="end"
+              ngbDatepicker
+              #endDp="ngbDatepicker"
+              formControlName="end"
+            />
+            <button type="button" class="btn btn-secondary" (click)="endDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_event">Event</label>
+          <select class="form-control" id="field_event" data-cy="event" name="event" formControlName="event" [compareWith]="compareEvent">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="eventOption" *ngFor="let eventOption of eventsSharedCollection">{{ eventOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

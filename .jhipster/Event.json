@@ -1,0 +1,33 @@
+{
+  "applications": "*",
+  "changelogDate": "20240119211626",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "event",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eventStatus",
+      "fieldType": "EventStatus",
+      "fieldValues": "UNPUBLISHED,PUBLISHED,CANCELLED"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Event",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "eventContext",
+      "otherEntityRelationshipName": "event",
+      "relationshipName": "eventContext",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}
