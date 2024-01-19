@@ -1,0 +1,47 @@
+entity Event {
+	name String required
+	eventStatus EventStatus
+}
+
+entity EventContext {
+	name String required
+	eventContextStatus EventContextStatus
+	start LocalDate
+	end LocalDate
+}
+
+entity EventRegistration {
+	name String required
+	eventRegistrationStatus EventRegistrationStatus
+}
+
+entity Room {
+	name String required
+	maxSeats Integer required
+}
+
+enum EventStatus {
+	UNPUBLISHED, PUBLISHED, CANCELLED
+}
+
+enum EventRegistrationStatus {
+	ACTIVE, CANCELLED
+}
+
+enum EventContextStatus {
+	AVAILABLE, FULLY_BOOKED, CANCELLED
+}
+
+relationship OneToOne {
+	Room{roomEventContext} to EventContext
+}
+
+relationship OneToMany {
+	EventContext{eventContextRegistration} to EventRegistration
+	Event{eventContext} to EventContext
+}
+
+paginate Event, EventContext, Room, EventRegistration with pagination
+
+// Use Data Transfer Objects (DTO)
+dto * with mapstruct
