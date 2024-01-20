@@ -18,7 +18,7 @@ public class EventRegistrationDTO implements Serializable {
 
     private EventRegistrationStatus eventRegistrationStatus;
 
-    private UserDTO eventCounterparty;
+    private ApplicationUserDTO eventCounterparty;
 
     private EventContextDTO eventContext;
 
@@ -46,11 +46,11 @@ public class EventRegistrationDTO implements Serializable {
         this.eventRegistrationStatus = eventRegistrationStatus;
     }
 
-    public UserDTO getEventCounterparty() {
+    public ApplicationUserDTO getEventCounterparty() {
         return eventCounterparty;
     }
 
-    public void setEventCounterparty(UserDTO eventCounterparty) {
+    public void setEventCounterparty(ApplicationUserDTO eventCounterparty) {
         this.eventCounterparty = eventCounterparty;
     }
 

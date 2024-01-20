@@ -7,8 +7,8 @@ import { finalize, map } from 'rxjs/operators';
 import { EventFormService, EventFormGroup } from './event-form.service';
 import { IEvent } from '../event.model';
 import { EventService } from '../service/event.service';
-import { IUser } from 'app/entities/user/user.model';
-import { UserService } from 'app/entities/user/user.service';
+import { IApplicationUser } from 'app/entities/application-user/application-user.model';
+import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
 import { EventStatus } from 'app/entities/enumerations/event-status.model';
 
 @Component({
@@ -20,18 +20,19 @@ export class EventUpdateComponent implements OnInit {
   event: IEvent | null = null;
   eventStatusValues = Object.keys(EventStatus);
 
-  usersSharedCollection: IUser[] = [];
+  applicationUsersSharedCollection: IApplicationUser[] = [];
 
   editForm: EventFormGroup = this.eventFormService.createEventFormGroup();
 
   constructor(
     protected eventService: EventService,
     protected eventFormService: EventFormService,
-    protected userService: UserService,
+    protected applicationUserService: ApplicationUserService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
-  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
+  compareApplicationUser = (o1: IApplicationUser | null, o2: IApplicationUser | null): boolean =>
+    this.applicationUserService.compareApplicationUser(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ event }) => {
@@ -81,14 +82,21 @@ export class EventUpdateComponent implements OnInit {
     this.event = event;
     this.eventFormService.resetForm(this.editForm, event);
 
-    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, event.mainHost);
+    this.applicationUsersSharedCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
+      this.applicationUsersSharedCollection,
+      event.mainHost
+    );
   }
 
   protected loadRelationshipsOptions(): void {
-    this.userService
+    this.applicationUserService
       .query()
-      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
-      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.event?.mainHost)))
-      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
+      .pipe(map((res: HttpResponse<IApplicationUser[]>) => res.body ?? []))
+      .pipe(
+        map((applicationUsers: IApplicationUser[]) =>
+          this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(applicationUsers, this.event?.mainHost)
+        )
+      )
+      .subscribe((applicationUsers: IApplicationUser[]) => (this.applicationUsersSharedCollection = applicationUsers));
   }
 }

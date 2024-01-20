@@ -87,7 +87,9 @@
           <td>{{ eventContext.start | formatMediumDatetime }}</td>
           <td>{{ eventContext.end | formatMediumDatetime }}</td>
           <td>
-            {{ eventContext.contextHost?.id }}
+            <div *ngIf="eventContext.contextHost">
+              <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']">{{ eventContext.contextHost.id }}</a>
+            </div>
           </td>
           <td>
             <div *ngIf="eventContext.event">

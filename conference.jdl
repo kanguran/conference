@@ -20,6 +20,10 @@ entity Room {
 	maxSeats Integer required
 }
 
+entity ApplicationUser {
+    host Boolean
+}
+
 enum EventStatus {
 	UNPUBLISHED, PUBLISHED, CANCELLED
 }
@@ -34,9 +38,10 @@ enum EventContextStatus {
 
 relationship OneToOne {
 	Room{roomEventContext} to EventContext
-    EventRegistration{eventCounterparty} to User
-    EventContext{contextHost} to User
-    Event{mainHost} to User
+    ApplicationUser{appUser} to User
+    EventRegistration{eventCounterparty} to ApplicationUser
+    EventContext{contextHost} to ApplicationUser
+    Event{mainHost} to ApplicationUser
 }
 
 relationship OneToMany {

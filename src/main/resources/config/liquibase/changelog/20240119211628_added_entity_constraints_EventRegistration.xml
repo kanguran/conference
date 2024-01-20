@@ -12,7 +12,7 @@
                                  baseTableName="event_registration"
                                  constraintName="fk_event_registration__event_counterparty_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="jhi_user"/>
+                                 referencedTableName="application_user"/>
 
         <addForeignKeyConstraint baseColumnNames="event_context_id"
                                  baseTableName="event_registration"

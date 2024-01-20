@@ -43,10 +43,12 @@
             data-cy="eventCounterparty"
             name="eventCounterparty"
             formControlName="eventCounterparty"
-            [compareWith]="compareUser"
+            [compareWith]="compareApplicationUser"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+            <option [ngValue]="applicationUserOption" *ngFor="let applicationUserOption of applicationUsersSharedCollection">
+              {{ applicationUserOption.id }}
+            </option>
           </select>
         </div>
 

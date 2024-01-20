@@ -23,7 +23,7 @@ public class EventContextDTO implements Serializable {
 
     private Instant end;
 
-    private UserDTO contextHost;
+    private ApplicationUserDTO contextHost;
 
     private EventDTO event;
 
@@ -67,11 +67,11 @@ public class EventContextDTO implements Serializable {
         this.end = end;
     }
 
-    public UserDTO getContextHost() {
+    public ApplicationUserDTO getContextHost() {
         return contextHost;
     }
 
-    public void setContextHost(UserDTO contextHost) {
+    public void setContextHost(ApplicationUserDTO contextHost) {
         this.contextHost = contextHost;
     }
 

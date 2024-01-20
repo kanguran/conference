@@ -54,6 +54,7 @@ public class CacheConfiguration {
             createCache(cm, com.conference.domain.EventContext.class.getName() + ".eventContextRegistrations");
             createCache(cm, com.conference.domain.EventRegistration.class.getName());
             createCache(cm, com.conference.domain.Room.class.getName());
+            createCache(cm, com.conference.domain.ApplicationUser.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

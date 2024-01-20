@@ -35,9 +35,10 @@ public class Event implements Serializable {
     @Column(name = "event_status")
     private EventStatus eventStatus;
 
+    @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
-    private User mainHost;
+    private ApplicationUser mainHost;
 
     @OneToMany(mappedBy = "event")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -85,16 +86,16 @@ public class Event implements Serializable {
         this.eventStatus = eventStatus;
     }
 
-    public User getMainHost() {
+    public ApplicationUser getMainHost() {
         return this.mainHost;
     }
 
-    public void setMainHost(User user) {
-        this.mainHost = user;
+    public void setMainHost(ApplicationUser applicationUser) {
+        this.mainHost = applicationUser;
     }
 
-    public Event mainHost(User user) {
-        this.setMainHost(user);
+    public Event mainHost(ApplicationUser applicationUser) {
+        this.setMainHost(applicationUser);
         return this;
     }
 

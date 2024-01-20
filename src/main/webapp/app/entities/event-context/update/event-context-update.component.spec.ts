@@ -9,9 +9,8 @@ import { of, Subject, from } from 'rxjs';
 import { EventContextFormService } from './event-context-form.service';
 import { EventContextService } from '../service/event-context.service';
 import { IEventContext } from '../event-context.model';
-
-import { IUser } from 'app/entities/user/user.model';
-import { UserService } from 'app/entities/user/user.service';
+import { IApplicationUser } from 'app/entities/application-user/application-user.model';
+import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
 import { IEvent } from 'app/entities/event/event.model';
 import { EventService } from 'app/entities/event/service/event.service';
 
@@ -23,7 +22,7 @@ describe('EventContext Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let eventContextFormService: EventContextFormService;
   let eventContextService: EventContextService;
-  let userService: UserService;
+  let applicationUserService: ApplicationUserService;
   let eventService: EventService;
 
   beforeEach(() => {
@@ -47,33 +46,33 @@ describe('EventContext Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     eventContextFormService = TestBed.inject(EventContextFormService);
     eventContextService = TestBed.inject(EventContextService);
-    userService = TestBed.inject(UserService);
+    applicationUserService = TestBed.inject(ApplicationUserService);
     eventService = TestBed.inject(EventService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call User query and add missing value', () => {
+    it('Should call ApplicationUser query and add missing value', () => {
       const eventContext: IEventContext = { id: 456 };
-      const contextHost: IUser = { id: 95742 };
+      const contextHost: IApplicationUser = { id: 27615 };
       eventContext.contextHost = contextHost;
 
-      const userCollection: IUser[] = [{ id: 41408 }];
-      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
-      const additionalUsers = [contextHost];
-      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
-      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const applicationUserCollection: IApplicationUser[] = [{ id: 86902 }];
+      jest.spyOn(applicationUserService, 'query').mockReturnValue(of(new HttpResponse({ body: applicationUserCollection })));
+      const additionalApplicationUsers = [contextHost];
+      const expectedCollection: IApplicationUser[] = [...additionalApplicationUsers, ...applicationUserCollection];
+      jest.spyOn(applicationUserService, 'addApplicationUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ eventContext });
       comp.ngOnInit();
 
-      expect(userService.query).toHaveBeenCalled();
-      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
-        userCollection,
-        ...additionalUsers.map(expect.objectContaining)
+      expect(applicationUserService.query).toHaveBeenCalled();
+      expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(
+        applicationUserCollection,
+        ...additionalApplicationUsers.map(expect.objectContaining)
       );
-      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+      expect(comp.applicationUsersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should call Event query and add missing value', () => {
@@ -100,7 +99,7 @@ describe('EventContext Management Update Component', () => {
 
     it('Should update editForm', () => {
       const eventContext: IEventContext = { id: 456 };
-      const contextHost: IUser = { id: 18413 };
+      const contextHost: IApplicationUser = { id: 28317 };
       eventContext.contextHost = contextHost;
       const event: IEvent = { id: 79512 };
       eventContext.event = event;
@@ -108,7 +107,7 @@ describe('EventContext Management Update Component', () => {
       activatedRoute.data = of({ eventContext });
       comp.ngOnInit();
 
-      expect(comp.usersSharedCollection).toContain(contextHost);
+      expect(comp.applicationUsersSharedCollection).toContain(contextHost);
       expect(comp.eventsSharedCollection).toContain(event);
       expect(comp.eventContext).toEqual(eventContext);
     });
@@ -183,13 +182,13 @@ describe('EventContext Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
-    describe('compareUser', () => {
-      it('Should forward to userService', () => {
+    describe('compareApplicationUser', () => {
+      it('Should forward to applicationUserService', () => {
         const entity = { id: 123 };
         const entity2 = { id: 456 };
-        jest.spyOn(userService, 'compareUser');
-        comp.compareUser(entity, entity2);
-        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
+        jest.spyOn(applicationUserService, 'compareApplicationUser');
+        comp.compareApplicationUser(entity, entity2);
+        expect(applicationUserService.compareApplicationUser).toHaveBeenCalledWith(entity, entity2);
       });
     });
 

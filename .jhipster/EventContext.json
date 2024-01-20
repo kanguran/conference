@@ -31,7 +31,7 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "user",
+      "otherEntityName": "applicationUser",
       "ownerSide": true,
       "relationshipName": "contextHost",
       "relationshipType": "one-to-one"
