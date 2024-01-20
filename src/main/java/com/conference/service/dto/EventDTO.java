@@ -18,7 +18,7 @@ public class EventDTO implements Serializable {
 
     private EventStatus eventStatus;
 
-    private UserDTO mainHost;
+    private ApplicationUserDTO mainHost;
 
     public Long getId() {
         return id;
@@ -44,11 +44,11 @@ public class EventDTO implements Serializable {
         this.eventStatus = eventStatus;
     }
 
-    public UserDTO getMainHost() {
+    public ApplicationUserDTO getMainHost() {
         return mainHost;
     }
 
-    public void setMainHost(UserDTO mainHost) {
+    public void setMainHost(ApplicationUserDTO mainHost) {
         this.mainHost = mainHost;
     }
 

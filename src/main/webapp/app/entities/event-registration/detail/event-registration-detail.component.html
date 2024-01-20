@@ -24,7 +24,11 @@
         </dd>
         <dt><span>Event Counterparty</span></dt>
         <dd>
-          <span>{{ eventRegistration.eventCounterparty?.id }}</span>
+          <div *ngIf="eventRegistration.eventCounterparty">
+            <a [routerLink]="['/application-user', eventRegistration.eventCounterparty.id, 'view']">{{
+              eventRegistration.eventCounterparty.id
+            }}</a>
+          </div>
         </dd>
         <dt><span>Event Context</span></dt>
         <dd>

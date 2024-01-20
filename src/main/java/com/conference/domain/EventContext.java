@@ -42,9 +42,10 @@ public class EventContext implements Serializable {
     @Column(name = "jhi_end")
     private Instant end;
 
+    @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
-    private User contextHost;
+    private ApplicationUser contextHost;
 
     @OneToMany(mappedBy = "eventContext")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -122,16 +123,16 @@ public class EventContext implements Serializable {
         this.end = end;
     }
 
-    public User getContextHost() {
+    public ApplicationUser getContextHost() {
         return this.contextHost;
     }
 
-    public void setContextHost(User user) {
-        this.contextHost = user;
+    public void setContextHost(ApplicationUser applicationUser) {
+        this.contextHost = applicationUser;
     }
 
-    public EventContext contextHost(User user) {
-        this.setContextHost(user);
+    public EventContext contextHost(ApplicationUser applicationUser) {
+        this.setContextHost(applicationUser);
         return this;
     }
 

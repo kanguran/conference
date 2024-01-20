@@ -24,7 +24,9 @@
         </dd>
         <dt><span>Main Host</span></dt>
         <dd>
-          <span>{{ event.mainHost?.id }}</span>
+          <div *ngIf="event.mainHost">
+            <a [routerLink]="['/application-user', event.mainHost.id, 'view']">{{ event.mainHost.id }}</a>
+          </div>
         </dd>
       </dl>
 

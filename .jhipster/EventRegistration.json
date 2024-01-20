@@ -23,7 +23,7 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "user",
+      "otherEntityName": "applicationUser",
       "ownerSide": true,
       "relationshipName": "eventCounterparty",
       "relationshipType": "one-to-one"

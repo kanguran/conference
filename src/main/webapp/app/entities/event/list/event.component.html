@@ -67,7 +67,9 @@
           <td>{{ event.name }}</td>
           <td>{{ event.eventStatus }}</td>
           <td>
-            {{ event.mainHost?.id }}
+            <div *ngIf="event.mainHost">
+              <a [routerLink]="['/application-user', event.mainHost.id, 'view']">{{ event.mainHost.id }}</a>
+            </div>
           </td>
           <td class="text-end">
             <div class="btn-group">

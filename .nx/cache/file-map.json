@@ -101,6 +101,30 @@
           "hash": "5602557798838958900"
         },
         {
+          "file": ".husky/pre-commit",
+          "hash": "12399060066918617778"
+        },
+        {
+          "file": ".jhipster/ApplicationUser.json",
+          "hash": "13697988258562304855"
+        },
+        {
+          "file": ".jhipster/Event.json",
+          "hash": "9066738608854121259"
+        },
+        {
+          "file": ".jhipster/EventContext.json",
+          "hash": "2749761406709673299"
+        },
+        {
+          "file": ".jhipster/EventRegistration.json",
+          "hash": "15723238685100995769"
+        },
+        {
+          "file": ".jhipster/Room.json",
+          "hash": "5458596174059538954"
+        },
+        {
           "file": ".lintstagedrc.js",
           "hash": "9939502154295123145"
         },
@@ -118,11 +142,11 @@
         },
         {
           "file": ".yo-rc.json",
-          "hash": "14936227444578187400"
+          "hash": "15912429655969241773"
         },
         {
           "file": "README.md",
-          "hash": "608871502226649345"
+          "hash": "5261331129300009478"
         },
         {
           "file": "angular.json",
@@ -138,7 +162,7 @@
         },
         {
           "file": "conference.jdl",
-          "hash": "10402141660442920446"
+          "hash": "12182403230195382081"
         },
         {
           "file": "gradle.properties",
@@ -358,7 +382,7 @@
         },
         {
           "file": "src/main/java/com/conference/config/CacheConfiguration.java",
-          "hash": "15238578038000605336"
+          "hash": "7868105894151186086"
         },
         {
           "file": "src/main/java/com/conference/config/Constants.java",
@@ -413,12 +437,44 @@
           "hash": "13285480433536698443"
         },
         {
+          "file": "src/main/java/com/conference/domain/ApplicationUser.java",
+          "hash": "8660417083874061996"
+        },
+        {
           "file": "src/main/java/com/conference/domain/Authority.java",
           "hash": "7849765537503327012"
         },
         {
+          "file": "src/main/java/com/conference/domain/Event.java",
+          "hash": "18228442120794551657"
+        },
+        {
+          "file": "src/main/java/com/conference/domain/EventContext.java",
+          "hash": "7901589228672712865"
+        },
+        {
+          "file": "src/main/java/com/conference/domain/EventRegistration.java",
+          "hash": "1495680140752237292"
+        },
+        {
+          "file": "src/main/java/com/conference/domain/Room.java",
+          "hash": "1375414738270066690"
+        },
+        {
           "file": "src/main/java/com/conference/domain/User.java",
           "hash": "14959079051260440719"
+        },
+        {
+          "file": "src/main/java/com/conference/domain/enumeration/EventContextStatus.java",
+          "hash": "6963986092613394062"
+        },
+        {
+          "file": "src/main/java/com/conference/domain/enumeration/EventRegistrationStatus.java",
+          "hash": "2171520213534374369"
+        },
+        {
+          "file": "src/main/java/com/conference/domain/enumeration/EventStatus.java",
+          "hash": "4684972970995987551"
         },
         {
           "file": "src/main/java/com/conference/domain/package-info.java",
@@ -429,8 +485,28 @@
           "hash": "16209314925494367480"
         },
         {
+          "file": "src/main/java/com/conference/repository/ApplicationUserRepository.java",
+          "hash": "10672795412573109083"
+        },
+        {
           "file": "src/main/java/com/conference/repository/AuthorityRepository.java",
           "hash": "11150026816871792542"
+        },
+        {
+          "file": "src/main/java/com/conference/repository/EventContextRepository.java",
+          "hash": "5245092330969054915"
+        },
+        {
+          "file": "src/main/java/com/conference/repository/EventRegistrationRepository.java",
+          "hash": "12158692809257843528"
+        },
+        {
+          "file": "src/main/java/com/conference/repository/EventRepository.java",
+          "hash": "5214708311457653398"
+        },
+        {
+          "file": "src/main/java/com/conference/repository/RoomRepository.java",
+          "hash": "6495371136205087057"
         },
         {
           "file": "src/main/java/com/conference/repository/UserRepository.java",
@@ -477,8 +553,24 @@
           "hash": "2958116193155431112"
         },
         {
+          "file": "src/main/java/com/conference/service/ApplicationUserService.java",
+          "hash": "8713804000797403886"
+        },
+        {
           "file": "src/main/java/com/conference/service/EmailAlreadyUsedException.java",
           "hash": "2889266198010093623"
+        },
+        {
+          "file": "src/main/java/com/conference/service/EventContextService.java",
+          "hash": "2132725426857278852"
+        },
+        {
+          "file": "src/main/java/com/conference/service/EventRegistrationService.java",
+          "hash": "3327953794753900259"
+        },
+        {
+          "file": "src/main/java/com/conference/service/EventService.java",
+          "hash": "1508969199809488309"
         },
         {
           "file": "src/main/java/com/conference/service/InvalidPasswordException.java",
@@ -487,6 +579,10 @@
         {
           "file": "src/main/java/com/conference/service/MailService.java",
           "hash": "12296480938874724686"
+        },
+        {
+          "file": "src/main/java/com/conference/service/RoomService.java",
+          "hash": "10224457277608919292"
         },
         {
           "file": "src/main/java/com/conference/service/UserService.java",
@@ -501,8 +597,28 @@
           "hash": "10589707905424644404"
         },
         {
+          "file": "src/main/java/com/conference/service/dto/ApplicationUserDTO.java",
+          "hash": "9203209579494811834"
+        },
+        {
+          "file": "src/main/java/com/conference/service/dto/EventContextDTO.java",
+          "hash": "4539177846807767633"
+        },
+        {
+          "file": "src/main/java/com/conference/service/dto/EventDTO.java",
+          "hash": "14911970767967198328"
+        },
+        {
+          "file": "src/main/java/com/conference/service/dto/EventRegistrationDTO.java",
+          "hash": "13543054402880573806"
+        },
+        {
           "file": "src/main/java/com/conference/service/dto/PasswordChangeDTO.java",
           "hash": "5238166955066733304"
+        },
+        {
+          "file": "src/main/java/com/conference/service/dto/RoomDTO.java",
+          "hash": "9371544364443898646"
         },
         {
           "file": "src/main/java/com/conference/service/dto/UserDTO.java",
@@ -511,6 +627,30 @@
         {
           "file": "src/main/java/com/conference/service/dto/package-info.java",
           "hash": "16867011349158666169"
+        },
+        {
+          "file": "src/main/java/com/conference/service/mapper/ApplicationUserMapper.java",
+          "hash": "18233770328556073924"
+        },
+        {
+          "file": "src/main/java/com/conference/service/mapper/EntityMapper.java",
+          "hash": "12409919966479092700"
+        },
+        {
+          "file": "src/main/java/com/conference/service/mapper/EventContextMapper.java",
+          "hash": "80471490681919785"
+        },
+        {
+          "file": "src/main/java/com/conference/service/mapper/EventMapper.java",
+          "hash": "347090540870210386"
+        },
+        {
+          "file": "src/main/java/com/conference/service/mapper/EventRegistrationMapper.java",
+          "hash": "12333613447548577423"
+        },
+        {
+          "file": "src/main/java/com/conference/service/mapper/RoomMapper.java",
+          "hash": "10074910532437041663"
         },
         {
           "file": "src/main/java/com/conference/service/mapper/UserMapper.java",
@@ -529,12 +669,32 @@
           "hash": "1455452781494489938"
         },
         {
+          "file": "src/main/java/com/conference/web/rest/ApplicationUserResource.java",
+          "hash": "5902074798743528980"
+        },
+        {
           "file": "src/main/java/com/conference/web/rest/ClientForwardController.java",
           "hash": "16682415402168223409"
         },
         {
+          "file": "src/main/java/com/conference/web/rest/EventContextResource.java",
+          "hash": "5339122809030417371"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/EventRegistrationResource.java",
+          "hash": "16830091197549032963"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/EventResource.java",
+          "hash": "11827609919753867304"
+        },
+        {
           "file": "src/main/java/com/conference/web/rest/PublicUserResource.java",
           "hash": "2334432300595705169"
+        },
+        {
+          "file": "src/main/java/com/conference/web/rest/RoomResource.java",
+          "hash": "12848534823517266054"
         },
         {
           "file": "src/main/java/com/conference/web/rest/UserJWTController.java",
@@ -633,6 +793,46 @@
           "hash": "8851776568953871713"
         },
         {
+          "file": "src/main/resources/config/liquibase/changelog/20240119211626_added_entity_Event.xml",
+          "hash": "3867357371178241514"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/changelog/20240119211626_added_entity_constraints_Event.xml",
+          "hash": "15000403174284093926"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/changelog/20240119211627_added_entity_EventContext.xml",
+          "hash": "14665340676255083437"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/changelog/20240119211627_added_entity_constraints_EventContext.xml",
+          "hash": "16115681196062589231"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/changelog/20240119211628_added_entity_EventRegistration.xml",
+          "hash": "17875784686061692615"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/changelog/20240119211628_added_entity_constraints_EventRegistration.xml",
+          "hash": "6688957067382882775"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/changelog/20240119211629_added_entity_Room.xml",
+          "hash": "17586223243503241479"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/changelog/20240119211629_added_entity_constraints_Room.xml",
+          "hash": "15302943443584122595"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/changelog/20240120181159_added_entity_ApplicationUser.xml",
+          "hash": "11143090021307066791"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/changelog/20240120181159_added_entity_constraints_ApplicationUser.xml",
+          "hash": "13002314405054316897"
+        },
+        {
           "file": "src/main/resources/config/liquibase/data/authority.csv",
           "hash": "11997263253237822955"
         },
@@ -645,8 +845,28 @@
           "hash": "14450543454296712703"
         },
         {
+          "file": "src/main/resources/config/liquibase/fake-data/application_user.csv",
+          "hash": "14521495722118745264"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/fake-data/event.csv",
+          "hash": "12988621167452270523"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/fake-data/event_context.csv",
+          "hash": "4894801273504550522"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/fake-data/event_registration.csv",
+          "hash": "12677274568758747320"
+        },
+        {
+          "file": "src/main/resources/config/liquibase/fake-data/room.csv",
+          "hash": "12414383457377435747"
+        },
+        {
           "file": "src/main/resources/config/liquibase/master.xml",
-          "hash": "7647786041551535189"
+          "hash": "1268990362702073920"
         },
         {
           "file": "src/main/resources/config/tls/keystore.p12",
@@ -1782,15 +2002,878 @@
           ]
         },
         {
+          "file": "src/main/webapp/app/entities/application-user/application-user.model.ts",
+          "hash": "9648835211060643423"
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/application-user.module.ts",
+          "hash": "208475659736941760",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/application-user.test-samples.ts",
+          "hash": "11869507002799578680"
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/delete/application-user-delete-dialog.component.html",
+          "hash": "9457564853857331039"
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/delete/application-user-delete-dialog.component.spec.ts",
+          "hash": "17343906317995620163",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/delete/application-user-delete-dialog.component.ts",
+          "hash": "6787373047336570460",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/detail/application-user-detail.component.html",
+          "hash": "12342101556320603459"
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/detail/application-user-detail.component.spec.ts",
+          "hash": "14560452057370887196",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/detail/application-user-detail.component.ts",
+          "hash": "1454314878711581761",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/list/application-user.component.html",
+          "hash": "2890752506475611022"
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/list/application-user.component.spec.ts",
+          "hash": "13075335185557347336",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/list/application-user.component.ts",
+          "hash": "498475629452984592",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/route/application-user-routing-resolve.service.spec.ts",
+          "hash": "760097085022826799",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/route/application-user-routing-resolve.service.ts",
+          "hash": "18072731815406881286",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/route/application-user-routing.module.ts",
+          "hash": "16111506604073018110",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/service/application-user.service.spec.ts",
+          "hash": "8142393643863729096",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/service/application-user.service.ts",
+          "hash": "4351467857386492347",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/update/application-user-form.service.spec.ts",
+          "hash": "6708323095820618202",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/update/application-user-form.service.ts",
+          "hash": "4330461785983506264",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/update/application-user-update.component.html",
+          "hash": "16172976117181987195"
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/update/application-user-update.component.spec.ts",
+          "hash": "15360357020731226938",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/application-user/update/application-user-update.component.ts",
+          "hash": "6877219147185461445",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
           "file": "src/main/webapp/app/entities/entity-navbar-items.ts",
           "hash": "13088724853770838302"
         },
         {
           "file": "src/main/webapp/app/entities/entity-routing.module.ts",
-          "hash": "11461017943442439612",
+          "hash": "2078004015610966259",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/enumerations/event-context-status.model.ts",
+          "hash": "4534269765203609170"
+        },
+        {
+          "file": "src/main/webapp/app/entities/enumerations/event-registration-status.model.ts",
+          "hash": "4312359639170987346"
+        },
+        {
+          "file": "src/main/webapp/app/entities/enumerations/event-status.model.ts",
+          "hash": "7950154066951322216"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/delete/event-context-delete-dialog.component.html",
+          "hash": "2263887293512467844"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/delete/event-context-delete-dialog.component.spec.ts",
+          "hash": "8881956377805588314",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/delete/event-context-delete-dialog.component.ts",
+          "hash": "9998091167176741601",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/detail/event-context-detail.component.html",
+          "hash": "17284546665780283141"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/detail/event-context-detail.component.spec.ts",
+          "hash": "12432409831472711706",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/detail/event-context-detail.component.ts",
+          "hash": "14524528490978537701",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/event-context.model.ts",
+          "hash": "3163840921859984039",
+          "deps": [
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/event-context.module.ts",
+          "hash": "15177468527212873596",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/event-context.test-samples.ts",
+          "hash": "3512242882203809040",
+          "deps": [
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/list/event-context.component.html",
+          "hash": "3923545758206402852"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/list/event-context.component.spec.ts",
+          "hash": "9151503382837687529",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:EventContext Management Component"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/list/event-context.component.ts",
+          "hash": "12600174133002598453",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/route/event-context-routing-resolve.service.spec.ts",
+          "hash": "10100608098562430374",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/route/event-context-routing-resolve.service.ts",
+          "hash": "18132055306815697887",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/route/event-context-routing.module.ts",
+          "hash": "4627624404290351599",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/service/event-context.service.spec.ts",
+          "hash": "4882788687011792718",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/service/event-context.service.ts",
+          "hash": "2846228172971619724",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/update/event-context-form.service.spec.ts",
+          "hash": "8819957231866346196",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/update/event-context-form.service.ts",
+          "hash": "7570211385398103995",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/update/event-context-update.component.html",
+          "hash": "5411971635063212280"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/update/event-context-update.component.spec.ts",
+          "hash": "16582045037948275890",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-context/update/event-context-update.component.ts",
+          "hash": "12884787169691327829",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/delete/event-registration-delete-dialog.component.html",
+          "hash": "16424352596196386853"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/delete/event-registration-delete-dialog.component.spec.ts",
+          "hash": "15432113247876350652",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/delete/event-registration-delete-dialog.component.ts",
+          "hash": "7608444110693011582",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/detail/event-registration-detail.component.html",
+          "hash": "14888427977624349438"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/detail/event-registration-detail.component.spec.ts",
+          "hash": "6125422708947856844",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/detail/event-registration-detail.component.ts",
+          "hash": "11426208146069964201",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/event-registration.model.ts",
+          "hash": "14508717962716268002"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/event-registration.module.ts",
+          "hash": "11108729212267701684",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/event-registration.test-samples.ts",
+          "hash": "6842446534703015221"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/list/event-registration.component.html",
+          "hash": "17718781614134708550"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/list/event-registration.component.spec.ts",
+          "hash": "7070738479578478440",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:EventRegistration Management Component"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/list/event-registration.component.ts",
+          "hash": "14690274998174067441",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/route/event-registration-routing-resolve.service.spec.ts",
+          "hash": "2382237527341260261",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/route/event-registration-routing-resolve.service.ts",
+          "hash": "14595234174870388906",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/route/event-registration-routing.module.ts",
+          "hash": "3284466191127467307",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/service/event-registration.service.spec.ts",
+          "hash": "8038134591411695206",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/service/event-registration.service.ts",
+          "hash": "5114927415854844000",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/update/event-registration-form.service.spec.ts",
+          "hash": "5030293904293386519",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/update/event-registration-form.service.ts",
+          "hash": "811101165959349725",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/update/event-registration-update.component.html",
+          "hash": "1749434397216620834"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/update/event-registration-update.component.spec.ts",
+          "hash": "3076170279617015025",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event-registration/update/event-registration-update.component.ts",
+          "hash": "15549884946258824208",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/delete/event-delete-dialog.component.html",
+          "hash": "17529909384167434269"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/delete/event-delete-dialog.component.spec.ts",
+          "hash": "16195533088402026873",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/delete/event-delete-dialog.component.ts",
+          "hash": "15425660730219224660",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/detail/event-detail.component.html",
+          "hash": "214910934207260222"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/detail/event-detail.component.spec.ts",
+          "hash": "1402925938951010399",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/detail/event-detail.component.ts",
+          "hash": "17431867465482149795",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/event.model.ts",
+          "hash": "18408188067073587381"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/event.module.ts",
+          "hash": "17591850358990603955",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/event.test-samples.ts",
+          "hash": "7081416907443960328"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/list/event.component.html",
+          "hash": "18158722595189325065"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/list/event.component.spec.ts",
+          "hash": "8396438987197790910",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:Event Management Component"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/list/event.component.ts",
+          "hash": "10367360564819470918",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/route/event-routing-resolve.service.spec.ts",
+          "hash": "18267986317468975419",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/route/event-routing-resolve.service.ts",
+          "hash": "5370634546402710223",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/route/event-routing.module.ts",
+          "hash": "13805154609781246269",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/service/event.service.spec.ts",
+          "hash": "3818400659764303252",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/service/event.service.ts",
+          "hash": "4285406092740111346",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/update/event-form.service.spec.ts",
+          "hash": "15687174730153362243",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/update/event-form.service.ts",
+          "hash": "5556668673000979731",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/update/event-update.component.html",
+          "hash": "16667217534172112030"
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/update/event-update.component.spec.ts",
+          "hash": "16432955606863991654",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/event/update/event-update.component.ts",
+          "hash": "15607832627858276478",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/delete/room-delete-dialog.component.html",
+          "hash": "10805733377376380030"
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/delete/room-delete-dialog.component.spec.ts",
+          "hash": "17314154172414115499",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/delete/room-delete-dialog.component.ts",
+          "hash": "9649031988775704685",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/detail/room-detail.component.html",
+          "hash": "8253264445484437244"
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/detail/room-detail.component.spec.ts",
+          "hash": "12926924545912680755",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/detail/room-detail.component.ts",
+          "hash": "12838029178915297742",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/list/room.component.html",
+          "hash": "4723347437887898187"
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/list/room.component.spec.ts",
+          "hash": "8921395197859567078",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:Room Management Component"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/list/room.component.ts",
+          "hash": "10869565131908882651",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/room.model.ts",
+          "hash": "6218094024059141376"
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/room.module.ts",
+          "hash": "5695864042730849325",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/room.test-samples.ts",
+          "hash": "924525565531174864"
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/route/room-routing-resolve.service.spec.ts",
+          "hash": "3677960643923837491",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/route/room-routing-resolve.service.ts",
+          "hash": "12431262720256084748",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/route/room-routing.module.ts",
+          "hash": "8293918444708854309",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/service/room.service.spec.ts",
+          "hash": "16869340488537624159",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/service/room.service.ts",
+          "hash": "17135201798617872555",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/update/room-form.service.spec.ts",
+          "hash": "2881600545013482525",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/update/room-form.service.ts",
+          "hash": "16615980765257510926",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/update/room-update.component.html",
+          "hash": "11160518693524443062"
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/update/room-update.component.spec.ts",
+          "hash": "7417808654614227241",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "src/main/webapp/app/entities/room/update/room-update.component.ts",
+          "hash": "7619286507799817479",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:rxjs"
           ]
         },
         {
@@ -1910,7 +2993,7 @@
         },
         {
           "file": "src/main/webapp/app/layouts/navbar/navbar.component.html",
-          "hash": "15030957192128533259"
+          "hash": "13594830126706756791"
         },
         {
           "file": "src/main/webapp/app/layouts/navbar/navbar.component.scss",
@@ -2422,6 +3505,26 @@
           "hash": "15756363856427207151"
         },
         {
+          "file": "src/test/java/com/conference/domain/ApplicationUserTest.java",
+          "hash": "18306024554031292329"
+        },
+        {
+          "file": "src/test/java/com/conference/domain/EventContextTest.java",
+          "hash": "9122175667238801030"
+        },
+        {
+          "file": "src/test/java/com/conference/domain/EventRegistrationTest.java",
+          "hash": "2336645064568530285"
+        },
+        {
+          "file": "src/test/java/com/conference/domain/EventTest.java",
+          "hash": "4224594164460232918"
+        },
+        {
+          "file": "src/test/java/com/conference/domain/RoomTest.java",
+          "hash": "6911551991848363878"
+        },
+        {
           "file": "src/test/java/com/conference/management/SecurityMetersServiceTests.java",
           "hash": "17917932253759990433"
         },
@@ -2462,6 +3565,46 @@
           "hash": "17851125389048332"
         },
         {
+          "file": "src/test/java/com/conference/service/dto/ApplicationUserDTOTest.java",
+          "hash": "5178557223750107701"
+        },
+        {
+          "file": "src/test/java/com/conference/service/dto/EventContextDTOTest.java",
+          "hash": "17010509600810830332"
+        },
+        {
+          "file": "src/test/java/com/conference/service/dto/EventDTOTest.java",
+          "hash": "18093075176254954667"
+        },
+        {
+          "file": "src/test/java/com/conference/service/dto/EventRegistrationDTOTest.java",
+          "hash": "9782523268113349392"
+        },
+        {
+          "file": "src/test/java/com/conference/service/dto/RoomDTOTest.java",
+          "hash": "8739545858351620041"
+        },
+        {
+          "file": "src/test/java/com/conference/service/mapper/ApplicationUserMapperTest.java",
+          "hash": "9997031463461255026"
+        },
+        {
+          "file": "src/test/java/com/conference/service/mapper/EventContextMapperTest.java",
+          "hash": "15520795981327347587"
+        },
+        {
+          "file": "src/test/java/com/conference/service/mapper/EventMapperTest.java",
+          "hash": "11033690113028919730"
+        },
+        {
+          "file": "src/test/java/com/conference/service/mapper/EventRegistrationMapperTest.java",
+          "hash": "16396604726734736893"
+        },
+        {
+          "file": "src/test/java/com/conference/service/mapper/RoomMapperTest.java",
+          "hash": "9491123426222476785"
+        },
+        {
           "file": "src/test/java/com/conference/service/mapper/UserMapperTest.java",
           "hash": "14213981302477682937"
         },
@@ -2470,12 +3613,32 @@
           "hash": "17191570969090732488"
         },
         {
+          "file": "src/test/java/com/conference/web/rest/ApplicationUserResourceIT.java",
+          "hash": "10032772301277988858"
+        },
+        {
           "file": "src/test/java/com/conference/web/rest/ClientForwardControllerTest.java",
           "hash": "4411279481457172271"
         },
         {
+          "file": "src/test/java/com/conference/web/rest/EventContextResourceIT.java",
+          "hash": "2645250190748110366"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/EventRegistrationResourceIT.java",
+          "hash": "7370486900697072348"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/EventResourceIT.java",
+          "hash": "15076105152982935396"
+        },
+        {
           "file": "src/test/java/com/conference/web/rest/PublicUserResourceIT.java",
           "hash": "10936722521188057499"
+        },
+        {
+          "file": "src/test/java/com/conference/web/rest/RoomResourceIT.java",
+          "hash": "11721002456021134008"
         },
         {
           "file": "src/test/java/com/conference/web/rest/TestUtil.java",

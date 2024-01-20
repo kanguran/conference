@@ -7,8 +7,8 @@ import { finalize, map } from 'rxjs/operators';
 import { EventRegistrationFormService, EventRegistrationFormGroup } from './event-registration-form.service';
 import { IEventRegistration } from '../event-registration.model';
 import { EventRegistrationService } from '../service/event-registration.service';
-import { IUser } from 'app/entities/user/user.model';
-import { UserService } from 'app/entities/user/user.service';
+import { IApplicationUser } from 'app/entities/application-user/application-user.model';
+import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
 import { IEventContext } from 'app/entities/event-context/event-context.model';
 import { EventContextService } from 'app/entities/event-context/service/event-context.service';
 import { EventRegistrationStatus } from 'app/entities/enumerations/event-registration-status.model';
@@ -22,7 +22,7 @@ export class EventRegistrationUpdateComponent implements OnInit {
   eventRegistration: IEventRegistration | null = null;
   eventRegistrationStatusValues = Object.keys(EventRegistrationStatus);
 
-  usersSharedCollection: IUser[] = [];
+  applicationUsersSharedCollection: IApplicationUser[] = [];
   eventContextsSharedCollection: IEventContext[] = [];
 
   editForm: EventRegistrationFormGroup = this.eventRegistrationFormService.createEventRegistrationFormGroup();
@@ -30,12 +30,13 @@ export class EventRegistrationUpdateComponent implements OnInit {
   constructor(
     protected eventRegistrationService: EventRegistrationService,
     protected eventRegistrationFormService: EventRegistrationFormService,
-    protected userService: UserService,
+    protected applicationUserService: ApplicationUserService,
     protected eventContextService: EventContextService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
-  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
+  compareApplicationUser = (o1: IApplicationUser | null, o2: IApplicationUser | null): boolean =>
+    this.applicationUserService.compareApplicationUser(o1, o2);
 
   compareEventContext = (o1: IEventContext | null, o2: IEventContext | null): boolean =>
     this.eventContextService.compareEventContext(o1, o2);
@@ -88,8 +89,8 @@ export class EventRegistrationUpdateComponent implements OnInit {
     this.eventRegistration = eventRegistration;
     this.eventRegistrationFormService.resetForm(this.editForm, eventRegistration);
 
-    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(
-      this.usersSharedCollection,
+    this.applicationUsersSharedCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
+      this.applicationUsersSharedCollection,
       eventRegistration.eventCounterparty
     );
     this.eventContextsSharedCollection = this.eventContextService.addEventContextToCollectionIfMissing<IEventContext>(
@@ -99,11 +100,18 @@ export class EventRegistrationUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
-    this.userService
+    this.applicationUserService
       .query()
-      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
-      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.eventRegistration?.eventCounterparty)))
-      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
+      .pipe(map((res: HttpResponse<IApplicationUser[]>) => res.body ?? []))
+      .pipe(
+        map((applicationUsers: IApplicationUser[]) =>
+          this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
+            applicationUsers,
+            this.eventRegistration?.eventCounterparty
+          )
+        )
+      )
+      .subscribe((applicationUsers: IApplicationUser[]) => (this.applicationUsersSharedCollection = applicationUsers));
 
     this.eventContextService
       .query()

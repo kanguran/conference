@@ -73,7 +73,11 @@
           <td>{{ eventRegistration.name }}</td>
           <td>{{ eventRegistration.eventRegistrationStatus }}</td>
           <td>
-            {{ eventRegistration.eventCounterparty?.id }}
+            <div *ngIf="eventRegistration.eventCounterparty">
+              <a [routerLink]="['/application-user', eventRegistration.eventCounterparty.id, 'view']">{{
+                eventRegistration.eventCounterparty.id
+              }}</a>
+            </div>
           </td>
           <td>
             <div *ngIf="eventRegistration.eventContext">

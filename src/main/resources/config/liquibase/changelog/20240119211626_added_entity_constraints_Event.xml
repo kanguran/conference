@@ -12,6 +12,6 @@
                                  baseTableName="event"
                                  constraintName="fk_event__main_host_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="jhi_user"/>
+                                 referencedTableName="application_user"/>
     </changeSet>
 </databaseChangeLog>

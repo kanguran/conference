@@ -33,9 +33,10 @@ public class EventRegistration implements Serializable {
     @Column(name = "event_registration_status")
     private EventRegistrationStatus eventRegistrationStatus;
 
+    @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
-    private User eventCounterparty;
+    private ApplicationUser eventCounterparty;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
@@ -82,16 +83,16 @@ public class EventRegistration implements Serializable {
         this.eventRegistrationStatus = eventRegistrationStatus;
     }
 
-    public User getEventCounterparty() {
+    public ApplicationUser getEventCounterparty() {
         return this.eventCounterparty;
     }
 
-    public void setEventCounterparty(User user) {
-        this.eventCounterparty = user;
+    public void setEventCounterparty(ApplicationUser applicationUser) {
+        this.eventCounterparty = applicationUser;
     }
 
-    public EventRegistration eventCounterparty(User user) {
-        this.setEventCounterparty(user);
+    public EventRegistration eventCounterparty(ApplicationUser applicationUser) {
+        this.setEventCounterparty(applicationUser);
         return this;
     }
 
