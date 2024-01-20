@@ -22,6 +22,7 @@ describe('EventRegistration Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             eventRegistrationStatus: expect.any(Object),
+            eventCounterparty: expect.any(Object),
             eventContext: expect.any(Object),
           })
         );
@@ -35,6 +36,7 @@ describe('EventRegistration Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             eventRegistrationStatus: expect.any(Object),
+            eventCounterparty: expect.any(Object),
             eventContext: expect.any(Object),
           })
         );

@@ -20,6 +20,9 @@
             <column name="event_registration_status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="event_counterparty_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_event_registration__event_counterparty_id" />
+            </column>
             <column name="event_context_id" type="bigint">
                 <constraints nullable="true" />
             </column>

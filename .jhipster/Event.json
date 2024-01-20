@@ -23,6 +23,12 @@
   "readOnly": false,
   "relationships": [
     {
+      "otherEntityName": "user",
+      "ownerSide": true,
+      "relationshipName": "mainHost",
+      "relationshipType": "one-to-one"
+    },
+    {
       "otherEntityName": "eventContext",
       "otherEntityRelationshipName": "event",
       "relationshipName": "eventContext",

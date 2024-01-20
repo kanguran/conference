@@ -3,7 +3,7 @@ package com.conference.domain;
 import com.conference.domain.enumeration.EventContextStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -37,18 +37,22 @@ public class EventContext implements Serializable {
     private EventContextStatus eventContextStatus;
 
     @Column(name = "start")
-    private LocalDate start;
+    private Instant start;
 
     @Column(name = "jhi_end")
-    private LocalDate end;
+    private Instant end;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private User contextHost;
 
     @OneToMany(mappedBy = "eventContext")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "eventContext" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "eventCounterparty", "eventContext" }, allowSetters = true)
     private Set<EventRegistration> eventContextRegistrations = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "eventContexts" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "mainHost", "eventContexts" }, allowSetters = true)
     private Event event;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -92,30 +96,43 @@ public class EventContext implements Serializable {
         this.eventContextStatus = eventContextStatus;
     }
 
-    public LocalDate getStart() {
+    public Instant getStart() {
         return this.start;
     }
 
-    public EventContext start(LocalDate start) {
+    public EventContext start(Instant start) {
         this.setStart(start);
         return this;
     }
 
-    public void setStart(LocalDate start) {
+    public void setStart(Instant start) {
         this.start = start;
     }
 
-    public LocalDate getEnd() {
+    public Instant getEnd() {
         return this.end;
     }
 
-    public EventContext end(LocalDate end) {
+    public EventContext end(Instant end) {
         this.setEnd(end);
         return this;
     }
 
-    public void setEnd(LocalDate end) {
+    public void setEnd(Instant end) {
         this.end = end;
+    }
+
+    public User getContextHost() {
+        return this.contextHost;
+    }
+
+    public void setContextHost(User user) {
+        this.contextHost = user;
+    }
+
+    public EventContext contextHost(User user) {
+        this.setContextHost(user);
+        return this;
     }
 
     public Set<EventRegistration> getEventContextRegistrations() {

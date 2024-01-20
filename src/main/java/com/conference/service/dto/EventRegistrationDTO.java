@@ -18,6 +18,8 @@ public class EventRegistrationDTO implements Serializable {
 
     private EventRegistrationStatus eventRegistrationStatus;
 
+    private UserDTO eventCounterparty;
+
     private EventContextDTO eventContext;
 
     public Long getId() {
@@ -42,6 +44,14 @@ public class EventRegistrationDTO implements Serializable {
 
     public void setEventRegistrationStatus(EventRegistrationStatus eventRegistrationStatus) {
         this.eventRegistrationStatus = eventRegistrationStatus;
+    }
+
+    public UserDTO getEventCounterparty() {
+        return eventCounterparty;
+    }
+
+    public void setEventCounterparty(UserDTO eventCounterparty) {
+        this.eventCounterparty = eventCounterparty;
     }
 
     public EventContextDTO getEventContext() {
@@ -80,6 +90,7 @@ public class EventRegistrationDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", eventRegistrationStatus='" + getEventRegistrationStatus() + "'" +
+            ", eventCounterparty=" + getEventCounterparty() +
             ", eventContext=" + getEventContext() +
             "}";
     }

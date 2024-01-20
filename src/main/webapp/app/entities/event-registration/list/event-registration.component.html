@@ -50,6 +50,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="eventCounterparty.id">
+            <div class="d-flex">
+              <span>Event Counterparty</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="eventContext.id">
             <div class="d-flex">
               <span>Event Context</span>
@@ -66,6 +72,9 @@
           </td>
           <td>{{ eventRegistration.name }}</td>
           <td>{{ eventRegistration.eventRegistrationStatus }}</td>
+          <td>
+            {{ eventRegistration.eventCounterparty?.id }}
+          </td>
           <td>
             <div *ngIf="eventRegistration.eventContext">
               <a [routerLink]="['/event-context', eventRegistration.eventContext.id, 'view']">{{ eventRegistration.eventContext.id }}</a>

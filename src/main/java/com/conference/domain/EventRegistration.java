@@ -33,8 +33,12 @@ public class EventRegistration implements Serializable {
     @Column(name = "event_registration_status")
     private EventRegistrationStatus eventRegistrationStatus;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private User eventCounterparty;
+
     @ManyToOne
-    @JsonIgnoreProperties(value = { "eventContextRegistrations", "event" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
     private EventContext eventContext;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -76,6 +80,19 @@ public class EventRegistration implements Serializable {
 
     public void setEventRegistrationStatus(EventRegistrationStatus eventRegistrationStatus) {
         this.eventRegistrationStatus = eventRegistrationStatus;
+    }
+
+    public User getEventCounterparty() {
+        return this.eventCounterparty;
+    }
+
+    public void setEventCounterparty(User user) {
+        this.eventCounterparty = user;
+    }
+
+    public EventRegistration eventCounterparty(User user) {
+        this.setEventCounterparty(user);
+        return this;
     }
 
     public EventContext getEventContext() {

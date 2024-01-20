@@ -20,6 +20,9 @@
             <column name="event_status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="main_host_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_event__main_host_id" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
