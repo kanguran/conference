@@ -35,36 +35,47 @@
 
         <div class="row mb-3">
           <label class="form-label" for="field_start">Start</label>
-          <div class="input-group">
+          <div class="d-flex">
             <input
               id="field_start"
               data-cy="start"
-              type="text"
+              type="datetime-local"
               class="form-control"
               name="start"
-              ngbDatepicker
-              #startDp="ngbDatepicker"
               formControlName="start"
+              placeholder="YYYY-MM-DD HH:mm"
             />
-            <button type="button" class="btn btn-secondary" (click)="startDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
           </div>
         </div>
 
         <div class="row mb-3">
           <label class="form-label" for="field_end">End</label>
-          <div class="input-group">
+          <div class="d-flex">
             <input
               id="field_end"
               data-cy="end"
-              type="text"
+              type="datetime-local"
               class="form-control"
               name="end"
-              ngbDatepicker
-              #endDp="ngbDatepicker"
               formControlName="end"
+              placeholder="YYYY-MM-DD HH:mm"
             />
-            <button type="button" class="btn btn-secondary" (click)="endDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
           </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_contextHost">Context Host</label>
+          <select
+            class="form-control"
+            id="field_contextHost"
+            data-cy="contextHost"
+            name="contextHost"
+            formControlName="contextHost"
+            [compareWith]="compareUser"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
         </div>
 
         <div class="row mb-3">

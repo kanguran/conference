@@ -101,10 +101,6 @@
           "hash": "5602557798838958900"
         },
         {
-          "file": ".husky/pre-commit",
-          "hash": "12399060066918617778"
-        },
-        {
           "file": ".lintstagedrc.js",
           "hash": "9939502154295123145"
         },
@@ -142,7 +138,7 @@
         },
         {
           "file": "conference.jdl",
-          "hash": "15357218071718967779"
+          "hash": "10402141660442920446"
         },
         {
           "file": "gradle.properties",

@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { IEventContext } from '../event-context.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../event-context.test-samples';
 
@@ -9,8 +8,8 @@ import { EventContextService, RestEventContext } from './event-context.service';
 
 const requireRestSample: RestEventContext = {
   ...sampleWithRequiredData,
-  start: sampleWithRequiredData.start?.format(DATE_FORMAT),
-  end: sampleWithRequiredData.end?.format(DATE_FORMAT),
+  start: sampleWithRequiredData.start?.toJSON(),
+  end: sampleWithRequiredData.end?.toJSON(),
 };
 
 describe('EventContext Service', () => {

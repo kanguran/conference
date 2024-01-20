@@ -24,6 +24,7 @@ describe('EventContext Form Service', () => {
             eventContextStatus: expect.any(Object),
             start: expect.any(Object),
             end: expect.any(Object),
+            contextHost: expect.any(Object),
             event: expect.any(Object),
           })
         );
@@ -39,6 +40,7 @@ describe('EventContext Form Service', () => {
             eventContextStatus: expect.any(Object),
             start: expect.any(Object),
             end: expect.any(Object),
+            contextHost: expect.any(Object),
             event: expect.any(Object),
           })
         );

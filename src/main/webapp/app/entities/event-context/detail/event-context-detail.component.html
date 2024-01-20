@@ -24,11 +24,15 @@
         </dd>
         <dt><span>Start</span></dt>
         <dd>
-          <span>{{ eventContext.start | formatMediumDate }}</span>
+          <span>{{ eventContext.start | formatMediumDatetime }}</span>
         </dd>
         <dt><span>End</span></dt>
         <dd>
-          <span>{{ eventContext.end | formatMediumDate }}</span>
+          <span>{{ eventContext.end | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Context Host</span></dt>
+        <dd>
+          <span>{{ eventContext.contextHost?.id }}</span>
         </dd>
         <dt><span>Event</span></dt>
         <dd>

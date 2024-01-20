@@ -22,6 +22,7 @@ describe('Event Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             eventStatus: expect.any(Object),
+            mainHost: expect.any(Object),
           })
         );
       });
@@ -34,6 +35,7 @@ describe('Event Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             eventStatus: expect.any(Object),
+            mainHost: expect.any(Object),
           })
         );
       });

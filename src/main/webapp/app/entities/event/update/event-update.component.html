@@ -26,6 +26,21 @@
             <option *ngFor="let eventStatus of eventStatusValues" [value]="eventStatus">eventStatus</option>
           </select>
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_mainHost">Main Host</label>
+          <select
+            class="form-control"
+            id="field_mainHost"
+            data-cy="mainHost"
+            name="mainHost"
+            formControlName="mainHost"
+            [compareWith]="compareUser"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
+        </div>
       </div>
 
       <div>

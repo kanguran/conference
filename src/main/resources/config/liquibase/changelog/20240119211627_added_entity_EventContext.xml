@@ -20,17 +20,22 @@
             <column name="event_context_status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="start" type="date">
+            <column name="start" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
-            <column name="jhi_end" type="date">
+            <column name="jhi_end" type="${datetimeType}">
                 <constraints nullable="true" />
+            </column>
+            <column name="context_host_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_event_context__context_host_id" />
             </column>
             <column name="event_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="event_context" columnName="start" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="event_context" columnName="jhi_end" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

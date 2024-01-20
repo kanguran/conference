@@ -13,16 +13,16 @@ export const sampleWithPartialData: IEventContext = {
   id: 35434,
   name: 'orange payment generation',
   eventContextStatus: EventContextStatus['CANCELLED'],
-  start: dayjs('2024-01-19'),
-  end: dayjs('2024-01-19'),
+  start: dayjs('2024-01-19T06:01'),
+  end: dayjs('2024-01-19T07:15'),
 };
 
 export const sampleWithFullData: IEventContext = {
   id: 50801,
   name: 'Virginia',
   eventContextStatus: EventContextStatus['AVAILABLE'],
-  start: dayjs('2024-01-18'),
-  end: dayjs('2024-01-19'),
+  start: dayjs('2024-01-18T23:42'),
+  end: dayjs('2024-01-19T13:25'),
 };
 
 export const sampleWithNewData: NewEventContext = {

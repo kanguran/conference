@@ -36,6 +36,21 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" for="field_eventCounterparty">Event Counterparty</label>
+          <select
+            class="form-control"
+            id="field_eventCounterparty"
+            data-cy="eventCounterparty"
+            name="eventCounterparty"
+            formControlName="eventCounterparty"
+            [compareWith]="compareUser"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" for="field_eventContext">Event Context</label>
           <select
             class="form-control"

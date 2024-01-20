@@ -10,6 +10,9 @@ import { EventFormService } from './event-form.service';
 import { EventService } from '../service/event.service';
 import { IEvent } from '../event.model';
 
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
+
 import { EventUpdateComponent } from './event-update.component';
 
 describe('Event Management Update Component', () => {
@@ -18,6 +21,7 @@ describe('Event Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let eventFormService: EventFormService;
   let eventService: EventService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,17 +44,43 @@ describe('Event Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     eventFormService = TestBed.inject(EventFormService);
     eventService = TestBed.inject(EventService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('Should call User query and add missing value', () => {
       const event: IEvent = { id: 456 };
+      const mainHost: IUser = { id: 53058 };
+      event.mainHost = mainHost;
+
+      const userCollection: IUser[] = [{ id: 23522 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [mainHost];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ event });
       comp.ngOnInit();
 
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
+      );
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const event: IEvent = { id: 456 };
+      const mainHost: IUser = { id: 79014 };
+      event.mainHost = mainHost;
+
+      activatedRoute.data = of({ event });
+      comp.ngOnInit();
+
+      expect(comp.usersSharedCollection).toContain(mainHost);
       expect(comp.event).toEqual(event);
     });
   });
@@ -120,6 +150,18 @@ describe('Event Management Update Component', () => {
       expect(eventService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

@@ -2,7 +2,7 @@ package com.conference.service.dto;
 
 import com.conference.domain.enumeration.EventContextStatus;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -19,9 +19,11 @@ public class EventContextDTO implements Serializable {
 
     private EventContextStatus eventContextStatus;
 
-    private LocalDate start;
+    private Instant start;
 
-    private LocalDate end;
+    private Instant end;
+
+    private UserDTO contextHost;
 
     private EventDTO event;
 
@@ -49,20 +51,28 @@ public class EventContextDTO implements Serializable {
         this.eventContextStatus = eventContextStatus;
     }
 
-    public LocalDate getStart() {
+    public Instant getStart() {
         return start;
     }
 
-    public void setStart(LocalDate start) {
+    public void setStart(Instant start) {
         this.start = start;
     }
 
-    public LocalDate getEnd() {
+    public Instant getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDate end) {
+    public void setEnd(Instant end) {
         this.end = end;
+    }
+
+    public UserDTO getContextHost() {
+        return contextHost;
+    }
+
+    public void setContextHost(UserDTO contextHost) {
+        this.contextHost = contextHost;
     }
 
     public EventDTO getEvent() {
@@ -103,6 +113,7 @@ public class EventContextDTO implements Serializable {
             ", eventContextStatus='" + getEventContextStatus() + "'" +
             ", start='" + getStart() + "'" +
             ", end='" + getEnd() + "'" +
+            ", contextHost=" + getContextHost() +
             ", event=" + getEvent() +
             "}";
     }

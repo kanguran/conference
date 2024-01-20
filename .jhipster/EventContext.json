@@ -17,11 +17,11 @@
     },
     {
       "fieldName": "start",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     },
     {
       "fieldName": "end",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     }
   ],
   "fluentMethods": true,
@@ -30,6 +30,12 @@
   "pagination": "pagination",
   "readOnly": false,
   "relationships": [
+    {
+      "otherEntityName": "user",
+      "ownerSide": true,
+      "relationshipName": "contextHost",
+      "relationshipType": "one-to-one"
+    },
     {
       "otherEntityName": "eventRegistration",
       "otherEntityRelationshipName": "eventContext",

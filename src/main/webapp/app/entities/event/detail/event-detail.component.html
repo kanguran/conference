@@ -22,6 +22,10 @@
         <dd>
           <span>{{ event.eventStatus }}</span>
         </dd>
+        <dt><span>Main Host</span></dt>
+        <dd>
+          <span>{{ event.mainHost?.id }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

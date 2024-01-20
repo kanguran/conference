@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IEventContext, NewEventContext } from '../event-context.model';
@@ -103,8 +102,8 @@ export class EventContextService {
   protected convertDateFromClient<T extends IEventContext | NewEventContext | PartialUpdateEventContext>(eventContext: T): RestOf<T> {
     return {
       ...eventContext,
-      start: eventContext.start?.format(DATE_FORMAT) ?? null,
-      end: eventContext.end?.format(DATE_FORMAT) ?? null,
+      start: eventContext.start?.toJSON() ?? null,
+      end: eventContext.end?.toJSON() ?? null,
     };
   }
 

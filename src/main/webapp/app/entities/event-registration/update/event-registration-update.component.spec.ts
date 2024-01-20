@@ -9,6 +9,9 @@ import { of, Subject, from } from 'rxjs';
 import { EventRegistrationFormService } from './event-registration-form.service';
 import { EventRegistrationService } from '../service/event-registration.service';
 import { IEventRegistration } from '../event-registration.model';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { IEventContext } from 'app/entities/event-context/event-context.model';
 import { EventContextService } from 'app/entities/event-context/service/event-context.service';
 
@@ -20,6 +23,7 @@ describe('EventRegistration Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let eventRegistrationFormService: EventRegistrationFormService;
   let eventRegistrationService: EventRegistrationService;
+  let userService: UserService;
   let eventContextService: EventContextService;
 
   beforeEach(() => {
@@ -43,12 +47,35 @@ describe('EventRegistration Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     eventRegistrationFormService = TestBed.inject(EventRegistrationFormService);
     eventRegistrationService = TestBed.inject(EventRegistrationService);
+    userService = TestBed.inject(UserService);
     eventContextService = TestBed.inject(EventContextService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
+    it('Should call User query and add missing value', () => {
+      const eventRegistration: IEventRegistration = { id: 456 };
+      const eventCounterparty: IUser = { id: 14908 };
+      eventRegistration.eventCounterparty = eventCounterparty;
+
+      const userCollection: IUser[] = [{ id: 52689 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [eventCounterparty];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ eventRegistration });
+      comp.ngOnInit();
+
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
+      );
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should call EventContext query and add missing value', () => {
       const eventRegistration: IEventRegistration = { id: 456 };
       const eventContext: IEventContext = { id: 5075 };
@@ -73,12 +100,15 @@ describe('EventRegistration Management Update Component', () => {
 
     it('Should update editForm', () => {
       const eventRegistration: IEventRegistration = { id: 456 };
+      const eventCounterparty: IUser = { id: 73533 };
+      eventRegistration.eventCounterparty = eventCounterparty;
       const eventContext: IEventContext = { id: 3444 };
       eventRegistration.eventContext = eventContext;
 
       activatedRoute.data = of({ eventRegistration });
       comp.ngOnInit();
 
+      expect(comp.usersSharedCollection).toContain(eventCounterparty);
       expect(comp.eventContextsSharedCollection).toContain(eventContext);
       expect(comp.eventRegistration).toEqual(eventRegistration);
     });
@@ -153,6 +183,16 @@ describe('EventRegistration Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
     describe('compareEventContext', () => {
       it('Should forward to eventContextService', () => {
         const entity = { id: 123 };

@@ -20,6 +20,7 @@ type EventFormGroupContent = {
   id: FormControl<IEvent['id'] | NewEvent['id']>;
   name: FormControl<IEvent['name']>;
   eventStatus: FormControl<IEvent['eventStatus']>;
+  mainHost: FormControl<IEvent['mainHost']>;
 };
 
 export type EventFormGroup = FormGroup<EventFormGroupContent>;
@@ -43,6 +44,7 @@ export class EventFormService {
         validators: [Validators.required],
       }),
       eventStatus: new FormControl(eventRawValue.eventStatus),
+      mainHost: new FormControl(eventRawValue.mainHost),
     });
   }
 

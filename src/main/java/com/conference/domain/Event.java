@@ -35,9 +35,13 @@ public class Event implements Serializable {
     @Column(name = "event_status")
     private EventStatus eventStatus;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private User mainHost;
+
     @OneToMany(mappedBy = "event")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "eventContextRegistrations", "event" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
     private Set<EventContext> eventContexts = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -79,6 +83,19 @@ public class Event implements Serializable {
 
     public void setEventStatus(EventStatus eventStatus) {
         this.eventStatus = eventStatus;
+    }
+
+    public User getMainHost() {
+        return this.mainHost;
+    }
+
+    public void setMainHost(User user) {
+        this.mainHost = user;
+    }
+
+    public Event mainHost(User user) {
+        this.setMainHost(user);
+        return this;
     }
 
     public Set<EventContext> getEventContexts() {

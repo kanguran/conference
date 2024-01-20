@@ -62,6 +62,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="contextHost.id">
+            <div class="d-flex">
+              <span>Context Host</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="event.id">
             <div class="d-flex">
               <span>Event</span>
@@ -78,8 +84,11 @@
           </td>
           <td>{{ eventContext.name }}</td>
           <td>{{ eventContext.eventContextStatus }}</td>
-          <td>{{ eventContext.start | formatMediumDate }}</td>
-          <td>{{ eventContext.end | formatMediumDate }}</td>
+          <td>{{ eventContext.start | formatMediumDatetime }}</td>
+          <td>{{ eventContext.end | formatMediumDatetime }}</td>
+          <td>
+            {{ eventContext.contextHost?.id }}
+          </td>
           <td>
             <div *ngIf="eventContext.event">
               <a [routerLink]="['/event', eventContext.event.id, 'view']">{{ eventContext.event.id }}</a>

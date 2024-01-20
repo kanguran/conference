@@ -32,7 +32,7 @@ public class Room implements Serializable {
     @Column(name = "max_seats", nullable = false)
     private Integer maxSeats;
 
-    @JsonIgnoreProperties(value = { "eventContextRegistrations", "event" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private EventContext roomEventContext;

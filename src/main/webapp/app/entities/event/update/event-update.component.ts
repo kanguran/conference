@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import { EventFormService, EventFormGroup } from './event-form.service';
 import { IEvent } from '../event.model';
 import { EventService } from '../service/event.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { EventStatus } from 'app/entities/enumerations/event-status.model';
 
 @Component({
@@ -18,13 +20,18 @@ export class EventUpdateComponent implements OnInit {
   event: IEvent | null = null;
   eventStatusValues = Object.keys(EventStatus);
 
+  usersSharedCollection: IUser[] = [];
+
   editForm: EventFormGroup = this.eventFormService.createEventFormGroup();
 
   constructor(
     protected eventService: EventService,
     protected eventFormService: EventFormService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute
   ) {}
+
+  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ event }) => {
@@ -32,6 +39,8 @@ export class EventUpdateComponent implements OnInit {
       if (event) {
         this.updateForm(event);
       }
+
+      this.loadRelationshipsOptions();
     });
   }
 
@@ -71,5 +80,15 @@ export class EventUpdateComponent implements OnInit {
   protected updateForm(event: IEvent): void {
     this.event = event;
     this.eventFormService.resetForm(this.editForm, event);
+
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, event.mainHost);
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.userService
+      .query()
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.event?.mainHost)))
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 }

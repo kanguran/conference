@@ -11,8 +11,8 @@ import com.conference.domain.enumeration.EventContextStatus;
 import com.conference.repository.EventContextRepository;
 import com.conference.service.dto.EventContextDTO;
 import com.conference.service.mapper.EventContextMapper;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -40,11 +40,11 @@ class EventContextResourceIT {
     private static final EventContextStatus DEFAULT_EVENT_CONTEXT_STATUS = EventContextStatus.AVAILABLE;
     private static final EventContextStatus UPDATED_EVENT_CONTEXT_STATUS = EventContextStatus.FULLY_BOOKED;
 
-    private static final LocalDate DEFAULT_START = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_START = LocalDate.now(ZoneId.systemDefault());
+    private static final Instant DEFAULT_START = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_START = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final LocalDate DEFAULT_END = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_END = LocalDate.now(ZoneId.systemDefault());
+    private static final Instant DEFAULT_END = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_END = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String ENTITY_API_URL = "/api/event-contexts";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
