@@ -32,7 +32,7 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
+          <th scope="col" jhiSortBy="id" *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <div class="d-flex">
               <span>ID</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -61,14 +61,16 @@
       </thead>
       <tbody>
         <tr *ngFor="let event of events; trackBy: trackId" data-cy="entityTable">
-          <td>
+          <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a [routerLink]="['/event', event.id, 'view']">{{ event.id }}</a>
           </td>
           <td>{{ event.name }}</td>
           <td>{{ event.eventStatus }}</td>
           <td>
             <div *ngIf="event.mainHost">
-              <a [routerLink]="['/application-user', event.mainHost.id, 'view']">{{ event.mainHost.id }}</a>
+              <a [routerLink]="['/application-user', event.mainHost.id, 'view']"
+                >{{ event.mainHost.appUser?.firstName }} {{ event.mainHost.appUser?.lastName }}</a
+              >
             </div>
           </td>
           <td class="text-end">

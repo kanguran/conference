@@ -31,8 +31,8 @@ describe('User Service', () => {
       });
 
       const req = httpMock.expectOne({ method: 'GET' });
-      req.flush([new User(123, 'user')]);
-      expect(expectedResult).toEqual([{ id: 123, login: 'user' }]);
+      req.flush([new User(123, 'user', 'user_first_name', 'user_last_name')]);
+      expect(expectedResult).toEqual([{ id: 123, login: 'user', firstName: 'user_first_name', lastName: 'user_last_name' }]);
     });
 
     it('should propagate not found response', () => {

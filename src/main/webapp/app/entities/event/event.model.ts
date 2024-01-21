@@ -5,7 +5,7 @@ export interface IEvent {
   id: number;
   name?: string | null;
   eventStatus?: EventStatus | null;
-  mainHost?: Pick<IApplicationUser, 'id'> | null;
+  mainHost?: Pick<IApplicationUser, 'id' | 'appUser'> | null;
 }
 
 export type NewEvent = Omit<IEvent, 'id'> & { id: null };

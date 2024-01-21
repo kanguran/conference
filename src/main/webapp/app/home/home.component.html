@@ -22,6 +22,11 @@
         >
       </div>
 
+      <div *ngIf="account">
+        <a [routerLink]="['/event']">Conference List </a>
+      </div>
+      <br />
+
       <div class="alert alert-warning" *ngSwitchCase="false">
         <span>You don't have an account yet?</span>&nbsp;
         <a class="alert-link" routerLink="account/register">Register a new account</a>
