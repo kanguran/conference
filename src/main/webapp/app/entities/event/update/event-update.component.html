@@ -6,9 +6,11 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+          <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -39,7 +41,7 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="applicationUserOption" *ngFor="let applicationUserOption of applicationUsersSharedCollection">
-              {{ applicationUserOption.id }}
+              {{ applicationUserOption.appUser?.firstName }} {{ applicationUserOption.appUser?.lastName }}
             </option>
           </select>
         </div>

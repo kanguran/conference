@@ -654,7 +654,7 @@
         },
         {
           "file": "src/main/java/com/conference/service/mapper/UserMapper.java",
-          "hash": "17650241806567607625"
+          "hash": "11746583256056371049"
         },
         {
           "file": "src/main/java/com/conference/service/mapper/package-info.java",
@@ -2393,7 +2393,7 @@
         },
         {
           "file": "src/main/webapp/app/entities/event-registration/detail/event-registration-detail.component.html",
-          "hash": "14888427977624349438"
+          "hash": "15188883621266416068"
         },
         {
           "file": "src/main/webapp/app/entities/event-registration/detail/event-registration-detail.component.spec.ts",
@@ -2429,7 +2429,7 @@
         },
         {
           "file": "src/main/webapp/app/entities/event-registration/list/event-registration.component.html",
-          "hash": "17718781614134708550"
+          "hash": "17420028990380508946"
         },
         {
           "file": "src/main/webapp/app/entities/event-registration/list/event-registration.component.spec.ts",
@@ -2515,7 +2515,7 @@
         },
         {
           "file": "src/main/webapp/app/entities/event-registration/update/event-registration-update.component.html",
-          "hash": "1749434397216620834"
+          "hash": "7963478977789433399"
         },
         {
           "file": "src/main/webapp/app/entities/event-registration/update/event-registration-update.component.spec.ts",
@@ -2899,7 +2899,7 @@
         },
         {
           "file": "src/main/webapp/app/home/home.component.html",
-          "hash": "18263263360301063067"
+          "hash": "5048428225194132429"
         },
         {
           "file": "src/main/webapp/app/home/home.component.scss",
@@ -2959,7 +2959,7 @@
         },
         {
           "file": "src/main/webapp/app/layouts/footer/footer.component.html",
-          "hash": "5137293787680532688"
+          "hash": "257982396930449835"
         },
         {
           "file": "src/main/webapp/app/layouts/footer/footer.component.ts",

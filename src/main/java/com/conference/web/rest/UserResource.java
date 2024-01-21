@@ -7,6 +7,7 @@ import com.conference.security.AuthoritiesConstants;
 import com.conference.service.MailService;
 import com.conference.service.UserService;
 import com.conference.service.dto.AdminUserDTO;
+import com.conference.service.dto.UserDTO;
 import com.conference.web.rest.errors.BadRequestAlertException;
 import com.conference.web.rest.errors.EmailAlreadyUsedException;
 import com.conference.web.rest.errors.LoginAlreadyUsedException;
@@ -174,6 +175,13 @@ public class UserResource {
         final Page<AdminUserDTO> page = userService.getAllManagedUsers(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/:{id}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
+        log.debug("REST request to get User : {}", id);
+        UserDTO userDTO = userService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(userDTO));
     }
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {
