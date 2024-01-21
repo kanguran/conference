@@ -10,8 +10,8 @@
       <jhi-alert></jhi-alert>
 
       <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
-        <dd>
+        <dt *jhiHasAnyAuthority="'ROLE_ADMIN'"><span>ID</span></dt>
+        <dd *jhiHasAnyAuthority="'ROLE_ADMIN'">
           <span>{{ event.id }}</span>
         </dd>
         <dt><span>Name</span></dt>
@@ -25,7 +25,9 @@
         <dt><span>Main Host</span></dt>
         <dd>
           <div *ngIf="event.mainHost">
-            <a [routerLink]="['/application-user', event.mainHost.id, 'view']">{{ event.mainHost.id }}</a>
+            <a [routerLink]="['/application-user', event.mainHost.id, 'view']"
+              >{{ event.mainHost.appUser?.firstName }} {{ event.mainHost.appUser?.lastName }}</a
+            >
           </div>
         </dd>
       </dl>

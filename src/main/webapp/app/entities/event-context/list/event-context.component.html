@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="EventContextHeading">
-    <span>Event Contexts</span>
+    <span>Conference Events</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -32,7 +32,7 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
+          <th scope="col" jhiSortBy="id" *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <div class="d-flex">
               <span>ID</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -79,7 +79,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let eventContext of eventContexts; trackBy: trackId" data-cy="entityTable">
-          <td>
+          <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a [routerLink]="['/event-context', eventContext.id, 'view']">{{ eventContext.id }}</a>
           </td>
           <td>{{ eventContext.name }}</td>
@@ -88,12 +88,14 @@
           <td>{{ eventContext.end | formatMediumDatetime }}</td>
           <td>
             <div *ngIf="eventContext.contextHost">
-              <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']">{{ eventContext.contextHost.id }}</a>
+              <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']">
+                {{ eventContext.contextHost.appUser?.firstName }} {{ eventContext.contextHost.appUser?.lastName }}</a
+              >
             </div>
           </td>
           <td>
             <div *ngIf="eventContext.event">
-              <a [routerLink]="['/event', eventContext.event.id, 'view']">{{ eventContext.event.id }}</a>
+              <a [routerLink]="['/event', eventContext.event.id, 'view']">{{ eventContext.event.name }}</a>
             </div>
           </td>
           <td class="text-end">
@@ -118,7 +120,13 @@
                 <span class="d-none d-md-inline">Edit</span>
               </button>
 
-              <button type="submit" (click)="delete(eventContext)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button
+                type="submit"
+                (click)="delete(eventContext)"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+                *jhiHasAnyAuthority="'ROLE_ADMIN'"
+              >
                 <fa-icon icon="times"></fa-icon>
                 <span class="d-none d-md-inline">Delete</span>
               </button>

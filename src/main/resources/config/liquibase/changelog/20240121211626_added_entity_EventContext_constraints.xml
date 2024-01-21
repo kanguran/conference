@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="20240121211628-1" author="akangur">
+        <dropUniqueConstraint  catalogName="public"
+                               constraintName="ux_event_context__context_host_id"
+                               schemaName="public"
+                               tableName="event_context"
+                               uniqueColumns="main_host_id"/>
+    </changeSet>
+    <changeSet id="20240121211628-2" author="akangur">
+        <dropForeignKeyConstraint  baseTableCatalogName="public"
+                                   baseTableName="event_context"
+                                   baseTableSchemaName="public"
+                                   constraintName="fk_event_context__context_host_id"/>
+    </changeSet>
+    <changeSet id="20240121211628-3" author="akangur">
+        <preConditions onFail="MARK_RAN">
+            <indexExists indexName="ux_event_context__context_host_id_index_5"/>
+        </preConditions>
+        <dropIndex indexName="ux_event_context__context_host_id_index_5"
+                   schemaName="public"
+                   tableName="event_context"/>
+    </changeSet>
+
+
+</databaseChangeLog>
