@@ -32,7 +32,7 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
+          <th scope="col" jhiSortBy="id" *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <div class="d-flex">
               <span>ID</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -40,7 +40,7 @@
           </th>
           <th scope="col" jhiSortBy="name">
             <div class="d-flex">
-              <span>Name</span>
+              <span>Registration description</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -67,23 +67,25 @@
       </thead>
       <tbody>
         <tr *ngFor="let eventRegistration of eventRegistrations; trackBy: trackId" data-cy="entityTable">
-          <td>
+          <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a [routerLink]="['/event-registration', eventRegistration.id, 'view']">{{ eventRegistration.id }}</a>
           </td>
           <td>{{ eventRegistration.name }}</td>
           <td>{{ eventRegistration.eventRegistrationStatus }}</td>
           <td>
             <div *ngIf="eventRegistration.eventCounterparty">
-              <a [routerLink]="['/application-user', eventRegistration.eventCounterparty.id, 'view']">{{
-                eventRegistration.eventCounterparty.id
-              }}</a>
+              <a [routerLink]="['/application-user', eventRegistration.eventCounterparty.id, 'view']">
+                {{ eventRegistration.eventCounterparty.appUser?.firstName }}
+                {{ eventRegistration.eventCounterparty.appUser?.lastName }}
+              </a>
             </div>
           </td>
           <td>
             <div *ngIf="eventRegistration.eventContext">
-              <a [routerLink]="['/event-context', eventRegistration.eventContext.id, 'view']">{{ eventRegistration.eventContext.id }}</a>
+              <a [routerLink]="['/event-context', eventRegistration.eventContext.id, 'view']">{{ eventRegistration.eventContext.name }}</a>
             </div>
           </td>
+
           <td class="text-end">
             <div class="btn-group">
               <button
@@ -106,7 +108,13 @@
                 <span class="d-none d-md-inline">Edit</span>
               </button>
 
-              <button type="submit" (click)="delete(eventRegistration)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button
+                type="submit"
+                (click)="delete(eventRegistration)"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+                *jhiHasAnyAuthority="'ROLE_ADMIN'"
+              >
                 <fa-icon icon="times"></fa-icon>
                 <span class="d-none d-md-inline">Delete</span>
               </button>

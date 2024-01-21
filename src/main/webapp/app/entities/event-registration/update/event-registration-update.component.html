@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-event-registration-heading" data-cy="EventRegistrationCreateUpdateHeading">Create or edit a Event Registration</h2>
+      <h2 id="jhi-event-registration-heading" data-cy="EventRegistrationCreateUpdateHeading">Create or edit a Conference Registration</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -14,7 +14,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_name">Name</label>
+          <label class="form-label" for="field_name">Registration description</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
           <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
@@ -30,9 +30,8 @@
             id="field_eventRegistrationStatus"
             data-cy="eventRegistrationStatus"
           >
-            <option [ngValue]="null"></option>
-            <option *ngFor="let eventRegistrationStatus of eventRegistrationStatusValues" [value]="eventRegistrationStatus">
-              eventRegistrationStatus
+            <option *ngFor="let eventRegistrationStatusVal of eventRegistrationStatusValues" [value]="eventRegistrationStatusVal">
+              {{ eventRegistrationStatusVal }}
             </option>
           </select>
         </div>
@@ -49,7 +48,7 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="applicationUserOption" *ngFor="let applicationUserOption of applicationUsersSharedCollection">
-              {{ applicationUserOption.id }}
+              {{ applicationUserOption.appUser?.firstName }} {{ applicationUserOption.appUser?.lastName }}
             </option>
           </select>
         </div>
@@ -66,7 +65,7 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="eventContextOption" *ngFor="let eventContextOption of eventContextsSharedCollection">
-              {{ eventContextOption.id }}
+              {{ eventContextOption.name }}
             </option>
           </select>
         </div>
