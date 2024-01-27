@@ -6,11 +6,9 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
-          <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-            <label class="form-label" for="field_id">ID</label>
-            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-          </div>
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
         <div class="row mb-3">
@@ -18,6 +16,17 @@
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
           <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventType">Event Type</label>
+          <select class="form-control" name="eventType" formControlName="eventType" id="field_eventType" data-cy="eventType">
+            <option [ngValue]="null"></option>
+            <option *ngFor="let eventType of eventTypeValues" [value]="eventType">{{ eventType }}</option>
+          </select>
+          <div *ngIf="editForm.get('eventType')!.invalid && (editForm.get('eventType')!.dirty || editForm.get('eventType')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('eventType')?.errors?.required"> This field is required. </small>
           </div>
         </div>
 

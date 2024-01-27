@@ -20,10 +20,11 @@ describe('EventContext Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            name: expect.any(Object),
+            description: expect.any(Object),
             eventContextStatus: expect.any(Object),
             start: expect.any(Object),
             end: expect.any(Object),
+            eventContextRoom: expect.any(Object),
             contextHost: expect.any(Object),
             event: expect.any(Object),
           })
@@ -36,10 +37,11 @@ describe('EventContext Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            name: expect.any(Object),
+            description: expect.any(Object),
             eventContextStatus: expect.any(Object),
             start: expect.any(Object),
             end: expect.any(Object),
+            eventContextRoom: expect.any(Object),
             contextHost: expect.any(Object),
             event: expect.any(Object),
           })

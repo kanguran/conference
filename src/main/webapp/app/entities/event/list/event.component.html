@@ -44,6 +44,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="eventType">
+            <div class="d-flex">
+              <span>Event Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="eventStatus">
             <div class="d-flex">
               <span>Event Status</span>
@@ -65,6 +71,7 @@
             <a [routerLink]="['/event', event.id, 'view']">{{ event.id }}</a>
           </td>
           <td>{{ event.name }}</td>
+          <td>{{ event.eventType }}</td>
           <td>{{ event.eventStatus }}</td>
           <td>
             <div *ngIf="event.mainHost">

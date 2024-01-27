@@ -14,10 +14,17 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_name">Registration description</label>
-          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
-          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
+          <label class="form-label" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('description')?.errors?.required"> This field is required. </small>
           </div>
         </div>
 
@@ -34,6 +41,16 @@
               {{ eventRegistrationStatusVal }}
             </option>
           </select>
+          <div
+            *ngIf="
+              editForm.get('eventRegistrationStatus')!.invalid &&
+              (editForm.get('eventRegistrationStatus')!.dirty || editForm.get('eventRegistrationStatus')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('eventRegistrationStatus')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -65,7 +82,7 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="eventContextOption" *ngFor="let eventContextOption of eventContextsSharedCollection">
-              {{ eventContextOption.name }}
+              {{ eventContextOption.description }}
             </option>
           </select>
         </div>

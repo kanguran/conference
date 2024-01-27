@@ -22,12 +22,6 @@
         <dd>
           <span>{{ room.maxSeats }}</span>
         </dd>
-        <dt><span>Room Event Context</span></dt>
-        <dd>
-          <div *ngIf="room.roomEventContext">
-            <a [routerLink]="['/event-context', room.roomEventContext.id, 'view']">{{ room.roomEventContext.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -1,6 +1,5 @@
 package com.conference.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -31,11 +30,6 @@ public class Room implements Serializable {
     @NotNull
     @Column(name = "max_seats", nullable = false)
     private Integer maxSeats;
-
-    @JsonIgnoreProperties(value = { "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
-    @OneToOne
-    @JoinColumn(unique = true)
-    private EventContext roomEventContext;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -76,19 +70,6 @@ public class Room implements Serializable {
 
     public void setMaxSeats(Integer maxSeats) {
         this.maxSeats = maxSeats;
-    }
-
-    public EventContext getRoomEventContext() {
-        return this.roomEventContext;
-    }
-
-    public void setRoomEventContext(EventContext eventContext) {
-        this.roomEventContext = eventContext;
-    }
-
-    public Room roomEventContext(EventContext eventContext) {
-        this.setRoomEventContext(eventContext);
-        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

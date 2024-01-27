@@ -1,11 +1,11 @@
-id;name;event_status
-1;Tuna integrated deposit;PUBLISHED
-2;Technician bluetooth;PUBLISHED
-3;deposit Awesome Fresh;CANCELLED
-4;out-of-the-box Shoes Oval;PUBLISHED
-5;Tools;UNPUBLISHED
-6;Bedfordshire strategic;PUBLISHED
-7;contingency Corporate connecting;CANCELLED
-8;transmitting;UNPUBLISHED
-9;hack portals Ergonomic;PUBLISHED
-10;visionary Auto;UNPUBLISHED
+id;name;event_type;event_status
+1;Tuna integrated deposit;CONFERENCE;PUBLISHED
+2;BEAC payment THX;CONFERENCE;UNPUBLISHED
+3;back-end Account;CONFERENCE;CANCELLED
+4;Shoes;CONFERENCE;PUBLISHED
+5;Estonia monetize;CONFERENCE;PUBLISHED
+6;copying;CONFERENCE;PUBLISHED
+7;contingency Corporate connecting;CONFERENCE;UNPUBLISHED
+8;indexing Accounts Administrator;CONFERENCE;UNPUBLISHED
+9;calculate;CONFERENCE;CANCELLED
+10;Auto empowering discrete;CONFERENCE;CANCELLED

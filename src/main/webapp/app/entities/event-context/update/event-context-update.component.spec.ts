@@ -9,6 +9,8 @@ import { of, Subject, from } from 'rxjs';
 import { EventContextFormService } from './event-context-form.service';
 import { EventContextService } from '../service/event-context.service';
 import { IEventContext } from '../event-context.model';
+import { IRoom } from 'app/entities/room/room.model';
+import { RoomService } from 'app/entities/room/service/room.service';
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
 import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
 import { IEvent } from 'app/entities/event/event.model';
@@ -22,6 +24,7 @@ describe('EventContext Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let eventContextFormService: EventContextFormService;
   let eventContextService: EventContextService;
+  let roomService: RoomService;
   let applicationUserService: ApplicationUserService;
   let eventService: EventService;
 
@@ -46,6 +49,7 @@ describe('EventContext Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     eventContextFormService = TestBed.inject(EventContextFormService);
     eventContextService = TestBed.inject(EventContextService);
+    roomService = TestBed.inject(RoomService);
     applicationUserService = TestBed.inject(ApplicationUserService);
     eventService = TestBed.inject(EventService);
 
@@ -53,6 +57,28 @@ describe('EventContext Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
+    it('Should call Room query and add missing value', () => {
+      const eventContext: IEventContext = { id: 456 };
+      const eventContextRoom: IRoom = { id: 60785 };
+      eventContext.eventContextRoom = eventContextRoom;
+
+      const roomCollection: IRoom[] = [{ id: 16843 }];
+      jest.spyOn(roomService, 'query').mockReturnValue(of(new HttpResponse({ body: roomCollection })));
+      const additionalRooms = [eventContextRoom];
+      const expectedCollection: IRoom[] = [...additionalRooms, ...roomCollection];
+      jest.spyOn(roomService, 'addRoomToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ eventContext });
+      comp.ngOnInit();
+
+      expect(roomService.query).toHaveBeenCalled();
+      expect(roomService.addRoomToCollectionIfMissing).toHaveBeenCalledWith(
+        roomCollection,
+        ...additionalRooms.map(expect.objectContaining)
+      );
+      expect(comp.roomsSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should call ApplicationUser query and add missing value', () => {
       const eventContext: IEventContext = { id: 456 };
       const contextHost: IApplicationUser = { id: 27615 };
@@ -99,6 +125,8 @@ describe('EventContext Management Update Component', () => {
 
     it('Should update editForm', () => {
       const eventContext: IEventContext = { id: 456 };
+      const eventContextRoom: IRoom = { id: 87486 };
+      eventContext.eventContextRoom = eventContextRoom;
       const contextHost: IApplicationUser = { id: 28317 };
       eventContext.contextHost = contextHost;
       const event: IEvent = { id: 79512 };
@@ -107,6 +135,7 @@ describe('EventContext Management Update Component', () => {
       activatedRoute.data = of({ eventContext });
       comp.ngOnInit();
 
+      expect(comp.roomsSharedCollection).toContain(eventContextRoom);
       expect(comp.applicationUsersSharedCollection).toContain(contextHost);
       expect(comp.eventsSharedCollection).toContain(event);
       expect(comp.eventContext).toEqual(eventContext);
@@ -182,6 +211,16 @@ describe('EventContext Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
+    describe('compareRoom', () => {
+      it('Should forward to roomService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(roomService, 'compareRoom');
+        comp.compareRoom(entity, entity2);
+        expect(roomService.compareRoom).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
     describe('compareApplicationUser', () => {
       it('Should forward to applicationUserService', () => {
         const entity = { id: 123 };

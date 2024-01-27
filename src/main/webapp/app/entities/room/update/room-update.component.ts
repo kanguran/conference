@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import { RoomFormService, RoomFormGroup } from './room-form.service';
 import { IRoom } from '../room.model';
 import { RoomService } from '../service/room.service';
-import { IEventContext } from 'app/entities/event-context/event-context.model';
-import { EventContextService } from 'app/entities/event-context/service/event-context.service';
 
 @Component({
   selector: 'jhi-room-update',
@@ -18,19 +16,9 @@ export class RoomUpdateComponent implements OnInit {
   isSaving = false;
   room: IRoom | null = null;
 
-  eventContextsSharedCollection: IEventContext[] = [];
-
   editForm: RoomFormGroup = this.roomFormService.createRoomFormGroup();
 
-  constructor(
-    protected roomService: RoomService,
-    protected roomFormService: RoomFormService,
-    protected eventContextService: EventContextService,
-    protected activatedRoute: ActivatedRoute
-  ) {}
-
-  compareEventContext = (o1: IEventContext | null, o2: IEventContext | null): boolean =>
-    this.eventContextService.compareEventContext(o1, o2);
+  constructor(protected roomService: RoomService, protected roomFormService: RoomFormService, protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ room }) => {
@@ -38,8 +26,6 @@ export class RoomUpdateComponent implements OnInit {
       if (room) {
         this.updateForm(room);
       }
-
-      this.loadRelationshipsOptions();
     });
   }
 
@@ -79,22 +65,5 @@ export class RoomUpdateComponent implements OnInit {
   protected updateForm(room: IRoom): void {
     this.room = room;
     this.roomFormService.resetForm(this.editForm, room);
-
-    this.eventContextsSharedCollection = this.eventContextService.addEventContextToCollectionIfMissing<IEventContext>(
-      this.eventContextsSharedCollection,
-      room.roomEventContext
-    );
-  }
-
-  protected loadRelationshipsOptions(): void {
-    this.eventContextService
-      .query()
-      .pipe(map((res: HttpResponse<IEventContext[]>) => res.body ?? []))
-      .pipe(
-        map((eventContexts: IEventContext[]) =>
-          this.eventContextService.addEventContextToCollectionIfMissing<IEventContext>(eventContexts, this.room?.roomEventContext)
-        )
-      )
-      .subscribe((eventContexts: IEventContext[]) => (this.eventContextsSharedCollection = eventContexts));
   }
 }

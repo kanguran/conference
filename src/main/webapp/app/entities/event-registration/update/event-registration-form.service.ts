@@ -19,7 +19,7 @@ type EventRegistrationFormDefaults = Pick<NewEventRegistration, 'id'>;
 
 type EventRegistrationFormGroupContent = {
   id: FormControl<IEventRegistration['id'] | NewEventRegistration['id']>;
-  name: FormControl<IEventRegistration['name']>;
+  description: FormControl<IEventRegistration['description']>;
   eventRegistrationStatus: FormControl<IEventRegistration['eventRegistrationStatus']>;
   eventCounterparty: FormControl<IEventRegistration['eventCounterparty']>;
   eventContext: FormControl<IEventRegistration['eventContext']>;
@@ -44,9 +44,7 @@ export class EventRegistrationFormService {
           validators: [Validators.required],
         }
       ),
-      name: new FormControl(eventRegistrationRawValue.name, {
-        validators: [Validators.required],
-      }),
+      description: new FormControl(eventRegistrationRawValue.description),
       eventRegistrationStatus: new FormControl(eventRegistrationRawValue.eventRegistrationStatus, {
         validators: [Validators.required],
       }),

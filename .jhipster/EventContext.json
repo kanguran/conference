@@ -6,22 +6,25 @@
   "entityTableName": "event_context",
   "fields": [
     {
-      "fieldName": "name",
+      "fieldName": "description",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "eventContextStatus",
       "fieldType": "EventContextStatus",
+      "fieldValidateRules": ["required"],
       "fieldValues": "AVAILABLE,FULLY_BOOKED,CANCELLED"
     },
     {
       "fieldName": "start",
-      "fieldType": "Instant"
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "end",
-      "fieldType": "Instant"
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
     }
   ],
   "fluentMethods": true,
@@ -30,6 +33,12 @@
   "pagination": "pagination",
   "readOnly": false,
   "relationships": [
+    {
+      "otherEntityName": "room",
+      "ownerSide": true,
+      "relationshipName": "eventContextRoom",
+      "relationshipType": "one-to-one"
+    },
     {
       "otherEntityName": "applicationUser",
       "ownerSide": true,

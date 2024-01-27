@@ -14,10 +14,17 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_name">Name</label>
-          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
-          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
+          <label class="form-label" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('description')?.errors?.required"> This field is required. </small>
           </div>
         </div>
 
@@ -59,6 +66,12 @@
               placeholder="YYYY-MM-DD HH:mm"
             />
           </div>
+          <div *ngIf="editForm.get('start')!.invalid && (editForm.get('start')!.dirty || editForm.get('start')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('start')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('start')?.errors?.datetimelocal">
+              This field should be a date and time.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -73,6 +86,37 @@
               formControlName="end"
               placeholder="YYYY-MM-DD HH:mm"
             />
+          </div>
+          <div *ngIf="editForm.get('end')!.invalid && (editForm.get('end')!.dirty || editForm.get('end')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('end')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('end')?.errors?.datetimelocal">
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_eventContextRoom">Event Context Room</label>
+          <select
+            class="form-control"
+            id="field_eventContextRoom"
+            data-cy="eventContextRoom"
+            name="eventContextRoom"
+            formControlName="eventContextRoom"
+            [compareWith]="compareRoom"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="roomOption" *ngFor="let roomOption of roomsSharedCollection">{{ roomOption.name }}</option>
+          </select>
+          <div
+            *ngIf="
+              editForm.get('eventContextRoom')!.invalid &&
+              (editForm.get('eventContextRoom')!.dirty || editForm.get('eventContextRoom')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('eventContextRoom')?.errors?.required">
+              This field is required.
+            </small>
           </div>
         </div>
 

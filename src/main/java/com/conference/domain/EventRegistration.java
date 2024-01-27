@@ -25,12 +25,12 @@ public class EventRegistration implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "description")
+    private String description;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "event_registration_status")
+    @Column(name = "event_registration_status", nullable = false)
     private EventRegistrationStatus eventRegistrationStatus;
 
     @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
@@ -39,7 +39,7 @@ public class EventRegistration implements Serializable {
     private ApplicationUser eventCounterparty;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "eventContextRoom", "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
     private EventContext eventContext;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -57,17 +57,17 @@ public class EventRegistration implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public String getDescription() {
+        return this.description;
     }
 
-    public EventRegistration name(String name) {
-        this.setName(name);
+    public EventRegistration description(String description) {
+        this.setDescription(description);
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public EventRegistrationStatus getEventRegistrationStatus() {
@@ -133,7 +133,7 @@ public class EventRegistration implements Serializable {
     public String toString() {
         return "EventRegistration{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
+            ", description='" + getDescription() + "'" +
             ", eventRegistrationStatus='" + getEventRegistrationStatus() + "'" +
             "}";
     }

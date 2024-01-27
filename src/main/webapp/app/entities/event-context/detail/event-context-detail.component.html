@@ -14,9 +14,9 @@
         <dd>
           <span>{{ eventContext.id }}</span>
         </dd>
-        <dt><span>Name</span></dt>
+        <dt><span>Description</span></dt>
         <dd>
-          <span>{{ eventContext.name }}</span>
+          <span>{{ eventContext.description }}</span>
         </dd>
         <dt><span>Event Context Status</span></dt>
         <dd>
@@ -29,6 +29,12 @@
         <dt><span>End</span></dt>
         <dd>
           <span>{{ eventContext.end | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Event Context Room</span></dt>
+        <dd>
+          <div *ngIf="eventContext.eventContextRoom">
+            <a [routerLink]="['/room', eventContext.eventContextRoom.id, 'view']">{{ eventContext.eventContextRoom.id }}</a>
+          </div>
         </dd>
         <dt><span>Context Host</span></dt>
         <dd>

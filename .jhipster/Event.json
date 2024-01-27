@@ -11,8 +11,15 @@
       "fieldValidateRules": ["required"]
     },
     {
+      "fieldName": "eventType",
+      "fieldType": "EventType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "CONFERENCE"
+    },
+    {
       "fieldName": "eventStatus",
       "fieldType": "EventStatus",
+      "fieldValidateRules": ["required"],
       "fieldValues": "UNPUBLISHED,PUBLISHED,CANCELLED"
     }
   ],

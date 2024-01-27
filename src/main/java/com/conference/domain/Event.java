@@ -1,6 +1,7 @@
 package com.conference.domain;
 
 import com.conference.domain.enumeration.EventStatus;
+import com.conference.domain.enumeration.EventType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -31,8 +32,14 @@ public class Event implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "event_status")
+    @Column(name = "event_type", nullable = false)
+    private EventType eventType;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "event_status", nullable = false)
     private EventStatus eventStatus;
 
     @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
@@ -42,7 +49,7 @@ public class Event implements Serializable {
 
     @OneToMany(mappedBy = "event")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "eventContextRoom", "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
     private Set<EventContext> eventContexts = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -71,6 +78,19 @@ public class Event implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public EventType getEventType() {
+        return this.eventType;
+    }
+
+    public Event eventType(EventType eventType) {
+        this.setEventType(eventType);
+        return this;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 
     public EventStatus getEventStatus() {
@@ -155,6 +175,7 @@ public class Event implements Serializable {
         return "Event{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", eventType='" + getEventType() + "'" +
             ", eventStatus='" + getEventStatus() + "'" +
             "}";
     }

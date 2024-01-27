@@ -15,13 +15,18 @@ public class EventContextDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private String name;
+    private String description;
 
+    @NotNull
     private EventContextStatus eventContextStatus;
 
+    @NotNull
     private Instant start;
 
+    @NotNull
     private Instant end;
+
+    private RoomDTO eventContextRoom;
 
     private ApplicationUserDTO contextHost;
 
@@ -35,12 +40,12 @@ public class EventContextDTO implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public EventContextStatus getEventContextStatus() {
@@ -65,6 +70,14 @@ public class EventContextDTO implements Serializable {
 
     public void setEnd(Instant end) {
         this.end = end;
+    }
+
+    public RoomDTO getEventContextRoom() {
+        return eventContextRoom;
+    }
+
+    public void setEventContextRoom(RoomDTO eventContextRoom) {
+        this.eventContextRoom = eventContextRoom;
     }
 
     public ApplicationUserDTO getContextHost() {
@@ -109,10 +122,11 @@ public class EventContextDTO implements Serializable {
     public String toString() {
         return "EventContextDTO{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
+            ", description='" + getDescription() + "'" +
             ", eventContextStatus='" + getEventContextStatus() + "'" +
             ", start='" + getStart() + "'" +
             ", end='" + getEnd() + "'" +
+            ", eventContextRoom=" + getEventContextRoom() +
             ", contextHost=" + getContextHost() +
             ", event=" + getEvent() +
             "}";

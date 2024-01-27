@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.conference.IntegrationTest;
 import com.conference.domain.Event;
 import com.conference.domain.enumeration.EventStatus;
+import com.conference.domain.enumeration.EventType;
 import com.conference.repository.EventRepository;
 import com.conference.service.dto.EventDTO;
 import com.conference.service.mapper.EventMapper;
@@ -34,6 +35,9 @@ class EventResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final EventType DEFAULT_EVENT_TYPE = EventType.CONFERENCE;
+    private static final EventType UPDATED_EVENT_TYPE = EventType.CONFERENCE;
 
     private static final EventStatus DEFAULT_EVENT_STATUS = EventStatus.UNPUBLISHED;
     private static final EventStatus UPDATED_EVENT_STATUS = EventStatus.PUBLISHED;
@@ -65,7 +69,7 @@ class EventResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Event createEntity(EntityManager em) {
-        Event event = new Event().name(DEFAULT_NAME).eventStatus(DEFAULT_EVENT_STATUS);
+        Event event = new Event().name(DEFAULT_NAME).eventType(DEFAULT_EVENT_TYPE).eventStatus(DEFAULT_EVENT_STATUS);
         return event;
     }
 
@@ -76,7 +80,7 @@ class EventResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Event createUpdatedEntity(EntityManager em) {
-        Event event = new Event().name(UPDATED_NAME).eventStatus(UPDATED_EVENT_STATUS);
+        Event event = new Event().name(UPDATED_NAME).eventType(UPDATED_EVENT_TYPE).eventStatus(UPDATED_EVENT_STATUS);
         return event;
     }
 
@@ -100,6 +104,7 @@ class EventResourceIT {
         assertThat(eventList).hasSize(databaseSizeBeforeCreate + 1);
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testEvent.getEventType()).isEqualTo(DEFAULT_EVENT_TYPE);
         assertThat(testEvent.getEventStatus()).isEqualTo(DEFAULT_EVENT_STATUS);
     }
 
@@ -142,6 +147,42 @@ class EventResourceIT {
 
     @Test
     @Transactional
+    void checkEventTypeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = eventRepository.findAll().size();
+        // set the field null
+        event.setEventType(null);
+
+        // Create the Event, which fails.
+        EventDTO eventDTO = eventMapper.toDto(event);
+
+        restEventMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Event> eventList = eventRepository.findAll();
+        assertThat(eventList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkEventStatusIsRequired() throws Exception {
+        int databaseSizeBeforeTest = eventRepository.findAll().size();
+        // set the field null
+        event.setEventStatus(null);
+
+        // Create the Event, which fails.
+        EventDTO eventDTO = eventMapper.toDto(event);
+
+        restEventMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Event> eventList = eventRepository.findAll();
+        assertThat(eventList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllEvents() throws Exception {
         // Initialize the database
         eventRepository.saveAndFlush(event);
@@ -153,6 +194,7 @@ class EventResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(event.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].eventType").value(hasItem(DEFAULT_EVENT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].eventStatus").value(hasItem(DEFAULT_EVENT_STATUS.toString())));
     }
 
@@ -169,6 +211,7 @@ class EventResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(event.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.eventType").value(DEFAULT_EVENT_TYPE.toString()))
             .andExpect(jsonPath("$.eventStatus").value(DEFAULT_EVENT_STATUS.toString()));
     }
 
@@ -191,7 +234,7 @@ class EventResourceIT {
         Event updatedEvent = eventRepository.findById(event.getId()).get();
         // Disconnect from session so that the updates on updatedEvent are not directly saved in db
         em.detach(updatedEvent);
-        updatedEvent.name(UPDATED_NAME).eventStatus(UPDATED_EVENT_STATUS);
+        updatedEvent.name(UPDATED_NAME).eventType(UPDATED_EVENT_TYPE).eventStatus(UPDATED_EVENT_STATUS);
         EventDTO eventDTO = eventMapper.toDto(updatedEvent);
 
         restEventMockMvc
@@ -207,6 +250,7 @@ class EventResourceIT {
         assertThat(eventList).hasSize(databaseSizeBeforeUpdate);
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testEvent.getEventType()).isEqualTo(UPDATED_EVENT_TYPE);
         assertThat(testEvent.getEventStatus()).isEqualTo(UPDATED_EVENT_STATUS);
     }
 
@@ -287,7 +331,7 @@ class EventResourceIT {
         Event partialUpdatedEvent = new Event();
         partialUpdatedEvent.setId(event.getId());
 
-        partialUpdatedEvent.eventStatus(UPDATED_EVENT_STATUS);
+        partialUpdatedEvent.eventType(UPDATED_EVENT_TYPE);
 
         restEventMockMvc
             .perform(
@@ -302,7 +346,8 @@ class EventResourceIT {
         assertThat(eventList).hasSize(databaseSizeBeforeUpdate);
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testEvent.getEventStatus()).isEqualTo(UPDATED_EVENT_STATUS);
+        assertThat(testEvent.getEventType()).isEqualTo(UPDATED_EVENT_TYPE);
+        assertThat(testEvent.getEventStatus()).isEqualTo(DEFAULT_EVENT_STATUS);
     }
 
     @Test
@@ -317,7 +362,7 @@ class EventResourceIT {
         Event partialUpdatedEvent = new Event();
         partialUpdatedEvent.setId(event.getId());
 
-        partialUpdatedEvent.name(UPDATED_NAME).eventStatus(UPDATED_EVENT_STATUS);
+        partialUpdatedEvent.name(UPDATED_NAME).eventType(UPDATED_EVENT_TYPE).eventStatus(UPDATED_EVENT_STATUS);
 
         restEventMockMvc
             .perform(
@@ -332,6 +377,7 @@ class EventResourceIT {
         assertThat(eventList).hasSize(databaseSizeBeforeUpdate);
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testEvent.getEventType()).isEqualTo(UPDATED_EVENT_TYPE);
         assertThat(testEvent.getEventStatus()).isEqualTo(UPDATED_EVENT_STATUS);
     }
 

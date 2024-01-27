@@ -21,13 +21,6 @@
   "name": "Room",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [
-    {
-      "otherEntityName": "eventContext",
-      "ownerSide": true,
-      "relationshipName": "roomEventContext",
-      "relationshipType": "one-to-one"
-    }
-  ],
+  "relationships": [],
   "service": "serviceClass"
 }

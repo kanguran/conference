@@ -15,10 +15,10 @@
           <dd>
             <span>{{ eventRegistration.id }}</span>
           </dd>
+          <dt><span>Description</span></dt>
         </div>
-        <dt><span>Registration description</span></dt>
         <dd>
-          <span>{{ eventRegistration.name }}</span>
+          <span>{{ eventRegistration.description }}</span>
         </dd>
         <dt><span>Event Registration Status</span></dt>
         <dd>
@@ -35,7 +35,9 @@
         <dt><span>Event Context</span></dt>
         <dd>
           <div *ngIf="eventRegistration.eventContext">
-            <a [routerLink]="['/event-context', eventRegistration.eventContext.id, 'view']">{{ eventRegistration.eventContext.name }}</a>
+            <a [routerLink]="['/event-context', eventRegistration.eventContext.id, 'view']">{{
+              eventRegistration.eventContext.description
+            }}</a>
           </div>
         </dd>
       </dl>

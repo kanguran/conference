@@ -4,23 +4,22 @@ import { IEventRegistration, NewEventRegistration } from './event-registration.m
 
 export const sampleWithRequiredData: IEventRegistration = {
   id: 12905,
-  name: 'seamless Louisiana',
+  eventRegistrationStatus: EventRegistrationStatus['ACTIVE'],
 };
 
 export const sampleWithPartialData: IEventRegistration = {
-  id: 68357,
-  name: 'Jewelery Awesome',
-  eventRegistrationStatus: EventRegistrationStatus['CANCELLED'],
+  id: 61316,
+  eventRegistrationStatus: EventRegistrationStatus['ACTIVE'],
 };
 
 export const sampleWithFullData: IEventRegistration = {
-  id: 21304,
-  name: 'Plastic SMTP',
+  id: 58960,
+  description: 'out-of-the-box implement',
   eventRegistrationStatus: EventRegistrationStatus['CANCELLED'],
 };
 
 export const sampleWithNewData: NewEventRegistration = {
-  name: 'HTTP',
+  eventRegistrationStatus: EventRegistrationStatus['ACTIVE'],
   id: null,
 };
 
