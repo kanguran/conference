@@ -6,8 +6,8 @@ export interface IEventRegistration {
   id: number;
   description?: string | null;
   eventRegistrationStatus?: EventRegistrationStatus | null;
-  eventCounterparty?: Pick<IApplicationUser, 'id'> | null;
-  eventContext?: Pick<IEventContext, 'id'> | null;
+  eventCounterparty?: Pick<IApplicationUser, 'id' | 'appUser'> | null;
+  eventContext?: Pick<IEventContext, 'id' | 'name'> | null;
 }
 
 export type NewEventRegistration = Omit<IEventRegistration, 'id'> & { id: null };

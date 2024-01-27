@@ -6,9 +6,11 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+          <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -35,8 +37,9 @@
             id="field_eventContextStatus"
             data-cy="eventContextStatus"
           >
-            <option [ngValue]="null"></option>
-            <option *ngFor="let eventContextStatus of eventContextStatusValues" [value]="eventContextStatus">eventContextStatus</option>
+            <option *ngFor="let eventContextStatusVal of eventContextStatusValues" [value]="eventContextStatusVal">
+              {{ eventContextStatusVal }}
+            </option>
           </select>
           <div
             *ngIf="
@@ -119,17 +122,23 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="applicationUserOption" *ngFor="let applicationUserOption of applicationUsersSharedCollection">
-              {{ applicationUserOption.id }}
+              {{ applicationUserOption.appUser?.firstName }} {{ applicationUserOption.appUser?.lastName }}
             </option>
           </select>
+          <div *ngIf="editForm.get('contextHost')!.invalid && (editForm.get('contextHost')!.dirty || editForm.get('contextHost')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('contextHost')?.errors?.required"> This field is required. </small>
+          </div>
         </div>
 
         <div class="row mb-3">
           <label class="form-label" for="field_event">Event</label>
           <select class="form-control" id="field_event" data-cy="event" name="event" formControlName="event" [compareWith]="compareEvent">
             <option [ngValue]="null"></option>
-            <option [ngValue]="eventOption" *ngFor="let eventOption of eventsSharedCollection">{{ eventOption.id }}</option>
+            <option [ngValue]="eventOption" *ngFor="let eventOption of eventsSharedCollection">{{ eventOption.name }}</option>
           </select>
+          <div *ngIf="editForm.get('event')!.invalid && (editForm.get('event')!.dirty || editForm.get('event')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('event')?.errors?.required"> This field is required. </small>
+          </div>
         </div>
       </div>
 

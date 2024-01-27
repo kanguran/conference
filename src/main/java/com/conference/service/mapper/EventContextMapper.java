@@ -28,10 +28,12 @@ public interface EventContextMapper extends EntityMapper<EventContextDTO, EventC
     @Named("applicationUserId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "appUser", source = "appUser")
     ApplicationUserDTO toDtoApplicationUserId(ApplicationUser applicationUser);
 
     @Named("eventId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
     EventDTO toDtoEventId(Event event);
 }

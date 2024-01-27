@@ -39,13 +39,15 @@
         <dt><span>Context Host</span></dt>
         <dd>
           <div *ngIf="eventContext.contextHost">
-            <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']">{{ eventContext.contextHost.id }}</a>
+            <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']">
+              {{ eventContext.contextHost.appUser?.firstName }} {{ eventContext.contextHost.appUser?.lastName }}</a
+            >
           </div>
         </dd>
         <dt><span>Event</span></dt>
         <dd>
           <div *ngIf="eventContext.event">
-            <a [routerLink]="['/event', eventContext.event.id, 'view']">{{ eventContext.event.id }}</a>
+            <a [routerLink]="['/event', eventContext.event.id, 'view']">{{ eventContext.event.name }}</a>
           </div>
         </dd>
       </dl>
