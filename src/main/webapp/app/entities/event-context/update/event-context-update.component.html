@@ -108,6 +108,16 @@
             <option [ngValue]="null"></option>
             <option [ngValue]="roomOption" *ngFor="let roomOption of roomsSharedCollection">{{ roomOption.name }}</option>
           </select>
+          <div
+            *ngIf="
+              editForm.get('eventContextRoom')!.invalid &&
+              (editForm.get('eventContextRoom')!.dirty || editForm.get('eventContextRoom')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('eventContextRoom')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">

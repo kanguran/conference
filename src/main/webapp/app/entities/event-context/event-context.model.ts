@@ -10,7 +10,7 @@ export interface IEventContext {
   eventContextStatus?: EventContextStatus | null;
   start?: dayjs.Dayjs | null;
   end?: dayjs.Dayjs | null;
-  eventContextRoom?: Pick<IRoom, 'id'> | null;
+  eventContextRoom?: Pick<IRoom, 'id' | 'name'> | null;
   contextHost?: Pick<IApplicationUser, 'id' | 'appUser'> | null;
   event?: Pick<IEvent, 'id' | 'name'> | null;
 }
