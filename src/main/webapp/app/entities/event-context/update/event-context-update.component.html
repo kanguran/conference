@@ -106,7 +106,7 @@
             [compareWith]="compareRoom"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="roomOption" *ngFor="let roomOption of roomsSharedCollection">{{ roomOption.id }}</option>
+            <option [ngValue]="roomOption" *ngFor="let roomOption of roomsSharedCollection">{{ roomOption.name }}</option>
           </select>
         </div>
 
