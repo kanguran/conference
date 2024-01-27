@@ -26,6 +26,6 @@ public interface EventRegistrationMapper extends EntityMapper<EventRegistrationD
     @Named("eventContextId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
+    @Mapping(target = "description", source = "description")
     EventContextDTO toDtoEventContextId(EventContext eventContext);
 }

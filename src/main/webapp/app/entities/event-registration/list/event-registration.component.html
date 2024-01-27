@@ -82,7 +82,9 @@
           </td>
           <td>
             <div *ngIf="eventRegistration.eventContext">
-              <a [routerLink]="['/event-context', eventRegistration.eventContext.id, 'view']">{{ eventRegistration.eventContext.name }}</a>
+              <a [routerLink]="['/event-context', eventRegistration.eventContext.id, 'view']">{{
+                eventRegistration.eventContext.description
+              }}</a>
             </div>
           </td>
           <td class="text-end">
