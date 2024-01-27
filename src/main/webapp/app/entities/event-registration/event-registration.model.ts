@@ -4,7 +4,7 @@ import { EventRegistrationStatus } from 'app/entities/enumerations/event-registr
 
 export interface IEventRegistration {
   id: number;
-  name?: string | null;
+  description?: string | null;
   eventRegistrationStatus?: EventRegistrationStatus | null;
   eventCounterparty?: Pick<IApplicationUser, 'id'> | null;
   eventContext?: Pick<IEventContext, 'id'> | null;

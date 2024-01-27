@@ -38,9 +38,9 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="name">
+          <th scope="col" jhiSortBy="description">
             <div class="d-flex">
-              <span>Name</span>
+              <span>Description</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -59,6 +59,12 @@
           <th scope="col" jhiSortBy="end">
             <div class="d-flex">
               <span>End</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="eventContextRoom.id">
+            <div class="d-flex">
+              <span>Event Context Room</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -82,10 +88,15 @@
           <td>
             <a [routerLink]="['/event-context', eventContext.id, 'view']">{{ eventContext.id }}</a>
           </td>
-          <td>{{ eventContext.name }}</td>
+          <td>{{ eventContext.description }}</td>
           <td>{{ eventContext.eventContextStatus }}</td>
           <td>{{ eventContext.start | formatMediumDatetime }}</td>
           <td>{{ eventContext.end | formatMediumDatetime }}</td>
+          <td>
+            <div *ngIf="eventContext.eventContextRoom">
+              <a [routerLink]="['/room', eventContext.eventContextRoom.id, 'view']">{{ eventContext.eventContextRoom.id }}</a>
+            </div>
+          </td>
           <td>
             <div *ngIf="eventContext.contextHost">
               <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']">{{ eventContext.contextHost.id }}</a>

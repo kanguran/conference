@@ -20,7 +20,6 @@ type RoomFormGroupContent = {
   id: FormControl<IRoom['id'] | NewRoom['id']>;
   name: FormControl<IRoom['name']>;
   maxSeats: FormControl<IRoom['maxSeats']>;
-  roomEventContext: FormControl<IRoom['roomEventContext']>;
 };
 
 export type RoomFormGroup = FormGroup<RoomFormGroupContent>;
@@ -46,7 +45,6 @@ export class RoomFormService {
       maxSeats: new FormControl(roomRawValue.maxSeats, {
         validators: [Validators.required],
       }),
-      roomEventContext: new FormControl(roomRawValue.roomEventContext),
     });
   }
 

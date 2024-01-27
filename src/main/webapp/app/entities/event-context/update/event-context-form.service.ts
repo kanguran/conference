@@ -32,10 +32,11 @@ type EventContextFormDefaults = Pick<NewEventContext, 'id' | 'start' | 'end'>;
 
 type EventContextFormGroupContent = {
   id: FormControl<EventContextFormRawValue['id'] | NewEventContext['id']>;
-  name: FormControl<EventContextFormRawValue['name']>;
+  description: FormControl<EventContextFormRawValue['description']>;
   eventContextStatus: FormControl<EventContextFormRawValue['eventContextStatus']>;
   start: FormControl<EventContextFormRawValue['start']>;
   end: FormControl<EventContextFormRawValue['end']>;
+  eventContextRoom: FormControl<EventContextFormRawValue['eventContextRoom']>;
   contextHost: FormControl<EventContextFormRawValue['contextHost']>;
   event: FormControl<EventContextFormRawValue['event']>;
 };
@@ -57,12 +58,19 @@ export class EventContextFormService {
           validators: [Validators.required],
         }
       ),
-      name: new FormControl(eventContextRawValue.name, {
+      description: new FormControl(eventContextRawValue.description, {
         validators: [Validators.required],
       }),
-      eventContextStatus: new FormControl(eventContextRawValue.eventContextStatus),
-      start: new FormControl(eventContextRawValue.start),
-      end: new FormControl(eventContextRawValue.end),
+      eventContextStatus: new FormControl(eventContextRawValue.eventContextStatus, {
+        validators: [Validators.required],
+      }),
+      start: new FormControl(eventContextRawValue.start, {
+        validators: [Validators.required],
+      }),
+      end: new FormControl(eventContextRawValue.end, {
+        validators: [Validators.required],
+      }),
+      eventContextRoom: new FormControl(eventContextRawValue.eventContextRoom),
       contextHost: new FormControl(eventContextRawValue.contextHost),
       event: new FormControl(eventContextRawValue.event),
     });

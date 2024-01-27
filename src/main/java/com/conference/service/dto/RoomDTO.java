@@ -18,8 +18,6 @@ public class RoomDTO implements Serializable {
     @NotNull
     private Integer maxSeats;
 
-    private EventContextDTO roomEventContext;
-
     public Long getId() {
         return id;
     }
@@ -42,14 +40,6 @@ public class RoomDTO implements Serializable {
 
     public void setMaxSeats(Integer maxSeats) {
         this.maxSeats = maxSeats;
-    }
-
-    public EventContextDTO getRoomEventContext() {
-        return roomEventContext;
-    }
-
-    public void setRoomEventContext(EventContextDTO roomEventContext) {
-        this.roomEventContext = roomEventContext;
     }
 
     @Override
@@ -80,7 +70,6 @@ public class RoomDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", maxSeats=" + getMaxSeats() +
-            ", roomEventContext=" + getRoomEventContext() +
             "}";
     }
 }

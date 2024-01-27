@@ -8,6 +8,12 @@
     -->
     <changeSet id="20240119211627-2" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="event_context_room_id"
+                                 baseTableName="event_context"
+                                 constraintName="fk_event_context__event_context_room_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="room"/>
+
         <addForeignKeyConstraint baseColumnNames="context_host_id"
                                  baseTableName="event_context"
                                  constraintName="fk_event_context__context_host_id"

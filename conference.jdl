@@ -1,18 +1,19 @@
 entity Event {
 	name String required
-	eventStatus EventStatus
+    eventType EventType required
+    eventStatus EventStatus required
 }
 
 entity EventContext {
-	name String required
-	eventContextStatus EventContextStatus
-    start Instant
-	end Instant
+    description String required
+	eventContextStatus EventContextStatus required
+    start Instant required
+	end Instant required
 }
 
 entity EventRegistration {
-	name String required
-	eventRegistrationStatus EventRegistrationStatus
+    description String
+	eventRegistrationStatus EventRegistrationStatus required
 }
 
 entity Room {
@@ -36,8 +37,12 @@ enum EventContextStatus {
 	AVAILABLE, FULLY_BOOKED, CANCELLED
 }
 
+enum EventType {
+    CONFERENCE
+}
+
 relationship OneToOne {
-	Room{roomEventContext} to EventContext
+    EventContext{eventContextRoom} to Room
     ApplicationUser{appUser} to User
     EventRegistration{eventCounterparty} to ApplicationUser
     EventContext{contextHost} to ApplicationUser

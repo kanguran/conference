@@ -22,7 +22,6 @@ describe('Room Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             maxSeats: expect.any(Object),
-            roomEventContext: expect.any(Object),
           })
         );
       });
@@ -35,7 +34,6 @@ describe('Room Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             maxSeats: expect.any(Object),
-            roomEventContext: expect.any(Object),
           })
         );
       });

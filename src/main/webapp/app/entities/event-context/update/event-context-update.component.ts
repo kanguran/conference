@@ -7,6 +7,8 @@ import { finalize, map } from 'rxjs/operators';
 import { EventContextFormService, EventContextFormGroup } from './event-context-form.service';
 import { IEventContext } from '../event-context.model';
 import { EventContextService } from '../service/event-context.service';
+import { IRoom } from 'app/entities/room/room.model';
+import { RoomService } from 'app/entities/room/service/room.service';
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
 import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
 import { IEvent } from 'app/entities/event/event.model';
@@ -22,6 +24,7 @@ export class EventContextUpdateComponent implements OnInit {
   eventContext: IEventContext | null = null;
   eventContextStatusValues = Object.keys(EventContextStatus);
 
+  roomsSharedCollection: IRoom[] = [];
   applicationUsersSharedCollection: IApplicationUser[] = [];
   eventsSharedCollection: IEvent[] = [];
 
@@ -30,10 +33,13 @@ export class EventContextUpdateComponent implements OnInit {
   constructor(
     protected eventContextService: EventContextService,
     protected eventContextFormService: EventContextFormService,
+    protected roomService: RoomService,
     protected applicationUserService: ApplicationUserService,
     protected eventService: EventService,
     protected activatedRoute: ActivatedRoute
   ) {}
+
+  compareRoom = (o1: IRoom | null, o2: IRoom | null): boolean => this.roomService.compareRoom(o1, o2);
 
   compareApplicationUser = (o1: IApplicationUser | null, o2: IApplicationUser | null): boolean =>
     this.applicationUserService.compareApplicationUser(o1, o2);
@@ -88,6 +94,10 @@ export class EventContextUpdateComponent implements OnInit {
     this.eventContext = eventContext;
     this.eventContextFormService.resetForm(this.editForm, eventContext);
 
+    this.roomsSharedCollection = this.roomService.addRoomToCollectionIfMissing<IRoom>(
+      this.roomsSharedCollection,
+      eventContext.eventContextRoom
+    );
     this.applicationUsersSharedCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
       this.applicationUsersSharedCollection,
       eventContext.contextHost
@@ -96,6 +106,12 @@ export class EventContextUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
+    this.roomService
+      .query()
+      .pipe(map((res: HttpResponse<IRoom[]>) => res.body ?? []))
+      .pipe(map((rooms: IRoom[]) => this.roomService.addRoomToCollectionIfMissing<IRoom>(rooms, this.eventContext?.eventContextRoom)))
+      .subscribe((rooms: IRoom[]) => (this.roomsSharedCollection = rooms));
+
     this.applicationUserService
       .query()
       .pipe(map((res: HttpResponse<IApplicationUser[]>) => res.body ?? []))

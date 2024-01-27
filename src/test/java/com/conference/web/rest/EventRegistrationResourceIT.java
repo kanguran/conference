@@ -32,8 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class EventRegistrationResourceIT {
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
     private static final EventRegistrationStatus DEFAULT_EVENT_REGISTRATION_STATUS = EventRegistrationStatus.ACTIVE;
     private static final EventRegistrationStatus UPDATED_EVENT_REGISTRATION_STATUS = EventRegistrationStatus.CANCELLED;
@@ -66,7 +66,7 @@ class EventRegistrationResourceIT {
      */
     public static EventRegistration createEntity(EntityManager em) {
         EventRegistration eventRegistration = new EventRegistration()
-            .name(DEFAULT_NAME)
+            .description(DEFAULT_DESCRIPTION)
             .eventRegistrationStatus(DEFAULT_EVENT_REGISTRATION_STATUS);
         return eventRegistration;
     }
@@ -79,7 +79,7 @@ class EventRegistrationResourceIT {
      */
     public static EventRegistration createUpdatedEntity(EntityManager em) {
         EventRegistration eventRegistration = new EventRegistration()
-            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
             .eventRegistrationStatus(UPDATED_EVENT_REGISTRATION_STATUS);
         return eventRegistration;
     }
@@ -107,7 +107,7 @@ class EventRegistrationResourceIT {
         List<EventRegistration> eventRegistrationList = eventRegistrationRepository.findAll();
         assertThat(eventRegistrationList).hasSize(databaseSizeBeforeCreate + 1);
         EventRegistration testEventRegistration = eventRegistrationList.get(eventRegistrationList.size() - 1);
-        assertThat(testEventRegistration.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testEventRegistration.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testEventRegistration.getEventRegistrationStatus()).isEqualTo(DEFAULT_EVENT_REGISTRATION_STATUS);
     }
 
@@ -136,10 +136,10 @@ class EventRegistrationResourceIT {
 
     @Test
     @Transactional
-    void checkNameIsRequired() throws Exception {
+    void checkEventRegistrationStatusIsRequired() throws Exception {
         int databaseSizeBeforeTest = eventRegistrationRepository.findAll().size();
         // set the field null
-        eventRegistration.setName(null);
+        eventRegistration.setEventRegistrationStatus(null);
 
         // Create the EventRegistration, which fails.
         EventRegistrationDTO eventRegistrationDTO = eventRegistrationMapper.toDto(eventRegistration);
@@ -168,7 +168,7 @@ class EventRegistrationResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(eventRegistration.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].eventRegistrationStatus").value(hasItem(DEFAULT_EVENT_REGISTRATION_STATUS.toString())));
     }
 
@@ -184,7 +184,7 @@ class EventRegistrationResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(eventRegistration.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.eventRegistrationStatus").value(DEFAULT_EVENT_REGISTRATION_STATUS.toString()));
     }
 
@@ -207,7 +207,7 @@ class EventRegistrationResourceIT {
         EventRegistration updatedEventRegistration = eventRegistrationRepository.findById(eventRegistration.getId()).get();
         // Disconnect from session so that the updates on updatedEventRegistration are not directly saved in db
         em.detach(updatedEventRegistration);
-        updatedEventRegistration.name(UPDATED_NAME).eventRegistrationStatus(UPDATED_EVENT_REGISTRATION_STATUS);
+        updatedEventRegistration.description(UPDATED_DESCRIPTION).eventRegistrationStatus(UPDATED_EVENT_REGISTRATION_STATUS);
         EventRegistrationDTO eventRegistrationDTO = eventRegistrationMapper.toDto(updatedEventRegistration);
 
         restEventRegistrationMockMvc
@@ -222,7 +222,7 @@ class EventRegistrationResourceIT {
         List<EventRegistration> eventRegistrationList = eventRegistrationRepository.findAll();
         assertThat(eventRegistrationList).hasSize(databaseSizeBeforeUpdate);
         EventRegistration testEventRegistration = eventRegistrationList.get(eventRegistrationList.size() - 1);
-        assertThat(testEventRegistration.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testEventRegistration.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testEventRegistration.getEventRegistrationStatus()).isEqualTo(UPDATED_EVENT_REGISTRATION_STATUS);
     }
 
@@ -305,7 +305,7 @@ class EventRegistrationResourceIT {
         EventRegistration partialUpdatedEventRegistration = new EventRegistration();
         partialUpdatedEventRegistration.setId(eventRegistration.getId());
 
-        partialUpdatedEventRegistration.name(UPDATED_NAME);
+        partialUpdatedEventRegistration.description(UPDATED_DESCRIPTION);
 
         restEventRegistrationMockMvc
             .perform(
@@ -319,7 +319,7 @@ class EventRegistrationResourceIT {
         List<EventRegistration> eventRegistrationList = eventRegistrationRepository.findAll();
         assertThat(eventRegistrationList).hasSize(databaseSizeBeforeUpdate);
         EventRegistration testEventRegistration = eventRegistrationList.get(eventRegistrationList.size() - 1);
-        assertThat(testEventRegistration.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testEventRegistration.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testEventRegistration.getEventRegistrationStatus()).isEqualTo(DEFAULT_EVENT_REGISTRATION_STATUS);
     }
 
@@ -335,7 +335,7 @@ class EventRegistrationResourceIT {
         EventRegistration partialUpdatedEventRegistration = new EventRegistration();
         partialUpdatedEventRegistration.setId(eventRegistration.getId());
 
-        partialUpdatedEventRegistration.name(UPDATED_NAME).eventRegistrationStatus(UPDATED_EVENT_REGISTRATION_STATUS);
+        partialUpdatedEventRegistration.description(UPDATED_DESCRIPTION).eventRegistrationStatus(UPDATED_EVENT_REGISTRATION_STATUS);
 
         restEventRegistrationMockMvc
             .perform(
@@ -349,7 +349,7 @@ class EventRegistrationResourceIT {
         List<EventRegistration> eventRegistrationList = eventRegistrationRepository.findAll();
         assertThat(eventRegistrationList).hasSize(databaseSizeBeforeUpdate);
         EventRegistration testEventRegistration = eventRegistrationList.get(eventRegistrationList.size() - 1);
-        assertThat(testEventRegistration.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testEventRegistration.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testEventRegistration.getEventRegistrationStatus()).isEqualTo(UPDATED_EVENT_REGISTRATION_STATUS);
     }
 

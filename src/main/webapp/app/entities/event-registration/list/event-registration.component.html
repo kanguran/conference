@@ -38,9 +38,9 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="name">
+          <th scope="col" jhiSortBy="description">
             <div class="d-flex">
-              <span>Name</span>
+              <span>Description</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -70,7 +70,7 @@
           <td>
             <a [routerLink]="['/event-registration', eventRegistration.id, 'view']">{{ eventRegistration.id }}</a>
           </td>
-          <td>{{ eventRegistration.name }}</td>
+          <td>{{ eventRegistration.description }}</td>
           <td>{{ eventRegistration.eventRegistrationStatus }}</td>
           <td>
             <div *ngIf="eventRegistration.eventCounterparty">

@@ -20,7 +20,7 @@ describe('EventRegistration Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            name: expect.any(Object),
+            description: expect.any(Object),
             eventRegistrationStatus: expect.any(Object),
             eventCounterparty: expect.any(Object),
             eventContext: expect.any(Object),
@@ -34,7 +34,7 @@ describe('EventRegistration Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            name: expect.any(Object),
+            description: expect.any(Object),
             eventRegistrationStatus: expect.any(Object),
             eventCounterparty: expect.any(Object),
             eventContext: expect.any(Object),

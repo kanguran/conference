@@ -1,4 +1,4 @@
-id;name;event_registration_status
+id;description;event_registration_status
 1;Metal;ACTIVE
 2;optimize;ACTIVE
 3;Borders Mountains;ACTIVE

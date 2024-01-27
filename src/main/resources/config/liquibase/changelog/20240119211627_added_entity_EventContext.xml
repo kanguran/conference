@@ -14,17 +14,20 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="description" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="event_context_status" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="start" type="${datetimeType}">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="jhi_end" type="${datetimeType}">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
+            </column>
+            <column name="event_context_room_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_event_context__event_context_room_id" />
             </column>
             <column name="context_host_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_event_context__context_host_id" />
@@ -55,7 +58,7 @@
                   tableName="event_context"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="name" type="string"/>
+            <column name="description" type="string"/>
             <column name="event_context_status" type="string"/>
             <column name="start" type="date"/>
             <column name="jhi_end" type="date"/>

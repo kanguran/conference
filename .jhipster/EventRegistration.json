@@ -6,13 +6,13 @@
   "entityTableName": "event_registration",
   "fields": [
     {
-      "fieldName": "name",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldName": "description",
+      "fieldType": "String"
     },
     {
       "fieldName": "eventRegistrationStatus",
       "fieldType": "EventRegistrationStatus",
+      "fieldValidateRules": ["required"],
       "fieldValues": "ACTIVE,CANCELLED"
     }
   ],

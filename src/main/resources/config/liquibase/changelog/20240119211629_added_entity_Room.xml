@@ -20,9 +20,6 @@
             <column name="max_seats" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="room_event_context_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_room__room_event_context_id" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>

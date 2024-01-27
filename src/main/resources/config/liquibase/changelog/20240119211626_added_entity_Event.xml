@@ -17,8 +17,11 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="event_type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <column name="event_status" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="main_host_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_event__main_host_id" />
@@ -45,6 +48,7 @@
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
+            <column name="event_type" type="string"/>
             <column name="event_status" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

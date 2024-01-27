@@ -1,6 +1,7 @@
 package com.conference.service.dto;
 
 import com.conference.domain.enumeration.EventStatus;
+import com.conference.domain.enumeration.EventType;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.validation.constraints.*;
@@ -16,6 +17,10 @@ public class EventDTO implements Serializable {
     @NotNull
     private String name;
 
+    @NotNull
+    private EventType eventType;
+
+    @NotNull
     private EventStatus eventStatus;
 
     private ApplicationUserDTO mainHost;
@@ -34,6 +39,14 @@ public class EventDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public EventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 
     public EventStatus getEventStatus() {
@@ -79,6 +92,7 @@ public class EventDTO implements Serializable {
         return "EventDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", eventType='" + getEventType() + "'" +
             ", eventStatus='" + getEventStatus() + "'" +
             ", mainHost=" + getMainHost() +
             "}";

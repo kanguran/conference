@@ -34,8 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class EventContextResourceIT {
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
     private static final EventContextStatus DEFAULT_EVENT_CONTEXT_STATUS = EventContextStatus.AVAILABLE;
     private static final EventContextStatus UPDATED_EVENT_CONTEXT_STATUS = EventContextStatus.FULLY_BOOKED;
@@ -74,7 +74,7 @@ class EventContextResourceIT {
      */
     public static EventContext createEntity(EntityManager em) {
         EventContext eventContext = new EventContext()
-            .name(DEFAULT_NAME)
+            .description(DEFAULT_DESCRIPTION)
             .eventContextStatus(DEFAULT_EVENT_CONTEXT_STATUS)
             .start(DEFAULT_START)
             .end(DEFAULT_END);
@@ -89,7 +89,7 @@ class EventContextResourceIT {
      */
     public static EventContext createUpdatedEntity(EntityManager em) {
         EventContext eventContext = new EventContext()
-            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
             .eventContextStatus(UPDATED_EVENT_CONTEXT_STATUS)
             .start(UPDATED_START)
             .end(UPDATED_END);
@@ -117,7 +117,7 @@ class EventContextResourceIT {
         List<EventContext> eventContextList = eventContextRepository.findAll();
         assertThat(eventContextList).hasSize(databaseSizeBeforeCreate + 1);
         EventContext testEventContext = eventContextList.get(eventContextList.size() - 1);
-        assertThat(testEventContext.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testEventContext.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testEventContext.getEventContextStatus()).isEqualTo(DEFAULT_EVENT_CONTEXT_STATUS);
         assertThat(testEventContext.getStart()).isEqualTo(DEFAULT_START);
         assertThat(testEventContext.getEnd()).isEqualTo(DEFAULT_END);
@@ -146,10 +146,70 @@ class EventContextResourceIT {
 
     @Test
     @Transactional
-    void checkNameIsRequired() throws Exception {
+    void checkDescriptionIsRequired() throws Exception {
         int databaseSizeBeforeTest = eventContextRepository.findAll().size();
         // set the field null
-        eventContext.setName(null);
+        eventContext.setDescription(null);
+
+        // Create the EventContext, which fails.
+        EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
+
+        restEventContextMockMvc
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
+            )
+            .andExpect(status().isBadRequest());
+
+        List<EventContext> eventContextList = eventContextRepository.findAll();
+        assertThat(eventContextList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkEventContextStatusIsRequired() throws Exception {
+        int databaseSizeBeforeTest = eventContextRepository.findAll().size();
+        // set the field null
+        eventContext.setEventContextStatus(null);
+
+        // Create the EventContext, which fails.
+        EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
+
+        restEventContextMockMvc
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
+            )
+            .andExpect(status().isBadRequest());
+
+        List<EventContext> eventContextList = eventContextRepository.findAll();
+        assertThat(eventContextList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkStartIsRequired() throws Exception {
+        int databaseSizeBeforeTest = eventContextRepository.findAll().size();
+        // set the field null
+        eventContext.setStart(null);
+
+        // Create the EventContext, which fails.
+        EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
+
+        restEventContextMockMvc
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
+            )
+            .andExpect(status().isBadRequest());
+
+        List<EventContext> eventContextList = eventContextRepository.findAll();
+        assertThat(eventContextList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkEndIsRequired() throws Exception {
+        int databaseSizeBeforeTest = eventContextRepository.findAll().size();
+        // set the field null
+        eventContext.setEnd(null);
 
         // Create the EventContext, which fails.
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
@@ -176,7 +236,7 @@ class EventContextResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(eventContext.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].eventContextStatus").value(hasItem(DEFAULT_EVENT_CONTEXT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].start").value(hasItem(DEFAULT_START.toString())))
             .andExpect(jsonPath("$.[*].end").value(hasItem(DEFAULT_END.toString())));
@@ -194,7 +254,7 @@ class EventContextResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(eventContext.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.eventContextStatus").value(DEFAULT_EVENT_CONTEXT_STATUS.toString()))
             .andExpect(jsonPath("$.start").value(DEFAULT_START.toString()))
             .andExpect(jsonPath("$.end").value(DEFAULT_END.toString()));
@@ -219,7 +279,11 @@ class EventContextResourceIT {
         EventContext updatedEventContext = eventContextRepository.findById(eventContext.getId()).get();
         // Disconnect from session so that the updates on updatedEventContext are not directly saved in db
         em.detach(updatedEventContext);
-        updatedEventContext.name(UPDATED_NAME).eventContextStatus(UPDATED_EVENT_CONTEXT_STATUS).start(UPDATED_START).end(UPDATED_END);
+        updatedEventContext
+            .description(UPDATED_DESCRIPTION)
+            .eventContextStatus(UPDATED_EVENT_CONTEXT_STATUS)
+            .start(UPDATED_START)
+            .end(UPDATED_END);
         EventContextDTO eventContextDTO = eventContextMapper.toDto(updatedEventContext);
 
         restEventContextMockMvc
@@ -234,7 +298,7 @@ class EventContextResourceIT {
         List<EventContext> eventContextList = eventContextRepository.findAll();
         assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
         EventContext testEventContext = eventContextList.get(eventContextList.size() - 1);
-        assertThat(testEventContext.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testEventContext.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testEventContext.getEventContextStatus()).isEqualTo(UPDATED_EVENT_CONTEXT_STATUS);
         assertThat(testEventContext.getStart()).isEqualTo(UPDATED_START);
         assertThat(testEventContext.getEnd()).isEqualTo(UPDATED_END);
@@ -319,7 +383,7 @@ class EventContextResourceIT {
         EventContext partialUpdatedEventContext = new EventContext();
         partialUpdatedEventContext.setId(eventContext.getId());
 
-        partialUpdatedEventContext.name(UPDATED_NAME);
+        partialUpdatedEventContext.description(UPDATED_DESCRIPTION);
 
         restEventContextMockMvc
             .perform(
@@ -333,7 +397,7 @@ class EventContextResourceIT {
         List<EventContext> eventContextList = eventContextRepository.findAll();
         assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
         EventContext testEventContext = eventContextList.get(eventContextList.size() - 1);
-        assertThat(testEventContext.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testEventContext.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testEventContext.getEventContextStatus()).isEqualTo(DEFAULT_EVENT_CONTEXT_STATUS);
         assertThat(testEventContext.getStart()).isEqualTo(DEFAULT_START);
         assertThat(testEventContext.getEnd()).isEqualTo(DEFAULT_END);
@@ -352,7 +416,7 @@ class EventContextResourceIT {
         partialUpdatedEventContext.setId(eventContext.getId());
 
         partialUpdatedEventContext
-            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
             .eventContextStatus(UPDATED_EVENT_CONTEXT_STATUS)
             .start(UPDATED_START)
             .end(UPDATED_END);
@@ -369,7 +433,7 @@ class EventContextResourceIT {
         List<EventContext> eventContextList = eventContextRepository.findAll();
         assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
         EventContext testEventContext = eventContextList.get(eventContextList.size() - 1);
-        assertThat(testEventContext.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testEventContext.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testEventContext.getEventContextStatus()).isEqualTo(UPDATED_EVENT_CONTEXT_STATUS);
         assertThat(testEventContext.getStart()).isEqualTo(UPDATED_START);
         assertThat(testEventContext.getEnd()).isEqualTo(UPDATED_END);

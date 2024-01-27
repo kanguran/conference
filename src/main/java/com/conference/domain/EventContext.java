@@ -29,18 +29,25 @@ public class EventContext implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "description", nullable = false)
+    private String description;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "event_context_status")
+    @Column(name = "event_context_status", nullable = false)
     private EventContextStatus eventContextStatus;
 
-    @Column(name = "start")
+    @NotNull
+    @Column(name = "start", nullable = false)
     private Instant start;
 
-    @Column(name = "jhi_end")
+    @NotNull
+    @Column(name = "jhi_end", nullable = false)
     private Instant end;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Room eventContextRoom;
 
     @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
     @OneToOne
@@ -71,17 +78,17 @@ public class EventContext implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public String getDescription() {
+        return this.description;
     }
 
-    public EventContext name(String name) {
-        this.setName(name);
+    public EventContext description(String description) {
+        this.setDescription(description);
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public EventContextStatus getEventContextStatus() {
@@ -121,6 +128,19 @@ public class EventContext implements Serializable {
 
     public void setEnd(Instant end) {
         this.end = end;
+    }
+
+    public Room getEventContextRoom() {
+        return this.eventContextRoom;
+    }
+
+    public void setEventContextRoom(Room room) {
+        this.eventContextRoom = room;
+    }
+
+    public EventContext eventContextRoom(Room room) {
+        this.setEventContextRoom(room);
+        return this;
     }
 
     public ApplicationUser getContextHost() {
@@ -204,7 +224,7 @@ public class EventContext implements Serializable {
     public String toString() {
         return "EventContext{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
+            ", description='" + getDescription() + "'" +
             ", eventContextStatus='" + getEventContextStatus() + "'" +
             ", start='" + getStart() + "'" +
             ", end='" + getEnd() + "'" +

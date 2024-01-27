@@ -13,9 +13,9 @@ public class EventRegistrationDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
-    private String name;
+    private String description;
 
+    @NotNull
     private EventRegistrationStatus eventRegistrationStatus;
 
     private ApplicationUserDTO eventCounterparty;
@@ -30,12 +30,12 @@ public class EventRegistrationDTO implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public EventRegistrationStatus getEventRegistrationStatus() {
@@ -88,7 +88,7 @@ public class EventRegistrationDTO implements Serializable {
     public String toString() {
         return "EventRegistrationDTO{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
+            ", description='" + getDescription() + "'" +
             ", eventRegistrationStatus='" + getEventRegistrationStatus() + "'" +
             ", eventCounterparty=" + getEventCounterparty() +
             ", eventContext=" + getEventContext() +

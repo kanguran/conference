@@ -9,6 +9,7 @@ import { IEvent } from '../event.model';
 import { EventService } from '../service/event.service';
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
 import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
+import { EventType } from 'app/entities/enumerations/event-type.model';
 import { EventStatus } from 'app/entities/enumerations/event-status.model';
 
 @Component({
@@ -18,6 +19,7 @@ import { EventStatus } from 'app/entities/enumerations/event-status.model';
 export class EventUpdateComponent implements OnInit {
   isSaving = false;
   event: IEvent | null = null;
+  eventTypeValues = Object.keys(EventType);
   eventStatusValues = Object.keys(EventStatus);
 
   applicationUsersSharedCollection: IApplicationUser[] = [];
