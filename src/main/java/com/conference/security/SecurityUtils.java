@@ -62,6 +62,16 @@ public final class SecurityUtils {
     }
 
     /**
+     * Check if a user is admin.
+     *
+     * @return true if the user is authenticated and admin, false otherwise.
+     */
+    public static boolean isAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null && getAuthorities(authentication).anyMatch(AuthoritiesConstants.ADMIN::equals);
+    }
+
+    /**
      * Checks if the current user has any of the authorities.
      *
      * @param authorities the authorities to check.

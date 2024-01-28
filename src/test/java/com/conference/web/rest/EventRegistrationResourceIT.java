@@ -9,6 +9,7 @@ import com.conference.IntegrationTest;
 import com.conference.domain.EventRegistration;
 import com.conference.domain.enumeration.EventRegistrationStatus;
 import com.conference.repository.EventRegistrationRepository;
+import com.conference.security.AuthoritiesConstants;
 import com.conference.service.dto.EventRegistrationDTO;
 import com.conference.service.mapper.EventRegistrationMapper;
 import java.util.List;
@@ -157,6 +158,7 @@ class EventRegistrationResourceIT {
     }
 
     @Test
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     @Transactional
     void getAllEventRegistrations() throws Exception {
         // Initialize the database

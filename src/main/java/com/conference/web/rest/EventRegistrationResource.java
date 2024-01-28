@@ -153,7 +153,7 @@ public class EventRegistrationResource {
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get a page of EventRegistrations");
-        Page<EventRegistrationDTO> page = eventRegistrationService.findAll(pageable);
+        Page<EventRegistrationDTO> page = eventRegistrationService.findEventRegistrationByUserRole(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
