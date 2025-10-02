@@ -1,0 +1,46 @@
+{
+  "applications": "*",
+  "changelogDate": "20240119211626",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "event",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eventType",
+      "fieldType": "EventType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "CONFERENCE"
+    },
+    {
+      "fieldName": "eventStatus",
+      "fieldType": "EventStatus",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "UNPUBLISHED,PUBLISHED,CANCELLED"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Event",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "applicationUser",
+      "ownerSide": true,
+      "relationshipName": "mainHost",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "eventContext",
+      "otherEntityRelationshipName": "event",
+      "relationshipName": "eventContext",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}
