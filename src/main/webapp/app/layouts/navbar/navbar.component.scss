@@ -1,6 +1,6 @@
-@import '~bootstrap/scss/functions';
-@import '~bootswatch/dist/spacelab/variables';
-@import '~bootstrap/scss/variables';
+@import 'bootstrap/scss/functions';
+@import 'bootswatch/dist/spacelab/variables';
+@import 'bootstrap/scss/variables';
 
 /* ==========================================================================
 Navbar
@@ -43,6 +43,6 @@ Logo styles
   width: 45px;
   display: inline-block;
   vertical-align: middle;
-  background: url('../../../content/images/logo-jhipster.png') no-repeat center center;
+  background: url('/content/images/logo-jhipster.png') no-repeat center center;
   background-size: contain;
 }

@@ -1,22 +1,24 @@
-export const EntityNavbarItems = [
+import NavbarItem from 'app/layouts/navbar/navbar-item.model';
+
+export const EntityNavbarItems: NavbarItem[] = [
   {
     name: 'Event',
-    route: 'event',
+    route: '/event',
   },
   {
     name: 'EventContext',
-    route: 'event-context',
+    route: '/event-context',
   },
   {
     name: 'EventRegistration',
-    route: 'event-registration',
+    route: '/event-registration',
   },
   {
     name: 'Room',
-    route: 'room',
+    route: '/room',
   },
   {
     name: 'ApplicationUser',
-    route: 'application-user',
+    route: '/application-user',
   },
 ];

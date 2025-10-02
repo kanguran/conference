@@ -3,11 +3,11 @@ package com.conference.domain;
 import com.conference.domain.enumeration.EventStatus;
 import com.conference.domain.enumeration.EventType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -42,12 +42,12 @@ public class Event implements Serializable {
     @Column(name = "event_status", nullable = false)
     private EventStatus eventStatus;
 
-    @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
-    @OneToOne
+    @JsonIgnoreProperties(value = { "appUser", "event", "eventContext", "eventRegistration" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private ApplicationUser mainHost;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "eventContextRoom", "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
     private Set<EventContext> eventContexts = new HashSet<>();
@@ -160,7 +160,7 @@ public class Event implements Serializable {
         if (!(o instanceof Event)) {
             return false;
         }
-        return id != null && id.equals(((Event) o).id);
+        return getId() != null && getId().equals(((Event) o).getId());
     }
 
     @Override

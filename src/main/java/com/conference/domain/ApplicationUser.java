@@ -1,7 +1,8 @@
 package com.conference.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import java.io.Serializable;
-import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -25,9 +26,21 @@ public class ApplicationUser implements Serializable {
     @Column(name = "host")
     private Boolean host;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private User appUser;
+
+    @JsonIgnoreProperties(value = { "mainHost", "eventContexts" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "mainHost")
+    private Event event;
+
+    @JsonIgnoreProperties(value = { "eventContextRoom", "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "contextHost")
+    private EventContext eventContext;
+
+    @JsonIgnoreProperties(value = { "eventCounterparty", "eventContext" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "eventCounterparty")
+    private EventRegistration eventRegistration;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -70,6 +83,63 @@ public class ApplicationUser implements Serializable {
         return this;
     }
 
+    public Event getEvent() {
+        return this.event;
+    }
+
+    public void setEvent(Event event) {
+        if (this.event != null) {
+            this.event.setMainHost(null);
+        }
+        if (event != null) {
+            event.setMainHost(this);
+        }
+        this.event = event;
+    }
+
+    public ApplicationUser event(Event event) {
+        this.setEvent(event);
+        return this;
+    }
+
+    public EventContext getEventContext() {
+        return this.eventContext;
+    }
+
+    public void setEventContext(EventContext eventContext) {
+        if (this.eventContext != null) {
+            this.eventContext.setContextHost(null);
+        }
+        if (eventContext != null) {
+            eventContext.setContextHost(this);
+        }
+        this.eventContext = eventContext;
+    }
+
+    public ApplicationUser eventContext(EventContext eventContext) {
+        this.setEventContext(eventContext);
+        return this;
+    }
+
+    public EventRegistration getEventRegistration() {
+        return this.eventRegistration;
+    }
+
+    public void setEventRegistration(EventRegistration eventRegistration) {
+        if (this.eventRegistration != null) {
+            this.eventRegistration.setEventCounterparty(null);
+        }
+        if (eventRegistration != null) {
+            eventRegistration.setEventCounterparty(this);
+        }
+        this.eventRegistration = eventRegistration;
+    }
+
+    public ApplicationUser eventRegistration(EventRegistration eventRegistration) {
+        this.setEventRegistration(eventRegistration);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -80,7 +150,7 @@ public class ApplicationUser implements Serializable {
         if (!(o instanceof ApplicationUser)) {
             return false;
         }
-        return id != null && id.equals(((ApplicationUser) o).id);
+        return getId() != null && getId().equals(((ApplicationUser) o).getId());
     }
 
     @Override

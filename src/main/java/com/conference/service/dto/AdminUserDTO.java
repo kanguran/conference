@@ -3,11 +3,11 @@ package com.conference.service.dto;
 import com.conference.config.Constants;
 import com.conference.domain.Authority;
 import com.conference.domain.User;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.validation.constraints.*;
 
 /**
  * A DTO representing a user, with his authorities.

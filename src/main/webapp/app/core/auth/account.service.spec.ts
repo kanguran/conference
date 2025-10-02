@@ -1,10 +1,9 @@
 jest.mock('app/core/auth/state-storage.service');
 
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { NgxWebstorageModule } from 'ngx-webstorage';
 
 import { Account } from 'app/core/auth/account.model';
 import { Authority } from 'app/config/authority.constants';
@@ -26,6 +25,8 @@ function accountWithAuthorities(authorities: string[]): Account {
   };
 }
 
+const mockFn = (value: string | null): jest.Mock<string | null> => jest.fn(() => value);
+
 describe('Account Service', () => {
   let service: AccountService;
   let applicationConfigService: ApplicationConfigService;
@@ -35,8 +36,7 @@ describe('Account Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), NgxWebstorageModule.forRoot()],
-      providers: [StateStorageService],
+      providers: [provideHttpClient(), provideHttpClientTesting(), StateStorageService],
     });
 
     service = TestBed.inject(AccountService);
@@ -128,7 +128,7 @@ describe('Account Service', () => {
     describe('navigateToStoredUrl', () => {
       it('should navigate to the previous stored url post successful authentication', () => {
         // GIVEN
-        mockStorageService.getUrl = jest.fn(() => 'admin/users?page=0');
+        mockStorageService.getUrl = mockFn('admin/users?page=0');
 
         // WHEN
         service.identity().subscribe();
@@ -143,7 +143,7 @@ describe('Account Service', () => {
       it('should not navigate to the previous stored url when authentication fails', () => {
         // WHEN
         service.identity().subscribe();
-        httpMock.expectOne({ method: 'GET' }).error(new ErrorEvent(''));
+        httpMock.expectOne({ method: 'GET' }).error(new ProgressEvent(''));
 
         // THEN
         expect(mockStorageService.getUrl).not.toHaveBeenCalled();
@@ -153,7 +153,7 @@ describe('Account Service', () => {
 
       it('should not navigate to the previous stored url when no such url exists post successful authentication', () => {
         // GIVEN
-        mockStorageService.getUrl = jest.fn(() => null);
+        mockStorageService.getUrl = mockFn(null);
 
         // WHEN
         service.identity().subscribe();

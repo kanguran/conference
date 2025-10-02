@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20240119211626"
+  },
   "applications": "*",
   "changelogDate": "20240119211626",
   "dto": "mapstruct",
@@ -33,14 +36,17 @@
       "otherEntityName": "applicationUser",
       "ownerSide": true,
       "relationshipName": "mainHost",
+      "relationshipSide": "left",
       "relationshipType": "one-to-one"
     },
     {
       "otherEntityName": "eventContext",
       "otherEntityRelationshipName": "event",
       "relationshipName": "eventContext",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     }
   ],
+  "searchEngine": "no",
   "service": "serviceClass"
 }

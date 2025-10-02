@@ -1,22 +1,24 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-application-user-heading" data-cy="ApplicationUserCreateUpdateHeading">Create or edit a Application User</h2>
 
       <div>
-        <jhi-alert-error></jhi-alert-error>
+        <jhi-alert-error />
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" for="field_host">Host</label>
           <input type="checkbox" class="form-check" name="host" id="field_host" data-cy="host" formControlName="host" />
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" for="field_appUser">App User</label>
           <select
             class="form-control"
@@ -27,7 +29,9 @@
             [compareWith]="compareUser"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+            @for (userOption of usersSharedCollection; track $index) {
+              <option [ngValue]="userOption">{{ userOption.id }}</option>
+            }
           </select>
         </div>
       </div>

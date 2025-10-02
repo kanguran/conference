@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpResponse, provideHttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Subject, from, of } from 'rxjs';
 
 import { RoomService } from '../service/room.service';
@@ -21,9 +19,9 @@ describe('Room Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      declarations: [RoomUpdateComponent],
+      imports: [RoomUpdateComponent],
       providers: [
+        provideHttpClient(),
         FormBuilder,
         {
           provide: ActivatedRoute,
@@ -45,8 +43,8 @@ describe('Room Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
-      const room: IRoom = { id: 456 };
+    it('should update editForm', () => {
+      const room: IRoom = { id: 22394 };
 
       activatedRoute.data = of({ room });
       comp.ngOnInit();
@@ -56,10 +54,10 @@ describe('Room Management Update Component', () => {
   });
 
   describe('save', () => {
-    it('Should call update service on save for existing entity', () => {
+    it('should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IRoom>>();
-      const room = { id: 123 };
+      const room = { id: 31469 };
       jest.spyOn(roomFormService, 'getRoom').mockReturnValue(room);
       jest.spyOn(roomService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -79,10 +77,10 @@ describe('Room Management Update Component', () => {
       expect(comp.isSaving).toEqual(false);
     });
 
-    it('Should call create service on save for new entity', () => {
+    it('should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IRoom>>();
-      const room = { id: 123 };
+      const room = { id: 31469 };
       jest.spyOn(roomFormService, 'getRoom').mockReturnValue({ id: null });
       jest.spyOn(roomService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -102,10 +100,10 @@ describe('Room Management Update Component', () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it('Should set isSaving to false on error', () => {
+    it('should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IRoom>>();
-      const room = { id: 123 };
+      const room = { id: 31469 };
       jest.spyOn(roomService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ room });

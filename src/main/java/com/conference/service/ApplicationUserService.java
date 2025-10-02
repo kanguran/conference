@@ -8,19 +8,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link ApplicationUser}.
+ * Service Implementation for managing {@link com.conference.domain.ApplicationUser}.
  */
 @Service
 @Transactional
 public class ApplicationUserService {
 
-    private final Logger log = LoggerFactory.getLogger(ApplicationUserService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationUserService.class);
 
     private final ApplicationUserRepository applicationUserRepository;
 
@@ -38,7 +39,7 @@ public class ApplicationUserService {
      * @return the persisted entity.
      */
     public ApplicationUserDTO save(ApplicationUserDTO applicationUserDTO) {
-        log.debug("Request to save ApplicationUser : {}", applicationUserDTO);
+        LOG.debug("Request to save ApplicationUser : {}", applicationUserDTO);
         ApplicationUser applicationUser = applicationUserMapper.toEntity(applicationUserDTO);
         applicationUser = applicationUserRepository.save(applicationUser);
         return applicationUserMapper.toDto(applicationUser);
@@ -51,7 +52,7 @@ public class ApplicationUserService {
      * @return the persisted entity.
      */
     public ApplicationUserDTO update(ApplicationUserDTO applicationUserDTO) {
-        log.debug("Request to update ApplicationUser : {}", applicationUserDTO);
+        LOG.debug("Request to update ApplicationUser : {}", applicationUserDTO);
         ApplicationUser applicationUser = applicationUserMapper.toEntity(applicationUserDTO);
         applicationUser = applicationUserRepository.save(applicationUser);
         return applicationUserMapper.toDto(applicationUser);
@@ -64,7 +65,7 @@ public class ApplicationUserService {
      * @return the persisted entity.
      */
     public Optional<ApplicationUserDTO> partialUpdate(ApplicationUserDTO applicationUserDTO) {
-        log.debug("Request to partially update ApplicationUser : {}", applicationUserDTO);
+        LOG.debug("Request to partially update ApplicationUser : {}", applicationUserDTO);
 
         return applicationUserRepository
             .findById(applicationUserDTO.getId())
@@ -84,10 +85,49 @@ public class ApplicationUserService {
      */
     @Transactional(readOnly = true)
     public List<ApplicationUserDTO> findAll() {
-        log.debug("Request to get all ApplicationUsers");
+        LOG.debug("Request to get all ApplicationUsers");
         return applicationUserRepository
             .findAll()
             .stream()
+            .map(applicationUserMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    /**
+     *  Get all the applicationUsers where Event is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<ApplicationUserDTO> findAllWhereEventIsNull() {
+        LOG.debug("Request to get all applicationUsers where Event is null");
+        return StreamSupport.stream(applicationUserRepository.findAll().spliterator(), false)
+            .filter(applicationUser -> applicationUser.getEvent() == null)
+            .map(applicationUserMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    /**
+     *  Get all the applicationUsers where EventContext is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<ApplicationUserDTO> findAllWhereEventContextIsNull() {
+        LOG.debug("Request to get all applicationUsers where EventContext is null");
+        return StreamSupport.stream(applicationUserRepository.findAll().spliterator(), false)
+            .filter(applicationUser -> applicationUser.getEventContext() == null)
+            .map(applicationUserMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    /**
+     *  Get all the applicationUsers where EventRegistration is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<ApplicationUserDTO> findAllWhereEventRegistrationIsNull() {
+        LOG.debug("Request to get all applicationUsers where EventRegistration is null");
+        return StreamSupport.stream(applicationUserRepository.findAll().spliterator(), false)
+            .filter(applicationUser -> applicationUser.getEventRegistration() == null)
             .map(applicationUserMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
     }
@@ -100,7 +140,7 @@ public class ApplicationUserService {
      */
     @Transactional(readOnly = true)
     public Optional<ApplicationUserDTO> findOne(Long id) {
-        log.debug("Request to get ApplicationUser : {}", id);
+        LOG.debug("Request to get ApplicationUser : {}", id);
         return applicationUserRepository.findById(id).map(applicationUserMapper::toDto);
     }
 
@@ -110,7 +150,7 @@ public class ApplicationUserService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        log.debug("Request to delete ApplicationUser : {}", id);
+        LOG.debug("Request to delete ApplicationUser : {}", id);
         applicationUserRepository.deleteById(id);
     }
 }

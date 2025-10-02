@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link EventRegistration}.
+ * Service Implementation for managing {@link com.conference.domain.EventRegistration}.
  */
 @Service
 @Transactional
 public class EventRegistrationService {
 
-    private final Logger log = LoggerFactory.getLogger(EventRegistrationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EventRegistrationService.class);
 
     private final EventRegistrationRepository eventRegistrationRepository;
 
@@ -40,7 +40,7 @@ public class EventRegistrationService {
      * @return the persisted entity.
      */
     public EventRegistrationDTO save(EventRegistrationDTO eventRegistrationDTO) {
-        log.debug("Request to save EventRegistration : {}", eventRegistrationDTO);
+        LOG.debug("Request to save EventRegistration : {}", eventRegistrationDTO);
         EventRegistration eventRegistration = eventRegistrationMapper.toEntity(eventRegistrationDTO);
         eventRegistration = eventRegistrationRepository.save(eventRegistration);
         return eventRegistrationMapper.toDto(eventRegistration);
@@ -53,7 +53,7 @@ public class EventRegistrationService {
      * @return the persisted entity.
      */
     public EventRegistrationDTO update(EventRegistrationDTO eventRegistrationDTO) {
-        log.debug("Request to update EventRegistration : {}", eventRegistrationDTO);
+        LOG.debug("Request to update EventRegistration : {}", eventRegistrationDTO);
         EventRegistration eventRegistration = eventRegistrationMapper.toEntity(eventRegistrationDTO);
         eventRegistration = eventRegistrationRepository.save(eventRegistration);
         return eventRegistrationMapper.toDto(eventRegistration);
@@ -66,7 +66,7 @@ public class EventRegistrationService {
      * @return the persisted entity.
      */
     public Optional<EventRegistrationDTO> partialUpdate(EventRegistrationDTO eventRegistrationDTO) {
-        log.debug("Request to partially update EventRegistration : {}", eventRegistrationDTO);
+        LOG.debug("Request to partially update EventRegistration : {}", eventRegistrationDTO);
 
         return eventRegistrationRepository
             .findById(eventRegistrationDTO.getId())
@@ -87,7 +87,7 @@ public class EventRegistrationService {
      */
     @Transactional(readOnly = true)
     public Page<EventRegistrationDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all EventRegistrations");
+        LOG.debug("Request to get all EventRegistrations");
         return eventRegistrationRepository.findAll(pageable).map(eventRegistrationMapper::toDto);
     }
 
@@ -99,7 +99,7 @@ public class EventRegistrationService {
      */
     @Transactional(readOnly = true)
     public Optional<EventRegistrationDTO> findOne(Long id) {
-        log.debug("Request to get EventRegistration : {}", id);
+        LOG.debug("Request to get EventRegistration : {}", id);
         return eventRegistrationRepository.findById(id).map(eventRegistrationMapper::toDto);
     }
 
@@ -109,7 +109,7 @@ public class EventRegistrationService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        log.debug("Request to delete EventRegistration : {}", id);
+        LOG.debug("Request to delete EventRegistration : {}", id);
         eventRegistrationRepository.deleteById(id);
     }
 }

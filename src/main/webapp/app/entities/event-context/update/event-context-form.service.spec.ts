@@ -51,7 +51,6 @@ describe('EventContext Form Service', () => {
 
     describe('getEventContext', () => {
       it('should return NewEventContext for default EventContext initial value', () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createEventContextFormGroup(sampleWithNewData);
 
         const eventContext = service.getEventContext(formGroup) as any;

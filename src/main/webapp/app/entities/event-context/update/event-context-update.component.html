@@ -1,17 +1,20 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-event-context-heading" data-cy="EventContextCreateUpdateHeading">Create or edit a Event Context</h2>
 
       <div>
-        <jhi-alert-error></jhi-alert-error>
+        <jhi-alert-error />
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
 
-        <div class="row mb-3">
+        @let descriptionRef = editForm.get('description')!;
+        <div class="mb-3">
           <label class="form-label" for="field_description">Description</label>
           <input
             type="text"
@@ -21,12 +24,17 @@
             data-cy="description"
             formControlName="description"
           />
-          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('description')?.errors?.required"> This field is required. </small>
-          </div>
+          @if (descriptionRef.invalid && (descriptionRef.dirty || descriptionRef.touched)) {
+            <div>
+              @if (editForm.get('description')?.errors?.required) {
+                <small class="form-text text-danger">This field is required.</small>
+              }
+            </div>
+          }
         </div>
 
-        <div class="row mb-3">
+        @let eventContextStatusRef = editForm.get('eventContextStatus')!;
+        <div class="mb-3">
           <label class="form-label" for="field_eventContextStatus">Event Context Status</label>
           <select
             class="form-control"
@@ -36,21 +44,23 @@
             data-cy="eventContextStatus"
           >
             <option [ngValue]="null"></option>
-            <option *ngFor="let eventContextStatus of eventContextStatusValues" [value]="eventContextStatus">eventContextStatus</option>
+            @for (eventContextStatus of eventContextStatusValues; track $index) {
+              <option [value]="eventContextStatus">
+                {{ { null: '', AVAILABLE: 'AVAILABLE', FULLY_BOOKED: 'FULLY_BOOKED', CANCELLED: 'CANCELLED' }[eventContextStatus] }}
+              </option>
+            }
           </select>
-          <div
-            *ngIf="
-              editForm.get('eventContextStatus')!.invalid &&
-              (editForm.get('eventContextStatus')!.dirty || editForm.get('eventContextStatus')!.touched)
-            "
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('eventContextStatus')?.errors?.required">
-              This field is required.
-            </small>
-          </div>
+          @if (eventContextStatusRef.invalid && (eventContextStatusRef.dirty || eventContextStatusRef.touched)) {
+            <div>
+              @if (editForm.get('eventContextStatus')?.errors?.required) {
+                <small class="form-text text-danger">This field is required.</small>
+              }
+            </div>
+          }
         </div>
 
-        <div class="row mb-3">
+        @let startRef = editForm.get('start')!;
+        <div class="mb-3">
           <label class="form-label" for="field_start">Start</label>
           <div class="d-flex">
             <input
@@ -63,15 +73,20 @@
               placeholder="YYYY-MM-DD HH:mm"
             />
           </div>
-          <div *ngIf="editForm.get('start')!.invalid && (editForm.get('start')!.dirty || editForm.get('start')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('start')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('start')?.errors?.datetimelocal">
-              This field should be a date and time.
-            </small>
-          </div>
+          @if (startRef.invalid && (startRef.dirty || startRef.touched)) {
+            <div>
+              @if (editForm.get('start')?.errors?.required) {
+                <small class="form-text text-danger">This field is required.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('start')?.errors?.datetimelocal"
+                >This field should be a date and time.</small
+              >
+            </div>
+          }
         </div>
 
-        <div class="row mb-3">
+        @let endRef = editForm.get('end')!;
+        <div class="mb-3">
           <label class="form-label" for="field_end">End</label>
           <div class="d-flex">
             <input
@@ -84,15 +99,19 @@
               placeholder="YYYY-MM-DD HH:mm"
             />
           </div>
-          <div *ngIf="editForm.get('end')!.invalid && (editForm.get('end')!.dirty || editForm.get('end')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('end')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('end')?.errors?.datetimelocal">
-              This field should be a date and time.
-            </small>
-          </div>
+          @if (endRef.invalid && (endRef.dirty || endRef.touched)) {
+            <div>
+              @if (editForm.get('end')?.errors?.required) {
+                <small class="form-text text-danger">This field is required.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('end')?.errors?.datetimelocal"
+                >This field should be a date and time.</small
+              >
+            </div>
+          }
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" for="field_eventContextRoom">Event Context Room</label>
           <select
             class="form-control"
@@ -103,11 +122,13 @@
             [compareWith]="compareRoom"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="roomOption" *ngFor="let roomOption of roomsSharedCollection">{{ roomOption.id }}</option>
+            @for (roomOption of eventContextRoomsCollection; track $index) {
+              <option [ngValue]="roomOption">{{ roomOption.id }}</option>
+            }
           </select>
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" for="field_contextHost">Context Host</label>
           <select
             class="form-control"
@@ -118,17 +139,19 @@
             [compareWith]="compareApplicationUser"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="applicationUserOption" *ngFor="let applicationUserOption of applicationUsersSharedCollection">
-              {{ applicationUserOption.id }}
-            </option>
+            @for (applicationUserOption of contextHostsCollection; track $index) {
+              <option [ngValue]="applicationUserOption">{{ applicationUserOption.id }}</option>
+            }
           </select>
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" for="field_event">Event</label>
           <select class="form-control" id="field_event" data-cy="event" name="event" formControlName="event" [compareWith]="compareEvent">
             <option [ngValue]="null"></option>
-            <option [ngValue]="eventOption" *ngFor="let eventOption of eventsSharedCollection">{{ eventOption.id }}</option>
+            @for (eventOption of eventsSharedCollection; track $index) {
+              <option [ngValue]="eventOption">{{ eventOption.id }}</option>
+            }
           </select>
         </div>
       </div>

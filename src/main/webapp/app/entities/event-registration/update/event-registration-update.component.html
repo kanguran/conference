@@ -1,17 +1,19 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-event-registration-heading" data-cy="EventRegistrationCreateUpdateHeading">Create or edit a Event Registration</h2>
 
       <div>
-        <jhi-alert-error></jhi-alert-error>
+        <jhi-alert-error />
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" for="field_description">Description</label>
           <input
             type="text"
@@ -23,7 +25,8 @@
           />
         </div>
 
-        <div class="row mb-3">
+        @let eventRegistrationStatusRef = editForm.get('eventRegistrationStatus')!;
+        <div class="mb-3">
           <label class="form-label" for="field_eventRegistrationStatus">Event Registration Status</label>
           <select
             class="form-control"
@@ -33,23 +36,22 @@
             data-cy="eventRegistrationStatus"
           >
             <option [ngValue]="null"></option>
-            <option *ngFor="let eventRegistrationStatus of eventRegistrationStatusValues" [value]="eventRegistrationStatus">
-              eventRegistrationStatus
-            </option>
+            @for (eventRegistrationStatus of eventRegistrationStatusValues; track $index) {
+              <option [value]="eventRegistrationStatus">
+                {{ { null: '', ACTIVE: 'ACTIVE', CANCELLED: 'CANCELLED' }[eventRegistrationStatus] }}
+              </option>
+            }
           </select>
-          <div
-            *ngIf="
-              editForm.get('eventRegistrationStatus')!.invalid &&
-              (editForm.get('eventRegistrationStatus')!.dirty || editForm.get('eventRegistrationStatus')!.touched)
-            "
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('eventRegistrationStatus')?.errors?.required">
-              This field is required.
-            </small>
-          </div>
+          @if (eventRegistrationStatusRef.invalid && (eventRegistrationStatusRef.dirty || eventRegistrationStatusRef.touched)) {
+            <div>
+              @if (editForm.get('eventRegistrationStatus')?.errors?.required) {
+                <small class="form-text text-danger">This field is required.</small>
+              }
+            </div>
+          }
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" for="field_eventCounterparty">Event Counterparty</label>
           <select
             class="form-control"
@@ -60,13 +62,13 @@
             [compareWith]="compareApplicationUser"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="applicationUserOption" *ngFor="let applicationUserOption of applicationUsersSharedCollection">
-              {{ applicationUserOption.id }}
-            </option>
+            @for (applicationUserOption of eventCounterpartiesCollection; track $index) {
+              <option [ngValue]="applicationUserOption">{{ applicationUserOption.id }}</option>
+            }
           </select>
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" for="field_eventContext">Event Context</label>
           <select
             class="form-control"
@@ -77,9 +79,9 @@
             [compareWith]="compareEventContext"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="eventContextOption" *ngFor="let eventContextOption of eventContextsSharedCollection">
-              {{ eventContextOption.id }}
-            </option>
+            @for (eventContextOption of eventContextsSharedCollection; track $index) {
+              <option [ngValue]="eventContextOption">{{ eventContextOption.id }}</option>
+            }
           </select>
         </div>
       </div>

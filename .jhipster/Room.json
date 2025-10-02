@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20240119211629"
+  },
   "applications": "*",
   "changelogDate": "20240119211629",
   "dto": "mapstruct",
@@ -22,5 +25,6 @@
   "pagination": "pagination",
   "readOnly": false,
   "relationships": [],
+  "searchEngine": "no",
   "service": "serviceClass"
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,12 +14,10 @@ export type EntityArrayResponseType = HttpResponse<IRoom[]>;
 
 @Injectable({ providedIn: 'root' })
 export class RoomService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/rooms');
+  protected readonly http = inject(HttpClient);
+  protected readonly applicationConfigService = inject(ApplicationConfigService);
 
-  constructor(
-    protected http: HttpClient,
-    protected applicationConfigService: ApplicationConfigService,
-  ) {}
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/rooms');
 
   create(room: NewRoom): Observable<EntityResponseType> {
     return this.http.post<IRoom>(this.resourceUrl, room, { observe: 'response' });
@@ -60,7 +58,7 @@ export class RoomService {
   ): Type[] {
     const rooms: Type[] = roomsToCheck.filter(isPresent);
     if (rooms.length > 0) {
-      const roomCollectionIdentifiers = roomCollection.map(roomItem => this.getRoomIdentifier(roomItem)!);
+      const roomCollectionIdentifiers = roomCollection.map(roomItem => this.getRoomIdentifier(roomItem));
       const roomsToAdd = rooms.filter(roomItem => {
         const roomIdentifier = this.getRoomIdentifier(roomItem);
         if (roomCollectionIdentifiers.includes(roomIdentifier)) {

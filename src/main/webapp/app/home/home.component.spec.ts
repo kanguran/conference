@@ -2,13 +2,12 @@ jest.mock('app/core/auth/account.service');
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Subject, of } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 
-import { HomeComponent } from './home.component';
+import HomeComponent from './home.component';
 
 describe('Home Component', () => {
   let comp: HomeComponent;
@@ -28,8 +27,7 @@ describe('Home Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
-      declarations: [HomeComponent],
+      imports: [HomeComponent],
       providers: [AccountService],
     })
       .overrideTemplate(HomeComponent, '')
@@ -48,7 +46,7 @@ describe('Home Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should synchronize account variable with current account', () => {
+    it('should synchronize account variable with current account', () => {
       // GIVEN
       const authenticationState = new Subject<Account | null>();
       mockAccountService.getAuthenticationState = jest.fn(() => authenticationState.asObservable());
@@ -57,24 +55,24 @@ describe('Home Component', () => {
       comp.ngOnInit();
 
       // THEN
-      expect(comp.account).toBeNull();
+      expect(comp.account()).toBeNull();
 
       // WHEN
       authenticationState.next(account);
 
       // THEN
-      expect(comp.account).toEqual(account);
+      expect(comp.account()).toEqual(account);
 
       // WHEN
       authenticationState.next(null);
 
       // THEN
-      expect(comp.account).toBeNull();
+      expect(comp.account()).toBeNull();
     });
   });
 
   describe('login', () => {
-    it('Should navigate to /login on login', () => {
+    it('should navigate to /login on login', () => {
       // WHEN
       comp.login();
 
@@ -84,7 +82,7 @@ describe('Home Component', () => {
   });
 
   describe('ngOnDestroy', () => {
-    it('Should destroy authentication state subscription on component destroy', () => {
+    it('should destroy authentication state subscription on component destroy', () => {
       // GIVEN
       const authenticationState = new Subject<Account | null>();
       mockAccountService.getAuthenticationState = jest.fn(() => authenticationState.asObservable());
@@ -93,20 +91,20 @@ describe('Home Component', () => {
       comp.ngOnInit();
 
       // THEN
-      expect(comp.account).toBeNull();
+      expect(comp.account()).toBeNull();
 
       // WHEN
       authenticationState.next(account);
 
       // THEN
-      expect(comp.account).toEqual(account);
+      expect(comp.account()).toEqual(account);
 
       // WHEN
       comp.ngOnDestroy();
       authenticationState.next(null);
 
       // THEN
-      expect(comp.account).toEqual(account);
+      expect(comp.account()).toEqual(account);
     });
   });
 });

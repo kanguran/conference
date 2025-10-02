@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpResponse, provideHttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Subject, from, of } from 'rxjs';
 
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
@@ -24,9 +22,9 @@ describe('Event Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      declarations: [EventUpdateComponent],
+      imports: [EventUpdateComponent],
       providers: [
+        provideHttpClient(),
         FormBuilder,
         {
           provide: ActivatedRoute,
@@ -49,46 +47,42 @@ describe('Event Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call ApplicationUser query and add missing value', () => {
-      const event: IEvent = { id: 456 };
-      const mainHost: IApplicationUser = { id: 8481 };
+    it('should call mainHost query and add missing value', () => {
+      const event: IEvent = { id: 3268 };
+      const mainHost: IApplicationUser = { id: 2107 };
       event.mainHost = mainHost;
 
-      const applicationUserCollection: IApplicationUser[] = [{ id: 2695 }];
-      jest.spyOn(applicationUserService, 'query').mockReturnValue(of(new HttpResponse({ body: applicationUserCollection })));
-      const additionalApplicationUsers = [mainHost];
-      const expectedCollection: IApplicationUser[] = [...additionalApplicationUsers, ...applicationUserCollection];
+      const mainHostCollection: IApplicationUser[] = [{ id: 2107 }];
+      jest.spyOn(applicationUserService, 'query').mockReturnValue(of(new HttpResponse({ body: mainHostCollection })));
+      const expectedCollection: IApplicationUser[] = [mainHost, ...mainHostCollection];
       jest.spyOn(applicationUserService, 'addApplicationUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ event });
       comp.ngOnInit();
 
       expect(applicationUserService.query).toHaveBeenCalled();
-      expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(
-        applicationUserCollection,
-        ...additionalApplicationUsers.map(expect.objectContaining),
-      );
-      expect(comp.applicationUsersSharedCollection).toEqual(expectedCollection);
+      expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(mainHostCollection, mainHost);
+      expect(comp.mainHostsCollection).toEqual(expectedCollection);
     });
 
-    it('Should update editForm', () => {
-      const event: IEvent = { id: 456 };
-      const mainHost: IApplicationUser = { id: 17941 };
+    it('should update editForm', () => {
+      const event: IEvent = { id: 3268 };
+      const mainHost: IApplicationUser = { id: 2107 };
       event.mainHost = mainHost;
 
       activatedRoute.data = of({ event });
       comp.ngOnInit();
 
-      expect(comp.applicationUsersSharedCollection).toContain(mainHost);
+      expect(comp.mainHostsCollection).toContainEqual(mainHost);
       expect(comp.event).toEqual(event);
     });
   });
 
   describe('save', () => {
-    it('Should call update service on save for existing entity', () => {
+    it('should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IEvent>>();
-      const event = { id: 123 };
+      const event = { id: 22576 };
       jest.spyOn(eventFormService, 'getEvent').mockReturnValue(event);
       jest.spyOn(eventService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -108,10 +102,10 @@ describe('Event Management Update Component', () => {
       expect(comp.isSaving).toEqual(false);
     });
 
-    it('Should call create service on save for new entity', () => {
+    it('should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IEvent>>();
-      const event = { id: 123 };
+      const event = { id: 22576 };
       jest.spyOn(eventFormService, 'getEvent').mockReturnValue({ id: null });
       jest.spyOn(eventService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -131,10 +125,10 @@ describe('Event Management Update Component', () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it('Should set isSaving to false on error', () => {
+    it('should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IEvent>>();
-      const event = { id: 123 };
+      const event = { id: 22576 };
       jest.spyOn(eventService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ event });
@@ -154,9 +148,9 @@ describe('Event Management Update Component', () => {
 
   describe('Compare relationships', () => {
     describe('compareApplicationUser', () => {
-      it('Should forward to applicationUserService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+      it('should forward to applicationUserService', () => {
+        const entity = { id: 2107 };
+        const entity2 = { id: 4268 };
         jest.spyOn(applicationUserService, 'compareApplicationUser');
         comp.compareApplicationUser(entity, entity2);
         expect(applicationUserService.compareApplicationUser).toHaveBeenCalledWith(entity, entity2);

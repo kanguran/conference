@@ -1,11 +1,11 @@
 id;host
-1;true
-2;false
+1;false
+2;true
 3;false
-4;false
-5;true
+4;true
+5;false
 6;true
-7;false
-8;false
+7;true
+8;true
 9;true
 10;false

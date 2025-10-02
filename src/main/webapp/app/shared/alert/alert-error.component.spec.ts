@@ -14,7 +14,7 @@ describe('Alert Error Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AlertErrorComponent],
+      imports: [AlertErrorComponent],
       providers: [EventManager, AlertService],
     })
       .overrideTemplate(AlertErrorComponent, '')
@@ -35,33 +35,33 @@ describe('Alert Error Component', () => {
   });
 
   describe('Error Handling', () => {
-    it('Should display an alert on status 0', () => {
+    it('should display an alert on status 0', () => {
       // GIVEN
       eventManager.broadcast({ name: 'conferenceApp.httpError', content: { status: 0 } });
       // THEN
-      expect(comp.alerts.length).toBe(1);
-      expect(comp.alerts[0].message).toBe('Server not reachable');
+      expect(comp.alerts().length).toBe(1);
+      expect(comp.alerts()[0].message).toBe('Server not reachable');
     });
 
-    it('Should display an alert on status 404', () => {
+    it('should display an alert on status 404', () => {
       // GIVEN
       eventManager.broadcast({ name: 'conferenceApp.httpError', content: { status: 404 } });
       // THEN
-      expect(comp.alerts.length).toBe(1);
-      expect(comp.alerts[0].message).toBe('Not found');
+      expect(comp.alerts().length).toBe(1);
+      expect(comp.alerts()[0].message).toBe('Not found');
     });
 
-    it('Should display an alert on generic error', () => {
+    it('should display an alert on generic error', () => {
       // GIVEN
       eventManager.broadcast({ name: 'conferenceApp.httpError', content: { error: { message: 'Error Message' } } });
       eventManager.broadcast({ name: 'conferenceApp.httpError', content: { error: 'Second Error Message' } });
       // THEN
-      expect(comp.alerts.length).toBe(2);
-      expect(comp.alerts[0].message).toBe('Error Message');
-      expect(comp.alerts[1].message).toBe('Second Error Message');
+      expect(comp.alerts().length).toBe(2);
+      expect(comp.alerts()[0].message).toBe('Error Message');
+      expect(comp.alerts()[1].message).toBe('Second Error Message');
     });
 
-    it('Should display an alert on status 400 for generic error', () => {
+    it('should display an alert on status 400 for generic error', () => {
       // GIVEN
       const response = new HttpErrorResponse({
         url: 'http://localhost:8080/api/foos',
@@ -69,7 +69,7 @@ describe('Alert Error Component', () => {
         status: 400,
         statusText: 'Bad Request',
         error: {
-          type: 'https://www.jhipster.tech/problem/constraint-violation',
+          type: 'https://www.jhipster.tech/problem/problem-with-message',
           title: 'Bad Request',
           status: 400,
           path: '/api/foos',
@@ -78,11 +78,11 @@ describe('Alert Error Component', () => {
       });
       eventManager.broadcast({ name: 'conferenceApp.httpError', content: response });
       // THEN
-      expect(comp.alerts.length).toBe(1);
-      expect(comp.alerts[0].message).toBe('error.validation');
+      expect(comp.alerts().length).toBe(1);
+      expect(comp.alerts()[0].message).toBe('error.validation');
     });
 
-    it('Should display an alert on status 400 for generic error without message', () => {
+    it('should display an alert on status 400 for generic error without message', () => {
       // GIVEN
       const response = new HttpErrorResponse({
         url: 'http://localhost:8080/api/foos',
@@ -92,11 +92,11 @@ describe('Alert Error Component', () => {
       });
       eventManager.broadcast({ name: 'conferenceApp.httpError', content: response });
       // THEN
-      expect(comp.alerts.length).toBe(1);
-      expect(comp.alerts[0].message).toBe('Bad Request');
+      expect(comp.alerts().length).toBe(1);
+      expect(comp.alerts()[0].message).toBe('Bad Request');
     });
 
-    it('Should display an alert on status 400 for invalid parameters', () => {
+    it('should display an alert on status 400 for invalid parameters', () => {
       // GIVEN
       const response = new HttpErrorResponse({
         url: 'http://localhost:8080/api/foos',
@@ -104,7 +104,7 @@ describe('Alert Error Component', () => {
         status: 400,
         statusText: 'Bad Request',
         error: {
-          type: 'https://www.jhipster.tech/problem/constraint-violation',
+          type: 'https://www.jhipster.tech/problem/problem-with-message',
           title: 'Method argument not valid',
           status: 400,
           path: '/api/foos',
@@ -114,11 +114,11 @@ describe('Alert Error Component', () => {
       });
       eventManager.broadcast({ name: 'conferenceApp.httpError', content: response });
       // THEN
-      expect(comp.alerts.length).toBe(1);
-      expect(comp.alerts[0].message).toBe('Error on field "MinField"');
+      expect(comp.alerts().length).toBe(1);
+      expect(comp.alerts()[0].message).toBe('Error on field "MinField"');
     });
 
-    it('Should display an alert on status 400 for error headers', () => {
+    it('should display an alert on status 400 for error headers', () => {
       // GIVEN
       const response = new HttpErrorResponse({
         url: 'http://localhost:8080/api/foos',
@@ -132,11 +132,11 @@ describe('Alert Error Component', () => {
       });
       eventManager.broadcast({ name: 'conferenceApp.httpError', content: response });
       // THEN
-      expect(comp.alerts.length).toBe(1);
-      expect(comp.alerts[0].message).toBe('Error Message');
+      expect(comp.alerts().length).toBe(1);
+      expect(comp.alerts()[0].message).toBe('Error Message');
     });
 
-    it('Should display an alert on status 500 with detail', () => {
+    it('should display an alert on status 500 with detail', () => {
       // GIVEN
       const response = new HttpErrorResponse({
         url: 'http://localhost:8080/api/foos',
@@ -151,8 +151,8 @@ describe('Alert Error Component', () => {
       });
       eventManager.broadcast({ name: 'conferenceApp.httpError', content: response });
       // THEN
-      expect(comp.alerts.length).toBe(1);
-      expect(comp.alerts[0].message).toBe('Detailed error message');
+      expect(comp.alerts().length).toBe(1);
+      expect(comp.alerts()[0].message).toBe('Detailed error message');
     });
   });
 });

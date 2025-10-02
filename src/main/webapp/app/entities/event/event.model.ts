@@ -5,8 +5,8 @@ import { EventStatus } from 'app/entities/enumerations/event-status.model';
 export interface IEvent {
   id: number;
   name?: string | null;
-  eventType?: EventType | null;
-  eventStatus?: EventStatus | null;
+  eventType?: keyof typeof EventType | null;
+  eventStatus?: keyof typeof EventStatus | null;
   mainHost?: Pick<IApplicationUser, 'id'> | null;
 }
 

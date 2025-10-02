@@ -7,7 +7,7 @@ import { EventContextStatus } from 'app/entities/enumerations/event-context-stat
 export interface IEventContext {
   id: number;
   description?: string | null;
-  eventContextStatus?: EventContextStatus | null;
+  eventContextStatus?: keyof typeof EventContextStatus | null;
   start?: dayjs.Dayjs | null;
   end?: dayjs.Dayjs | null;
   eventContextRoom?: Pick<IRoom, 'id'> | null;

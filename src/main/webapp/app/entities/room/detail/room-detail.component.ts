@@ -1,22 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, input } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
+import SharedModule from 'app/shared/shared.module';
 import { IRoom } from '../room.model';
 
 @Component({
   selector: 'jhi-room-detail',
   templateUrl: './room-detail.component.html',
+  imports: [SharedModule, RouterModule],
 })
-export class RoomDetailComponent implements OnInit {
-  room: IRoom | null = null;
-
-  constructor(protected activatedRoute: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ room }) => {
-      this.room = room;
-    });
-  }
+export class RoomDetailComponent {
+  room = input<IRoom | null>(null);
 
   previousState(): void {
     window.history.back();
