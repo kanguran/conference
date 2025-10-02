@@ -1,6 +1,5 @@
 package com.conference;
 
-import com.conference.ConferenceApp;
 import com.conference.config.AsyncSyncConfiguration;
 import com.conference.config.EmbeddedSQL;
 import java.lang.annotation.ElementType;

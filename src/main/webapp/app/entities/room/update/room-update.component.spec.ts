@@ -4,11 +4,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, Subject, from } from 'rxjs';
+import { Subject, from, of } from 'rxjs';
 
-import { RoomFormService } from './room-form.service';
 import { RoomService } from '../service/room.service';
 import { IRoom } from '../room.model';
+import { RoomFormService } from './room-form.service';
 
 import { RoomUpdateComponent } from './room-update.component';
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Log, LoggersResponse, Level } from './log.model';
+import { Level, Log, LoggersResponse } from './log.model';
 import { LogsService } from './logs.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class LogsComponent implements OnInit {
 
   filterAndSort(): void {
     this.filteredAndOrderedLoggers = this.loggers!.filter(
-      logger => !this.filter || logger.name.toLowerCase().includes(this.filter.toLowerCase())
+      logger => !this.filter || logger.name.toLowerCase().includes(this.filter.toLowerCase()),
     ).sort((a, b) => {
       if (a[this.orderProp] < b[this.orderProp]) {
         return this.ascending ? -1 : 1;

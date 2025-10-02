@@ -1,7 +1,7 @@
 jest.mock('app/core/auth/account.service');
 
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router, RouterEvent, NavigationEnd, NavigationStart } from '@angular/router';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { Subject, of } from 'rxjs';
 

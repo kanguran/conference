@@ -4,11 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { ApplicationUserFormService, ApplicationUserFormGroup } from './application-user-form.service';
-import { IApplicationUser } from '../application-user.model';
-import { ApplicationUserService } from '../service/application-user.service';
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
+import { IApplicationUser } from '../application-user.model';
+import { ApplicationUserService } from '../service/application-user.service';
+import { ApplicationUserFormGroup, ApplicationUserFormService } from './application-user-form.service';
 
 @Component({
   selector: 'jhi-application-user-update',
@@ -26,7 +26,7 @@ export class ApplicationUserUpdateComponent implements OnInit {
     protected applicationUserService: ApplicationUserService,
     protected applicationUserFormService: ApplicationUserFormService,
     protected userService: UserService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
   ) {}
 
   compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);

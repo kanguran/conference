@@ -4,9 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { RoomFormService, RoomFormGroup } from './room-form.service';
 import { IRoom } from '../room.model';
 import { RoomService } from '../service/room.service';
+import { RoomFormGroup, RoomFormService } from './room-form.service';
 
 @Component({
   selector: 'jhi-room-update',
@@ -18,7 +18,11 @@ export class RoomUpdateComponent implements OnInit {
 
   editForm: RoomFormGroup = this.roomFormService.createRoomFormGroup();
 
-  constructor(protected roomService: RoomService, protected roomFormService: RoomFormService, protected activatedRoute: ActivatedRoute) {}
+  constructor(
+    protected roomService: RoomService,
+    protected roomFormService: RoomFormService,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ room }) => {

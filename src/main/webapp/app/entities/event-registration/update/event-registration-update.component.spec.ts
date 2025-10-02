@@ -4,15 +4,15 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, Subject, from } from 'rxjs';
+import { Subject, from, of } from 'rxjs';
 
-import { EventRegistrationFormService } from './event-registration-form.service';
-import { EventRegistrationService } from '../service/event-registration.service';
-import { IEventRegistration } from '../event-registration.model';
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
 import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
 import { IEventContext } from 'app/entities/event-context/event-context.model';
 import { EventContextService } from 'app/entities/event-context/service/event-context.service';
+import { IEventRegistration } from '../event-registration.model';
+import { EventRegistrationService } from '../service/event-registration.service';
+import { EventRegistrationFormService } from './event-registration-form.service';
 
 import { EventRegistrationUpdateComponent } from './event-registration-update.component';
 
@@ -70,7 +70,7 @@ describe('EventRegistration Management Update Component', () => {
       expect(applicationUserService.query).toHaveBeenCalled();
       expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(
         applicationUserCollection,
-        ...additionalApplicationUsers.map(expect.objectContaining)
+        ...additionalApplicationUsers.map(expect.objectContaining),
       );
       expect(comp.applicationUsersSharedCollection).toEqual(expectedCollection);
     });
@@ -92,7 +92,7 @@ describe('EventRegistration Management Update Component', () => {
       expect(eventContextService.query).toHaveBeenCalled();
       expect(eventContextService.addEventContextToCollectionIfMissing).toHaveBeenCalledWith(
         eventContextCollection,
-        ...additionalEventContexts.map(expect.objectContaining)
+        ...additionalEventContexts.map(expect.objectContaining),
       );
       expect(comp.eventContextsSharedCollection).toEqual(expectedCollection);
     });

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, Routes } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 import { IUser } from './user-management.model';
@@ -13,7 +13,7 @@ export class UserManagementResolve implements Resolve<IUser | null> {
   constructor(private service: UserManagementService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IUser | null> {
-    const id = route.params['login'];
+    const id = route.params.login;
     if (id) {
       return this.service.find(id);
     }

@@ -4,9 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { EventContextFormService, EventContextFormGroup } from './event-context-form.service';
-import { IEventContext } from '../event-context.model';
-import { EventContextService } from '../service/event-context.service';
 import { IRoom } from 'app/entities/room/room.model';
 import { RoomService } from 'app/entities/room/service/room.service';
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
@@ -14,6 +11,9 @@ import { ApplicationUserService } from 'app/entities/application-user/service/ap
 import { IEvent } from 'app/entities/event/event.model';
 import { EventService } from 'app/entities/event/service/event.service';
 import { EventContextStatus } from 'app/entities/enumerations/event-context-status.model';
+import { EventContextService } from '../service/event-context.service';
+import { IEventContext } from '../event-context.model';
+import { EventContextFormGroup, EventContextFormService } from './event-context-form.service';
 
 @Component({
   selector: 'jhi-event-context-update',
@@ -36,7 +36,7 @@ export class EventContextUpdateComponent implements OnInit {
     protected roomService: RoomService,
     protected applicationUserService: ApplicationUserService,
     protected eventService: EventService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
   ) {}
 
   compareRoom = (o1: IRoom | null, o2: IRoom | null): boolean => this.roomService.compareRoom(o1, o2);
@@ -96,11 +96,11 @@ export class EventContextUpdateComponent implements OnInit {
 
     this.roomsSharedCollection = this.roomService.addRoomToCollectionIfMissing<IRoom>(
       this.roomsSharedCollection,
-      eventContext.eventContextRoom
+      eventContext.eventContextRoom,
     );
     this.applicationUsersSharedCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
       this.applicationUsersSharedCollection,
-      eventContext.contextHost
+      eventContext.contextHost,
     );
     this.eventsSharedCollection = this.eventService.addEventToCollectionIfMissing<IEvent>(this.eventsSharedCollection, eventContext.event);
   }
@@ -119,9 +119,9 @@ export class EventContextUpdateComponent implements OnInit {
         map((applicationUsers: IApplicationUser[]) =>
           this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
             applicationUsers,
-            this.eventContext?.contextHost
-          )
-        )
+            this.eventContext?.contextHost,
+          ),
+        ),
       )
       .subscribe((applicationUsers: IApplicationUser[]) => (this.applicationUsersSharedCollection = applicationUsers));
 

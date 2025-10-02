@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -63,8 +62,7 @@ public class EventContextResource {
             throw new BadRequestAlertException("A new eventContext cannot already have an ID", ENTITY_NAME, "idexists");
         }
         EventContextDTO result = eventContextService.save(eventContextDTO);
-        return ResponseEntity
-            .created(new URI("/api/event-contexts/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/event-contexts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -97,8 +95,7 @@ public class EventContextResource {
         }
 
         EventContextDTO result = eventContextService.update(eventContextDTO);
-        return ResponseEntity
-            .ok()
+        return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, eventContextDTO.getId().toString()))
             .body(result);
     }
@@ -176,8 +173,7 @@ public class EventContextResource {
     public ResponseEntity<Void> deleteEventContext(@PathVariable Long id) {
         log.debug("REST request to delete EventContext : {}", id);
         eventContextService.delete(id);
-        return ResponseEntity
-            .noContent()
+        return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }

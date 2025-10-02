@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithRequiredData, sampleWithNewData } from '../event.test-samples';
+import { sampleWithNewData, sampleWithRequiredData } from '../event.test-samples';
 
 import { EventFormService } from './event-form.service';
 
@@ -24,7 +24,7 @@ describe('Event Form Service', () => {
             eventType: expect.any(Object),
             eventStatus: expect.any(Object),
             mainHost: expect.any(Object),
-          })
+          }),
         );
       });
 
@@ -38,7 +38,7 @@ describe('Event Form Service', () => {
             eventType: expect.any(Object),
             eventStatus: expect.any(Object),
             mainHost: expect.any(Object),
-          })
+          }),
         );
       });
     });

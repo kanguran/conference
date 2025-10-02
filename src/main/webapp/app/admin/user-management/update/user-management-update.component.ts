@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { IUser } from '../user-management.model';
@@ -40,7 +40,10 @@ export class UserManagementUpdateComponent implements OnInit {
     authorities: new FormControl(userTemplate.authorities, { nonNullable: true }),
   });
 
-  constructor(private userService: UserManagementService, private route: ActivatedRoute) {}
+  constructor(
+    private userService: UserManagementService,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.route.data.subscribe(({ user }) => {

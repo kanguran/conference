@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -62,8 +61,7 @@ public class RoomResource {
             throw new BadRequestAlertException("A new room cannot already have an ID", ENTITY_NAME, "idexists");
         }
         RoomDTO result = roomService.save(roomDTO);
-        return ResponseEntity
-            .created(new URI("/api/rooms/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/rooms/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -96,8 +94,7 @@ public class RoomResource {
         }
 
         RoomDTO result = roomService.update(roomDTO);
-        return ResponseEntity
-            .ok()
+        return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, roomDTO.getId().toString()))
             .body(result);
     }
@@ -175,8 +172,7 @@ public class RoomResource {
     public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
         log.debug("REST request to delete Room : {}", id);
         roomService.delete(id);
-        return ResponseEntity
-            .noContent()
+        return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }

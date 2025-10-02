@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject, of } from 'rxjs';
-import { shareReplay, tap, catchError } from 'rxjs/operators';
+import { catchError, shareReplay, tap } from 'rxjs/operators';
 
 import { StateStorageService } from 'app/core/auth/state-storage.service';
-import { ApplicationConfigService } from '../config/application-config.service';
 import { Account } from 'app/core/auth/account.model';
+import { ApplicationConfigService } from '../config/application-config.service';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -18,7 +18,7 @@ export class AccountService {
     private http: HttpClient,
     private stateStorageService: StateStorageService,
     private router: Router,
-    private applicationConfigService: ApplicationConfigService
+    private applicationConfigService: ApplicationConfigService,
   ) {}
 
   save(account: Account): Observable<{}> {
@@ -51,7 +51,7 @@ export class AccountService {
 
           this.navigateToStoredUrl();
         }),
-        shareReplay()
+        shareReplay(),
       );
     }
     return this.accountCache$.pipe(catchError(() => of(null)));

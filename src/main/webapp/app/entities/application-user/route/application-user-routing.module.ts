@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { ASC } from 'app/config/navigation.constants';
 import { ApplicationUserComponent } from '../list/application-user.component';
 import { ApplicationUserDetailComponent } from '../detail/application-user-detail.component';
 import { ApplicationUserUpdateComponent } from '../update/application-user-update.component';
 import { ApplicationUserRoutingResolveService } from './application-user-routing-resolve.service';
-import { ASC } from 'app/config/navigation.constants';
 
 const applicationUserRoute: Routes = [
   {
     path: '',
     component: ApplicationUserComponent,
     data: {
-      defaultSort: 'id,' + ASC,
+      defaultSort: `id,${  ASC}`,
     },
     canActivate: [UserRouteAccessService],
   },

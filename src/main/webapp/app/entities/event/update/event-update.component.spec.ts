@@ -4,13 +4,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, Subject, from } from 'rxjs';
+import { Subject, from, of } from 'rxjs';
 
-import { EventFormService } from './event-form.service';
-import { EventService } from '../service/event.service';
-import { IEvent } from '../event.model';
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
 import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
+import { EventService } from '../service/event.service';
+import { IEvent } from '../event.model';
+import { EventFormService } from './event-form.service';
 
 import { EventUpdateComponent } from './event-update.component';
 
@@ -66,7 +66,7 @@ describe('Event Management Update Component', () => {
       expect(applicationUserService.query).toHaveBeenCalled();
       expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(
         applicationUserCollection,
-        ...additionalApplicationUsers.map(expect.objectContaining)
+        ...additionalApplicationUsers.map(expect.objectContaining),
       );
       expect(comp.applicationUsersSharedCollection).toEqual(expectedCollection);
     });

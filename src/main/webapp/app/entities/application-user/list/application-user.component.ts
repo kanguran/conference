@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { Observable, combineLatest, filter, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { IApplicationUser } from '../application-user.model';
-import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
-import { EntityArrayResponseType, ApplicationUserService } from '../service/application-user.service';
-import { ApplicationUserDeleteDialogComponent } from '../delete/application-user-delete-dialog.component';
+import { ASC, DEFAULT_SORT_DATA, DESC, ITEM_DELETED_EVENT, SORT } from 'app/config/navigation.constants';
 import { SortService } from 'app/shared/sort/sort.service';
+import { IApplicationUser } from '../application-user.model';
+import { ApplicationUserService, EntityArrayResponseType } from '../service/application-user.service';
+import { ApplicationUserDeleteDialogComponent } from '../delete/application-user-delete-dialog.component';
 
 @Component({
   selector: 'jhi-application-user',
@@ -25,7 +25,7 @@ export class ApplicationUserComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
   ) {}
 
   trackId = (_index: number, item: IApplicationUser): number => this.applicationUserService.getApplicationUserIdentifier(item);
@@ -41,7 +41,7 @@ export class ApplicationUserComponent implements OnInit {
     modalRef.closed
       .pipe(
         filter(reason => reason === ITEM_DELETED_EVENT),
-        switchMap(() => this.loadFromBackendWithRouteInformations())
+        switchMap(() => this.loadFromBackendWithRouteInformations()),
       )
       .subscribe({
         next: (res: EntityArrayResponseType) => {
@@ -65,7 +65,7 @@ export class ApplicationUserComponent implements OnInit {
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
     return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
       tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
-      switchMap(() => this.queryBackend(this.predicate, this.ascending))
+      switchMap(() => this.queryBackend(this.predicate, this.ascending)),
     );
   }
 
@@ -111,8 +111,8 @@ export class ApplicationUserComponent implements OnInit {
     const ascendingQueryParam = ascending ? ASC : DESC;
     if (predicate === '') {
       return [];
-    } else {
-      return [predicate + ',' + ascendingQueryParam];
-    }
+    } 
+      return [`${predicate  },${  ascendingQueryParam}`];
+    
   }
 }

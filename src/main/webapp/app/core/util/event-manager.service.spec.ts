@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
 import { EventManager, EventWithContent } from './event-manager.service';
 
@@ -43,7 +43,7 @@ describe('Event Manager tests', () => {
         eventManager.broadcast({ name: 'modifier', content: 'modified something' });
         // THEN
         expect(recievedEvent).toEqual({ name: 'modifier', content: 'modified something' });
-      }
+      },
     ));
 
     it('should create an observable and callback when broadcasted string', inject([EventManager], (eventManager: EventManager) => {

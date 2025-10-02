@@ -14,7 +14,6 @@ import com.conference.security.AuthoritiesConstants;
 import com.conference.service.UserService;
 import com.conference.service.dto.AdminUserDTO;
 import com.conference.service.dto.PasswordChangeDTO;
-import com.conference.service.dto.UserDTO;
 import com.conference.web.rest.vm.KeyAndPasswordVM;
 import com.conference.web.rest.vm.ManagedUserVM;
 import java.time.Instant;

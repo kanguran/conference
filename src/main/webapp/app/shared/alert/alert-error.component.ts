@@ -2,9 +2,9 @@ import { Component, OnDestroy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
-import { AlertError } from './alert-error.model';
 import { Alert, AlertService } from 'app/core/util/alert.service';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
+import { AlertError } from './alert-error.model';
 
 @Component({
   selector: 'jhi-alert-error',
@@ -15,7 +15,10 @@ export class AlertErrorComponent implements OnDestroy {
   errorListener: Subscription;
   httpErrorListener: Subscription;
 
-  constructor(private alertService: AlertService, private eventManager: EventManager) {
+  constructor(
+    private alertService: AlertService,
+    private eventManager: EventManager,
+  ) {
     this.errorListener = eventManager.subscribe('conferenceApp.error', (response: EventWithContent<unknown> | string) => {
       const errorResponse = (response as EventWithContent<AlertError>).content;
       this.addErrorAlert(errorResponse.message);

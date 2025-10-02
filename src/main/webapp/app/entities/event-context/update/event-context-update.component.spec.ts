@@ -4,17 +4,17 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, Subject, from } from 'rxjs';
+import { Subject, from, of } from 'rxjs';
 
-import { EventContextFormService } from './event-context-form.service';
-import { EventContextService } from '../service/event-context.service';
-import { IEventContext } from '../event-context.model';
 import { IRoom } from 'app/entities/room/room.model';
 import { RoomService } from 'app/entities/room/service/room.service';
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
 import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
 import { IEvent } from 'app/entities/event/event.model';
 import { EventService } from 'app/entities/event/service/event.service';
+import { IEventContext } from '../event-context.model';
+import { EventContextService } from '../service/event-context.service';
+import { EventContextFormService } from './event-context-form.service';
 
 import { EventContextUpdateComponent } from './event-context-update.component';
 
@@ -74,7 +74,7 @@ describe('EventContext Management Update Component', () => {
       expect(roomService.query).toHaveBeenCalled();
       expect(roomService.addRoomToCollectionIfMissing).toHaveBeenCalledWith(
         roomCollection,
-        ...additionalRooms.map(expect.objectContaining)
+        ...additionalRooms.map(expect.objectContaining),
       );
       expect(comp.roomsSharedCollection).toEqual(expectedCollection);
     });
@@ -96,7 +96,7 @@ describe('EventContext Management Update Component', () => {
       expect(applicationUserService.query).toHaveBeenCalled();
       expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(
         applicationUserCollection,
-        ...additionalApplicationUsers.map(expect.objectContaining)
+        ...additionalApplicationUsers.map(expect.objectContaining),
       );
       expect(comp.applicationUsersSharedCollection).toEqual(expectedCollection);
     });
@@ -118,7 +118,7 @@ describe('EventContext Management Update Component', () => {
       expect(eventService.query).toHaveBeenCalled();
       expect(eventService.addEventToCollectionIfMissing).toHaveBeenCalledWith(
         eventCollection,
-        ...additionalEvents.map(expect.objectContaining)
+        ...additionalEvents.map(expect.objectContaining),
       );
       expect(comp.eventsSharedCollection).toEqual(expectedCollection);
     });

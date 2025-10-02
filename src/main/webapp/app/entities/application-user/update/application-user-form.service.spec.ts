@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithRequiredData, sampleWithNewData } from '../application-user.test-samples';
+import { sampleWithNewData, sampleWithRequiredData } from '../application-user.test-samples';
 
 import { ApplicationUserFormService } from './application-user-form.service';
 
@@ -22,7 +22,7 @@ describe('ApplicationUser Form Service', () => {
             id: expect.any(Object),
             host: expect.any(Object),
             appUser: expect.any(Object),
-          })
+          }),
         );
       });
 
@@ -34,7 +34,7 @@ describe('ApplicationUser Form Service', () => {
             id: expect.any(Object),
             host: expect.any(Object),
             appUser: expect.any(Object),
-          })
+          }),
         );
       });
     });

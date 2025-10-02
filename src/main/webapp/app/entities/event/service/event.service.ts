@@ -16,7 +16,10 @@ export type EntityArrayResponseType = HttpResponse<IEvent[]>;
 export class EventService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/events');
 
-  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(event: NewEvent): Observable<EntityResponseType> {
     return this.http.post<IEvent>(this.resourceUrl, event, { observe: 'response' });
