@@ -29,7 +29,10 @@ export type EntityArrayResponseType = HttpResponse<IEventContext[]>;
 export class EventContextService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/event-contexts');
 
-  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(eventContext: NewEventContext): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(eventContext);
@@ -84,7 +87,7 @@ export class EventContextService {
     const eventContexts: Type[] = eventContextsToCheck.filter(isPresent);
     if (eventContexts.length > 0) {
       const eventContextCollectionIdentifiers = eventContextCollection.map(
-        eventContextItem => this.getEventContextIdentifier(eventContextItem)!
+        eventContextItem => this.getEventContextIdentifier(eventContextItem)!,
       );
       const eventContextsToAdd = eventContexts.filter(eventContextItem => {
         const eventContextIdentifier = this.getEventContextIdentifier(eventContextItem);

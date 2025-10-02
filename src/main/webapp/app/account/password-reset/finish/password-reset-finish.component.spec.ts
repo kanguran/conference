@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -75,7 +75,7 @@ describe('PasswordResetFinishComponent', () => {
 
       expect(service.save).toHaveBeenCalledWith('XYZPDQ', 'password');
       expect(comp.success).toBe(true);
-    })
+    }),
   ));
 
   it('should notify of generic error', inject(
@@ -93,6 +93,6 @@ describe('PasswordResetFinishComponent', () => {
       expect(service.save).toHaveBeenCalledWith('XYZPDQ', 'password');
       expect(comp.success).toBe(false);
       expect(comp.error).toBe(true);
-    })
+    }),
   ));
 });

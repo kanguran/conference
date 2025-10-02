@@ -40,7 +40,7 @@ export class EventFormService {
         {
           nonNullable: true,
           validators: [Validators.required],
-        }
+        },
       ),
       name: new FormControl(eventRawValue.name, {
         validators: [Validators.required],
@@ -67,7 +67,7 @@ export class EventFormService {
       {
         ...eventRawValue,
         id: { value: eventRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
+      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
     );
   }
 

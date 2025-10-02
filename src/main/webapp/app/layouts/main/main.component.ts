@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
+import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -9,7 +9,11 @@ import { AccountService } from 'app/core/auth/account.service';
   templateUrl: './main.component.html',
 })
 export class MainComponent implements OnInit {
-  constructor(private accountService: AccountService, private titleService: Title, private router: Router) {}
+  constructor(
+    private accountService: AccountService,
+    private titleService: Title,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     // try to log in automatically
@@ -23,7 +27,7 @@ export class MainComponent implements OnInit {
   }
 
   private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {
-    const title: string = routeSnapshot.data['pageTitle'] ?? '';
+    const title: string = routeSnapshot.data.pageTitle ?? '';
     if (routeSnapshot.firstChild) {
       return this.getPageTitle(routeSnapshot.firstChild) || title;
     }

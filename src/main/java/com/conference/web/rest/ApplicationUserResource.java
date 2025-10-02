@@ -55,8 +55,7 @@ public class ApplicationUserResource {
             throw new BadRequestAlertException("A new applicationUser cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ApplicationUserDTO result = applicationUserService.save(applicationUserDTO);
-        return ResponseEntity
-            .created(new URI("/api/application-users/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/application-users/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -89,8 +88,7 @@ public class ApplicationUserResource {
         }
 
         ApplicationUserDTO result = applicationUserService.update(applicationUserDTO);
-        return ResponseEntity
-            .ok()
+        return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, applicationUserDTO.getId().toString()))
             .body(result);
     }
@@ -165,8 +163,7 @@ public class ApplicationUserResource {
     public ResponseEntity<Void> deleteApplicationUser(@PathVariable Long id) {
         log.debug("REST request to delete ApplicationUser : {}", id);
         applicationUserService.delete(id);
-        return ResponseEntity
-            .noContent()
+        return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }

@@ -16,7 +16,10 @@ export type EntityArrayResponseType = HttpResponse<IEventRegistration[]>;
 export class EventRegistrationService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/event-registrations');
 
-  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(eventRegistration: NewEventRegistration): Observable<EntityResponseType> {
     return this.http.post<IEventRegistration>(this.resourceUrl, eventRegistration, { observe: 'response' });
@@ -26,7 +29,7 @@ export class EventRegistrationService {
     return this.http.put<IEventRegistration>(
       `${this.resourceUrl}/${this.getEventRegistrationIdentifier(eventRegistration)}`,
       eventRegistration,
-      { observe: 'response' }
+      { observe: 'response' },
     );
   }
 
@@ -34,7 +37,7 @@ export class EventRegistrationService {
     return this.http.patch<IEventRegistration>(
       `${this.resourceUrl}/${this.getEventRegistrationIdentifier(eventRegistration)}`,
       eventRegistration,
-      { observe: 'response' }
+      { observe: 'response' },
     );
   }
 
@@ -66,7 +69,7 @@ export class EventRegistrationService {
     const eventRegistrations: Type[] = eventRegistrationsToCheck.filter(isPresent);
     if (eventRegistrations.length > 0) {
       const eventRegistrationCollectionIdentifiers = eventRegistrationCollection.map(
-        eventRegistrationItem => this.getEventRegistrationIdentifier(eventRegistrationItem)!
+        eventRegistrationItem => this.getEventRegistrationIdentifier(eventRegistrationItem)!,
       );
       const eventRegistrationsToAdd = eventRegistrations.filter(eventRegistrationItem => {
         const eventRegistrationIdentifier = this.getEventRegistrationIdentifier(eventRegistrationItem);

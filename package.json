@@ -71,6 +71,9 @@
     "default_environment": "prod",
     "packaging": "jar"
   },
+  "overrides": {
+    "webpack": "5.74.0"
+  },
   "dependencies": {
     "@angular/common": "14.2.0",
     "@angular/compiler": "14.2.0",
@@ -140,8 +143,5 @@
   },
   "cacheDirectories": [
     "node_modules"
-  ],
-  "overrides": {
-    "webpack": "5.74.0"
-  }
+  ]
 }

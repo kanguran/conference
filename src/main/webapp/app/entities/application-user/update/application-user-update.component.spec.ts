@@ -4,14 +4,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, Subject, from } from 'rxjs';
-
-import { ApplicationUserFormService } from './application-user-form.service';
-import { ApplicationUserService } from '../service/application-user.service';
-import { IApplicationUser } from '../application-user.model';
+import { Subject, from, of } from 'rxjs';
 
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
+import { ApplicationUserService } from '../service/application-user.service';
+import { IApplicationUser } from '../application-user.model';
+
+import { ApplicationUserFormService } from './application-user-form.service';
 
 import { ApplicationUserUpdateComponent } from './application-user-update.component';
 
@@ -67,7 +67,7 @@ describe('ApplicationUser Management Update Component', () => {
       expect(userService.query).toHaveBeenCalled();
       expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
         userCollection,
-        ...additionalUsers.map(expect.objectContaining)
+        ...additionalUsers.map(expect.objectContaining),
       );
       expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });

@@ -1,15 +1,15 @@
 jest.mock('app/core/auth/account.service');
 
-import { ComponentFixture, TestBed, waitForAsync, inject, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, inject, tick, waitForAsync } from '@angular/core/testing';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
+import { AccountService } from 'app/core/auth/account.service';
 import { UserManagementService } from '../service/user-management.service';
 import { User } from '../user-management.model';
-import { AccountService } from 'app/core/auth/account.service';
 
 import { UserManagementComponent } from './user-management.component';
 
@@ -26,7 +26,7 @@ describe('User Management Component', () => {
       page: '1',
       size: '1',
       sort: 'id,desc',
-    })
+    }),
   );
 
   beforeEach(waitForAsync(() => {
@@ -58,8 +58,8 @@ describe('User Management Component', () => {
             new HttpResponse({
               body: [new User(123)],
               headers,
-            })
-          )
+            }),
+          ),
         );
 
         // WHEN
@@ -69,7 +69,7 @@ describe('User Management Component', () => {
         // THEN
         expect(service.query).toHaveBeenCalled();
         expect(comp.users?.[0]).toEqual(expect.objectContaining({ id: 123 }));
-      })
+      }),
     ));
   });
 
@@ -85,8 +85,8 @@ describe('User Management Component', () => {
             new HttpResponse({
               body: [user],
               headers,
-            })
-          )
+            }),
+          ),
         );
         jest.spyOn(service, 'update').mockReturnValue(of(user));
 
@@ -98,7 +98,7 @@ describe('User Management Component', () => {
         expect(service.update).toHaveBeenCalledWith({ ...user, activated: true });
         expect(service.query).toHaveBeenCalled();
         expect(comp.users?.[0]).toEqual(expect.objectContaining({ id: 123 }));
-      })
+      }),
     ));
   });
 });

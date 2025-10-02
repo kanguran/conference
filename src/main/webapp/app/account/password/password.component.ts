@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
@@ -27,7 +27,10 @@ export class PasswordComponent implements OnInit {
     }),
   });
 
-  constructor(private passwordService: PasswordService, private accountService: AccountService) {}
+  constructor(
+    private passwordService: PasswordService,
+    private accountService: AccountService,
+  ) {}
 
   ngOnInit(): void {
     this.account$ = this.accountService.identity();

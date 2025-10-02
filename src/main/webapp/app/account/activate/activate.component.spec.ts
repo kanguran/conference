@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync, tick, fakeAsync, inject } from '@angular/core/testing';
+import { TestBed, fakeAsync, inject, tick, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
@@ -38,7 +38,7 @@ describe('ActivateComponent', () => {
       tick();
 
       expect(service.get).toHaveBeenCalledWith('ABC123');
-    })
+    }),
   ));
 
   it('should set set success to true upon successful activation', inject(
@@ -51,7 +51,7 @@ describe('ActivateComponent', () => {
 
       expect(comp.error).toBe(false);
       expect(comp.success).toBe(true);
-    })
+    }),
   ));
 
   it('should set set error to true upon activation failure', inject(
@@ -64,6 +64,6 @@ describe('ActivateComponent', () => {
 
       expect(comp.error).toBe(true);
       expect(comp.success).toBe(false);
-    })
+    }),
   ));
 });

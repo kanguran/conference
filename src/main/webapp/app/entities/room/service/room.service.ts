@@ -16,7 +16,10 @@ export type EntityArrayResponseType = HttpResponse<IRoom[]>;
 export class RoomService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/rooms');
 
-  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+  ) {}
 
   create(room: NewRoom): Observable<EntityResponseType> {
     return this.http.post<IRoom>(this.resourceUrl, room, { observe: 'response' });

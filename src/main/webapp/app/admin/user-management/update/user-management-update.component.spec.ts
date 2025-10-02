@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync, inject, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, inject, tick, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -52,7 +52,7 @@ describe('User Management Update Component', () => {
         // THEN
         expect(service.authorities).toHaveBeenCalled();
         expect(comp.authorities).toEqual(['USER']);
-      })
+      }),
     ));
   });
 
@@ -71,7 +71,7 @@ describe('User Management Update Component', () => {
         // THEN
         expect(service.update).toHaveBeenCalledWith(expect.objectContaining(entity));
         expect(comp.isSaving).toEqual(false);
-      })
+      }),
     ));
 
     it('Should call create service on save for new user', inject(
@@ -89,7 +89,7 @@ describe('User Management Update Component', () => {
         expect(comp.editForm.getRawValue().id).toBeNull();
         expect(service.create).toHaveBeenCalledWith(expect.objectContaining(entity));
         expect(comp.isSaving).toEqual(false);
-      })
+      }),
     ));
   });
 });

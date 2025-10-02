@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { ASC } from 'app/config/navigation.constants';
 import { EventContextComponent } from '../list/event-context.component';
 import { EventContextDetailComponent } from '../detail/event-context-detail.component';
 import { EventContextUpdateComponent } from '../update/event-context-update.component';
 import { EventContextRoutingResolveService } from './event-context-routing-resolve.service';
-import { ASC } from 'app/config/navigation.constants';
 
 const eventContextRoute: Routes = [
   {
     path: '',
     component: EventContextComponent,
     data: {
-      defaultSort: 'id,' + ASC,
+      defaultSort: `id,${  ASC}`,
     },
     canActivate: [UserRouteAccessService],
   },

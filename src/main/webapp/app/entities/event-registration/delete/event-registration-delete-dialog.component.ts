@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 import { IEventRegistration } from '../event-registration.model';
 import { EventRegistrationService } from '../service/event-registration.service';
-import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 
 @Component({
   templateUrl: './event-registration-delete-dialog.component.html',
@@ -11,7 +11,10 @@ import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 export class EventRegistrationDeleteDialogComponent {
   eventRegistration?: IEventRegistration;
 
-  constructor(protected eventRegistrationService: EventRegistrationService, protected activeModal: NgbActiveModal) {}
+  constructor(
+    protected eventRegistrationService: EventRegistrationService,
+    protected activeModal: NgbActiveModal,
+  ) {}
 
   cancel(): void {
     this.activeModal.dismiss();

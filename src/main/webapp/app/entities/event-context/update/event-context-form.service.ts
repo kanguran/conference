@@ -47,7 +47,7 @@ export type EventContextFormGroup = FormGroup<EventContextFormGroupContent>;
 @Injectable({ providedIn: 'root' })
 export class EventContextFormService {
   createEventContextFormGroup(
-    eventContext: EventContextFormGroupInput = { id: null, eventContextStatus: EventContextStatus.AVAILABLE }
+    eventContext: EventContextFormGroupInput = { id: null, eventContextStatus: EventContextStatus.AVAILABLE },
   ): EventContextFormGroup {
     const eventContextRawValue = this.convertEventContextToEventContextRawValue({
       ...this.getFormDefaults(),
@@ -59,7 +59,7 @@ export class EventContextFormService {
         {
           nonNullable: true,
           validators: [Validators.required],
-        }
+        },
       ),
       description: new FormControl(eventContextRawValue.description, {
         validators: [Validators.required],
@@ -93,7 +93,7 @@ export class EventContextFormService {
       {
         ...eventContextRawValue,
         id: { value: eventContextRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
+      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
     );
   }
 
@@ -108,7 +108,7 @@ export class EventContextFormService {
   }
 
   private convertEventContextRawValueToEventContext(
-    rawEventContext: EventContextFormRawValue | NewEventContextFormRawValue
+    rawEventContext: EventContextFormRawValue | NewEventContextFormRawValue,
   ): IEventContext | NewEventContext {
     return {
       ...rawEventContext,
@@ -118,7 +118,7 @@ export class EventContextFormService {
   }
 
   private convertEventContextToEventContextRawValue(
-    eventContext: IEventContext | (Partial<NewEventContext> & EventContextFormDefaults)
+    eventContext: IEventContext | (Partial<NewEventContext> & EventContextFormDefaults),
   ): EventContextFormRawValue | PartialWithRequiredKeyOf<NewEventContextFormRawValue> {
     return {
       ...eventContext,

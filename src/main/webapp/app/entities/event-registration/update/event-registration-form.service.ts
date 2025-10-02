@@ -30,7 +30,7 @@ export type EventRegistrationFormGroup = FormGroup<EventRegistrationFormGroupCon
 @Injectable({ providedIn: 'root' })
 export class EventRegistrationFormService {
   createEventRegistrationFormGroup(
-    eventRegistration: EventRegistrationFormGroupInput = { id: null, eventRegistrationStatus: EventRegistrationStatus.ACTIVE }
+    eventRegistration: EventRegistrationFormGroupInput = { id: null, eventRegistrationStatus: EventRegistrationStatus.ACTIVE },
   ): EventRegistrationFormGroup {
     const eventRegistrationRawValue = {
       ...this.getFormDefaults(),
@@ -42,7 +42,7 @@ export class EventRegistrationFormService {
         {
           nonNullable: true,
           validators: [Validators.required],
-        }
+        },
       ),
       description: new FormControl(eventRegistrationRawValue.description),
       eventRegistrationStatus: new FormControl(eventRegistrationRawValue.eventRegistrationStatus, {
@@ -67,7 +67,7 @@ export class EventRegistrationFormService {
       {
         ...eventRegistrationRawValue,
         id: { value: eventRegistrationRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
+      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
     );
   }
 
