@@ -180,7 +180,7 @@ public class UserResource {
 
     @GetMapping("/user/:{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
-        log.debug("REST request to get User : {}", id);
+        LOG.debug("REST request to get User : {}", id);
         UserDTO userDTO = userService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(userDTO));
     }

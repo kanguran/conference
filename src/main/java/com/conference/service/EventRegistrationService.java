@@ -100,7 +100,7 @@ public class EventRegistrationService {
      */
     @Transactional(readOnly = true)
     public Page<EventRegistrationDTO> findEventRegistrationByUserRole(Pageable pageable) {
-        log.debug("Request to get EventRegistrations by User Role");
+        LOG.debug("Request to get EventRegistrations by User Role");
 
         if (SecurityUtils.isAdmin()) {
             return eventRegistrationRepository.findAll(pageable).map(eventRegistrationMapper::toDto);
