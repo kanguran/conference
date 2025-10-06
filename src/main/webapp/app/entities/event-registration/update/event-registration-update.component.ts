@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
+
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
 import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
@@ -16,24 +19,24 @@ import { EventRegistrationFormGroup, EventRegistrationFormService } from './even
 @Component({
   selector: 'jhi-event-registration-update',
   templateUrl: './event-registration-update.component.html',
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class EventRegistrationUpdateComponent implements OnInit {
   isSaving = false;
   eventRegistration: IEventRegistration | null = null;
   eventRegistrationStatusValues = Object.keys(EventRegistrationStatus);
 
-  applicationUsersSharedCollection: IApplicationUser[] = [];
+  eventCounterpartiesCollection: IApplicationUser[] = [];
   eventContextsSharedCollection: IEventContext[] = [];
 
-  editForm: EventRegistrationFormGroup = this.eventRegistrationFormService.createEventRegistrationFormGroup();
+  protected eventRegistrationService = inject(EventRegistrationService);
+  protected eventRegistrationFormService = inject(EventRegistrationFormService);
+  protected applicationUserService = inject(ApplicationUserService);
+  protected eventContextService = inject(EventContextService);
+  protected activatedRoute = inject(ActivatedRoute);
 
-  constructor(
-    protected eventRegistrationService: EventRegistrationService,
-    protected eventRegistrationFormService: EventRegistrationFormService,
-    protected applicationUserService: ApplicationUserService,
-    protected eventContextService: EventContextService,
-    protected activatedRoute: ActivatedRoute,
-  ) {}
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  editForm: EventRegistrationFormGroup = this.eventRegistrationFormService.createEventRegistrationFormGroup();
 
   compareApplicationUser = (o1: IApplicationUser | null, o2: IApplicationUser | null): boolean =>
     this.applicationUserService.compareApplicationUser(o1, o2);
@@ -89,8 +92,8 @@ export class EventRegistrationUpdateComponent implements OnInit {
     this.eventRegistration = eventRegistration;
     this.eventRegistrationFormService.resetForm(this.editForm, eventRegistration);
 
-    this.applicationUsersSharedCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
-      this.applicationUsersSharedCollection,
+    this.eventCounterpartiesCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
+      this.eventCounterpartiesCollection,
       eventRegistration.eventCounterparty,
     );
     this.eventContextsSharedCollection = this.eventContextService.addEventContextToCollectionIfMissing<IEventContext>(
@@ -101,7 +104,7 @@ export class EventRegistrationUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.applicationUserService
-      .query()
+      .query({ filter: 'eventregistration-is-null' })
       .pipe(map((res: HttpResponse<IApplicationUser[]>) => res.body ?? []))
       .pipe(
         map((applicationUsers: IApplicationUser[]) =>
@@ -111,7 +114,7 @@ export class EventRegistrationUpdateComponent implements OnInit {
           ),
         ),
       )
-      .subscribe((applicationUsers: IApplicationUser[]) => (this.applicationUsersSharedCollection = applicationUsers));
+      .subscribe((applicationUsers: IApplicationUser[]) => (this.eventCounterpartiesCollection = applicationUsers));
 
     this.eventContextService
       .query()

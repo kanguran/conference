@@ -4,13 +4,13 @@ import com.conference.repository.EventContextRepository;
 import com.conference.service.EventContextService;
 import com.conference.service.dto.EventContextDTO;
 import com.conference.web.rest.errors.BadRequestAlertException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,10 +28,10 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.conference.domain.EventContext}.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/event-contexts")
 public class EventContextResource {
 
-    private final Logger log = LoggerFactory.getLogger(EventContextResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EventContextResource.class);
 
     private static final String ENTITY_NAME = "eventContext";
 
@@ -54,17 +54,17 @@ public class EventContextResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new eventContextDTO, or with status {@code 400 (Bad Request)} if the eventContext has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/event-contexts")
+    @PostMapping("")
     public ResponseEntity<EventContextDTO> createEventContext(@Valid @RequestBody EventContextDTO eventContextDTO)
         throws URISyntaxException {
-        log.debug("REST request to save EventContext : {}", eventContextDTO);
+        LOG.debug("REST request to save EventContext : {}", eventContextDTO);
         if (eventContextDTO.getId() != null) {
             throw new BadRequestAlertException("A new eventContext cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        EventContextDTO result = eventContextService.save(eventContextDTO);
-        return ResponseEntity.created(new URI("/api/event-contexts/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        eventContextDTO = eventContextService.save(eventContextDTO);
+        return ResponseEntity.created(new URI("/api/event-contexts/" + eventContextDTO.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, eventContextDTO.getId().toString()))
+            .body(eventContextDTO);
     }
 
     /**
@@ -77,12 +77,12 @@ public class EventContextResource {
      * or with status {@code 500 (Internal Server Error)} if the eventContextDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/event-contexts/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<EventContextDTO> updateEventContext(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody EventContextDTO eventContextDTO
     ) throws URISyntaxException {
-        log.debug("REST request to update EventContext : {}, {}", id, eventContextDTO);
+        LOG.debug("REST request to update EventContext : {}, {}", id, eventContextDTO);
         if (eventContextDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -94,10 +94,10 @@ public class EventContextResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        EventContextDTO result = eventContextService.update(eventContextDTO);
+        eventContextDTO = eventContextService.update(eventContextDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, eventContextDTO.getId().toString()))
-            .body(result);
+            .body(eventContextDTO);
     }
 
     /**
@@ -111,12 +111,12 @@ public class EventContextResource {
      * or with status {@code 500 (Internal Server Error)} if the eventContextDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/event-contexts/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<EventContextDTO> partialUpdateEventContext(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody EventContextDTO eventContextDTO
     ) throws URISyntaxException {
-        log.debug("REST request to partial update EventContext partially : {}, {}", id, eventContextDTO);
+        LOG.debug("REST request to partial update EventContext partially : {}, {}", id, eventContextDTO);
         if (eventContextDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -142,9 +142,9 @@ public class EventContextResource {
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of eventContexts in body.
      */
-    @GetMapping("/event-contexts")
-    public ResponseEntity<List<EventContextDTO>> getAllEventContexts(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
-        log.debug("REST request to get a page of EventContexts");
+    @GetMapping("")
+    public ResponseEntity<List<EventContextDTO>> getAllEventContexts(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+        LOG.debug("REST request to get a page of EventContexts");
         Page<EventContextDTO> page = eventContextService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -156,9 +156,9 @@ public class EventContextResource {
      * @param id the id of the eventContextDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the eventContextDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/event-contexts/{id}")
-    public ResponseEntity<EventContextDTO> getEventContext(@PathVariable Long id) {
-        log.debug("REST request to get EventContext : {}", id);
+    @GetMapping("/{id}")
+    public ResponseEntity<EventContextDTO> getEventContext(@PathVariable("id") Long id) {
+        LOG.debug("REST request to get EventContext : {}", id);
         Optional<EventContextDTO> eventContextDTO = eventContextService.findOne(id);
         return ResponseUtil.wrapOrNotFound(eventContextDTO);
     }
@@ -169,9 +169,9 @@ public class EventContextResource {
      * @param id the id of the eventContextDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/event-contexts/{id}")
-    public ResponseEntity<Void> deleteEventContext(@PathVariable Long id) {
-        log.debug("REST request to delete EventContext : {}", id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEventContext(@PathVariable("id") Long id) {
+        LOG.debug("REST request to delete EventContext : {}", id);
         eventContextService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))

@@ -2,12 +2,12 @@ package com.conference.domain;
 
 import com.conference.domain.enumeration.EventContextStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -45,21 +45,22 @@ public class EventContext implements Serializable {
     @Column(name = "jhi_end", nullable = false)
     private Instant end;
 
-    @OneToOne
+    @JsonIgnoreProperties(value = { "eventContext" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private Room eventContextRoom;
 
-    @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
-    @OneToOne
+    @JsonIgnoreProperties(value = { "appUser", "event", "eventContext", "eventRegistration" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private ApplicationUser contextHost;
 
-    @OneToMany(mappedBy = "eventContext")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventContext")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "eventCounterparty", "eventContext" }, allowSetters = true)
     private Set<EventRegistration> eventContextRegistrations = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "mainHost", "eventContexts" }, allowSetters = true)
     private Event event;
 
@@ -210,7 +211,7 @@ public class EventContext implements Serializable {
         if (!(o instanceof EventContext)) {
             return false;
         }
-        return id != null && id.equals(((EventContext) o).id);
+        return getId() != null && getId().equals(((EventContext) o).getId());
     }
 
     @Override

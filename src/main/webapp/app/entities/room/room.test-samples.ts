@@ -1,26 +1,26 @@
 import { IRoom, NewRoom } from './room.model';
 
 export const sampleWithRequiredData: IRoom = {
-  id: 302,
-  name: 'repurpose RSS',
-  maxSeats: 3705,
+  id: 25051,
+  name: 'wire',
+  maxSeats: 19151,
 };
 
 export const sampleWithPartialData: IRoom = {
-  id: 64594,
-  name: 'Fresh',
-  maxSeats: 96390,
+  id: 14785,
+  name: 'because',
+  maxSeats: 23269,
 };
 
 export const sampleWithFullData: IRoom = {
-  id: 68831,
-  name: 'holistic holistic multi-byte',
-  maxSeats: 25559,
+  id: 10102,
+  name: 'roughly brr opera',
+  maxSeats: 15915,
 };
 
 export const sampleWithNewData: NewRoom = {
-  name: 'Triple-buffered Barbados Metical',
-  maxSeats: 1525,
+  name: 'cellar',
+  maxSeats: 32219,
   id: null,
 };
 

@@ -45,7 +45,6 @@ describe('EventRegistration Form Service', () => {
 
     describe('getEventRegistration', () => {
       it('should return NewEventRegistration for default EventRegistration initial value', () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createEventRegistrationFormGroup(sampleWithNewData);
 
         const eventRegistration = service.getEventRegistration(formGroup) as any;

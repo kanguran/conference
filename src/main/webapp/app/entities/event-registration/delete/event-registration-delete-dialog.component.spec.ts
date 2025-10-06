@@ -1,8 +1,7 @@
 jest.mock('@ng-bootstrap/ng-bootstrap');
 
 import { ComponentFixture, TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
-import { HttpResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpResponse, provideHttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,9 +17,8 @@ describe('EventRegistration Management Delete Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [EventRegistrationDeleteDialogComponent],
-      providers: [NgbActiveModal],
+      imports: [EventRegistrationDeleteDialogComponent],
+      providers: [provideHttpClient(), NgbActiveModal],
     })
       .overrideTemplate(EventRegistrationDeleteDialogComponent, '')
       .compileComponents();
@@ -31,7 +29,7 @@ describe('EventRegistration Management Delete Component', () => {
   });
 
   describe('confirmDelete', () => {
-    it('Should call delete service on confirmDelete', inject(
+    it('should call delete service on confirmDelete', inject(
       [],
       fakeAsync(() => {
         // GIVEN
@@ -47,7 +45,7 @@ describe('EventRegistration Management Delete Component', () => {
       }),
     ));
 
-    it('Should not call delete service on clear', () => {
+    it('should not call delete service on clear', () => {
       // GIVEN
       jest.spyOn(service, 'delete');
 

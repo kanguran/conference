@@ -41,7 +41,6 @@ describe('ApplicationUser Form Service', () => {
 
     describe('getApplicationUser', () => {
       it('should return NewApplicationUser for default ApplicationUser initial value', () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createApplicationUserFormGroup(sampleWithNewData);
 
         const applicationUser = service.getApplicationUser(formGroup) as any;

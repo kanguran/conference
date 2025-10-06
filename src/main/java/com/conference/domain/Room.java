@@ -1,8 +1,9 @@
 package com.conference.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -30,6 +31,10 @@ public class Room implements Serializable {
     @NotNull
     @Column(name = "max_seats", nullable = false)
     private Integer maxSeats;
+
+    @JsonIgnoreProperties(value = { "eventContextRoom", "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "eventContextRoom")
+    private EventContext eventContext;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -72,6 +77,25 @@ public class Room implements Serializable {
         this.maxSeats = maxSeats;
     }
 
+    public EventContext getEventContext() {
+        return this.eventContext;
+    }
+
+    public void setEventContext(EventContext eventContext) {
+        if (this.eventContext != null) {
+            this.eventContext.setEventContextRoom(null);
+        }
+        if (eventContext != null) {
+            eventContext.setEventContextRoom(this);
+        }
+        this.eventContext = eventContext;
+    }
+
+    public Room eventContext(EventContext eventContext) {
+        this.setEventContext(eventContext);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -82,7 +106,7 @@ public class Room implements Serializable {
         if (!(o instanceof Room)) {
             return false;
         }
-        return id != null && id.equals(((Room) o).id);
+        return getId() != null && getId().equals(((Room) o).getId());
     }
 
     @Override

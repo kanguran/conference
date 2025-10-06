@@ -1,48 +1,52 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <div *ngIf="event">
-      <h2 data-cy="eventDetailsHeading"><span>Event</span></h2>
+    @if (event(); as eventRef) {
+      <div>
+        <h2 data-cy="eventDetailsHeading"><span>Event</span></h2>
 
-      <hr />
+        <hr />
 
-      <jhi-alert-error></jhi-alert-error>
+        <jhi-alert-error />
 
-      <jhi-alert></jhi-alert>
+        <jhi-alert />
 
-      <dl class="row-md jh-entity-details">
-        <dt *jhiHasAnyAuthority="'ROLE_ADMIN'"><span>ID</span></dt>
-        <dd *jhiHasAnyAuthority="'ROLE_ADMIN'">
-          <span>{{ event.id }}</span>
-        </dd>
-        <dt><span>Name</span></dt>
-        <dd>
-          <span>{{ event.name }}</span>
-        </dd>
-        <dt><span>Event Type</span></dt>
-        <dd>
-          <span>{{ event.eventType }}</span>
-        </dd>
-        <dt><span>Event Status</span></dt>
-        <dd>
-          <span>{{ event.eventStatus }}</span>
-        </dd>
-        <dt><span>Main Host</span></dt>
-        <dd>
-          <div *ngIf="event.mainHost">
-            <a [routerLink]="['/application-user', event.mainHost.id, 'view']"
-              >{{ event.mainHost.appUser?.firstName }} {{ event.mainHost.appUser?.lastName }}</a
-            >
-          </div>
-        </dd>
-      </dl>
+        <dl class="row-md jh-entity-details">
+          <dt *jhiHasAnyAuthority="'ROLE_ADMIN'"><span>ID</span></dt>
+          <dd *jhiHasAnyAuthority="'ROLE_ADMIN'">
+            <span>{{ eventRef.id }}</span>
+          </dd>
+          <dt><span>Name</span></dt>
+          <dd>
+            <span>{{ eventRef.name }}</span>
+          </dd>
+          <dt><span>Event Type</span></dt>
+          <dd>
+            <span>{{ { null: '', CONFERENCE: 'CONFERENCE' }[eventRef.eventType ?? 'null'] }}</span>
+          </dd>
+          <dt><span>Event Status</span></dt>
+          <dd>
+            <span>{{
+              { null: '', UNPUBLISHED: 'UNPUBLISHED', PUBLISHED: 'PUBLISHED', CANCELLED: 'CANCELLED' }[eventRef.eventStatus ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span>Main Host</span></dt>
+          <dd>
+            @if (event()!.mainHost) {
+              <div>
+                <a [routerLink]="['/application-user', event()!.mainHost?.id, 'view']">{{ eventRef.mainHost.appUser?.firstName }} {{ eventRef.mainHost.appUser?.lastName }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-      </button>
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        </button>
 
-      <button type="button" [routerLink]="['/event', event.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-      </button>
-    </div>
+        <button type="button" [routerLink]="['/event', eventRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        </button>
+      </div>
+    }
   </div>
 </div>

@@ -41,7 +41,6 @@ describe('Room Form Service', () => {
 
     describe('getRoom', () => {
       it('should return NewRoom for default Room initial value', () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createRoomFormGroup(sampleWithNewData);
 
         const room = service.getRoom(formGroup) as any;

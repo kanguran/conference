@@ -21,10 +21,10 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.conference.domain.ApplicationUser}.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/application-users")
 public class ApplicationUserResource {
 
-    private final Logger log = LoggerFactory.getLogger(ApplicationUserResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationUserResource.class);
 
     private static final String ENTITY_NAME = "applicationUser";
 
@@ -47,17 +47,17 @@ public class ApplicationUserResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new applicationUserDTO, or with status {@code 400 (Bad Request)} if the applicationUser has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/application-users")
+    @PostMapping("")
     public ResponseEntity<ApplicationUserDTO> createApplicationUser(@RequestBody ApplicationUserDTO applicationUserDTO)
         throws URISyntaxException {
-        log.debug("REST request to save ApplicationUser : {}", applicationUserDTO);
+        LOG.debug("REST request to save ApplicationUser : {}", applicationUserDTO);
         if (applicationUserDTO.getId() != null) {
             throw new BadRequestAlertException("A new applicationUser cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ApplicationUserDTO result = applicationUserService.save(applicationUserDTO);
-        return ResponseEntity.created(new URI("/api/application-users/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        applicationUserDTO = applicationUserService.save(applicationUserDTO);
+        return ResponseEntity.created(new URI("/api/application-users/" + applicationUserDTO.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, applicationUserDTO.getId().toString()))
+            .body(applicationUserDTO);
     }
 
     /**
@@ -70,12 +70,12 @@ public class ApplicationUserResource {
      * or with status {@code 500 (Internal Server Error)} if the applicationUserDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/application-users/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ApplicationUserDTO> updateApplicationUser(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody ApplicationUserDTO applicationUserDTO
     ) throws URISyntaxException {
-        log.debug("REST request to update ApplicationUser : {}, {}", id, applicationUserDTO);
+        LOG.debug("REST request to update ApplicationUser : {}, {}", id, applicationUserDTO);
         if (applicationUserDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -87,10 +87,10 @@ public class ApplicationUserResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        ApplicationUserDTO result = applicationUserService.update(applicationUserDTO);
+        applicationUserDTO = applicationUserService.update(applicationUserDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, applicationUserDTO.getId().toString()))
-            .body(result);
+            .body(applicationUserDTO);
     }
 
     /**
@@ -104,12 +104,12 @@ public class ApplicationUserResource {
      * or with status {@code 500 (Internal Server Error)} if the applicationUserDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/application-users/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ApplicationUserDTO> partialUpdateApplicationUser(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody ApplicationUserDTO applicationUserDTO
     ) throws URISyntaxException {
-        log.debug("REST request to partial update ApplicationUser partially : {}, {}", id, applicationUserDTO);
+        LOG.debug("REST request to partial update ApplicationUser partially : {}, {}", id, applicationUserDTO);
         if (applicationUserDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -132,11 +132,26 @@ public class ApplicationUserResource {
     /**
      * {@code GET  /application-users} : get all the applicationUsers.
      *
+     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of applicationUsers in body.
      */
-    @GetMapping("/application-users")
-    public List<ApplicationUserDTO> getAllApplicationUsers() {
-        log.debug("REST request to get all ApplicationUsers");
+    @GetMapping("")
+    public List<ApplicationUserDTO> getAllApplicationUsers(@RequestParam(name = "filter", required = false) String filter) {
+        if ("event-is-null".equals(filter)) {
+            LOG.debug("REST request to get all ApplicationUsers where event is null");
+            return applicationUserService.findAllWhereEventIsNull();
+        }
+
+        if ("eventcontext-is-null".equals(filter)) {
+            LOG.debug("REST request to get all ApplicationUsers where eventContext is null");
+            return applicationUserService.findAllWhereEventContextIsNull();
+        }
+
+        if ("eventregistration-is-null".equals(filter)) {
+            LOG.debug("REST request to get all ApplicationUsers where eventRegistration is null");
+            return applicationUserService.findAllWhereEventRegistrationIsNull();
+        }
+        LOG.debug("REST request to get all ApplicationUsers");
         return applicationUserService.findAll();
     }
 
@@ -146,9 +161,9 @@ public class ApplicationUserResource {
      * @param id the id of the applicationUserDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the applicationUserDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/application-users/{id}")
-    public ResponseEntity<ApplicationUserDTO> getApplicationUser(@PathVariable Long id) {
-        log.debug("REST request to get ApplicationUser : {}", id);
+    @GetMapping("/{id}")
+    public ResponseEntity<ApplicationUserDTO> getApplicationUser(@PathVariable("id") Long id) {
+        LOG.debug("REST request to get ApplicationUser : {}", id);
         Optional<ApplicationUserDTO> applicationUserDTO = applicationUserService.findOne(id);
         return ResponseUtil.wrapOrNotFound(applicationUserDTO);
     }
@@ -159,9 +174,9 @@ public class ApplicationUserResource {
      * @param id the id of the applicationUserDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/application-users/{id}")
-    public ResponseEntity<Void> deleteApplicationUser(@PathVariable Long id) {
-        log.debug("REST request to delete ApplicationUser : {}", id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteApplicationUser(@PathVariable("id") Long id) {
+        LOG.debug("REST request to delete ApplicationUser : {}", id);
         applicationUserService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))

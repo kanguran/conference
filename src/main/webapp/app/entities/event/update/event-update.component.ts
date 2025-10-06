@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
+
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
 import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
@@ -15,6 +18,7 @@ import { EventFormGroup, EventFormService } from './event-form.service';
 @Component({
   selector: 'jhi-event-update',
   templateUrl: './event-update.component.html',
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class EventUpdateComponent implements OnInit {
   isSaving = false;
@@ -22,16 +26,15 @@ export class EventUpdateComponent implements OnInit {
   eventTypeValues = Object.keys(EventType);
   eventStatusValues = Object.keys(EventStatus);
 
-  applicationUsersSharedCollection: IApplicationUser[] = [];
+  mainHostsCollection: IApplicationUser[] = [];
 
+  protected eventService = inject(EventService);
+  protected eventFormService = inject(EventFormService);
+  protected applicationUserService = inject(ApplicationUserService);
+  protected activatedRoute = inject(ActivatedRoute);
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: EventFormGroup = this.eventFormService.createEventFormGroup();
-
-  constructor(
-    protected eventService: EventService,
-    protected eventFormService: EventFormService,
-    protected applicationUserService: ApplicationUserService,
-    protected activatedRoute: ActivatedRoute,
-  ) {}
 
   compareApplicationUser = (o1: IApplicationUser | null, o2: IApplicationUser | null): boolean =>
     this.applicationUserService.compareApplicationUser(o1, o2);
@@ -84,21 +87,21 @@ export class EventUpdateComponent implements OnInit {
     this.event = event;
     this.eventFormService.resetForm(this.editForm, event);
 
-    this.applicationUsersSharedCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
-      this.applicationUsersSharedCollection,
+    this.mainHostsCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
+      this.mainHostsCollection,
       event.mainHost,
     );
   }
 
   protected loadRelationshipsOptions(): void {
     this.applicationUserService
-      .query()
+      .query({ filter: 'event-is-null' })
       .pipe(map((res: HttpResponse<IApplicationUser[]>) => res.body ?? []))
       .pipe(
         map((applicationUsers: IApplicationUser[]) =>
           this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(applicationUsers, this.event?.mainHost),
         ),
       )
-      .subscribe((applicationUsers: IApplicationUser[]) => (this.applicationUsersSharedCollection = applicationUsers));
+      .subscribe((applicationUsers: IApplicationUser[]) => (this.mainHostsCollection = applicationUsers));
   }
 }

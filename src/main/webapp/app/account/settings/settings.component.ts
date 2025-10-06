@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
+import SharedModule from 'app/shared/shared.module';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 
@@ -8,10 +9,11 @@ const initialAccount: Account = {} as Account;
 
 @Component({
   selector: 'jhi-settings',
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
   templateUrl: './settings.component.html',
 })
-export class SettingsComponent implements OnInit {
-  success = false;
+export default class SettingsComponent implements OnInit {
+  success = signal(false);
 
   settingsForm = new FormGroup({
     firstName: new FormControl(initialAccount.firstName, {
@@ -34,7 +36,7 @@ export class SettingsComponent implements OnInit {
     login: new FormControl(initialAccount.login, { nonNullable: true }),
   });
 
-  constructor(private accountService: AccountService) {}
+  private readonly accountService = inject(AccountService);
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
@@ -45,11 +47,11 @@ export class SettingsComponent implements OnInit {
   }
 
   save(): void {
-    this.success = false;
+    this.success.set(false);
 
     const account = this.settingsForm.getRawValue();
     this.accountService.save(account).subscribe(() => {
-      this.success = true;
+      this.success.set(true);
 
       this.accountService.authenticate(account);
     });

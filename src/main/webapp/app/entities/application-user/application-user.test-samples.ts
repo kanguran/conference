@@ -1,15 +1,15 @@
 import { IApplicationUser, NewApplicationUser } from './application-user.model';
 
 export const sampleWithRequiredData: IApplicationUser = {
-  id: 60827,
+  id: 15785,
 };
 
 export const sampleWithPartialData: IApplicationUser = {
-  id: 95279,
+  id: 18666,
 };
 
 export const sampleWithFullData: IApplicationUser = {
-  id: 82117,
+  id: 9548,
   host: true,
 };
 

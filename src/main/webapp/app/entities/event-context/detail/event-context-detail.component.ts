@@ -1,22 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, input } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
+import SharedModule from 'app/shared/shared.module';
+import { FormatMediumDatetimePipe } from 'app/shared/date';
 import { IEventContext } from '../event-context.model';
 
 @Component({
   selector: 'jhi-event-context-detail',
   templateUrl: './event-context-detail.component.html',
+  imports: [SharedModule, RouterModule, FormatMediumDatetimePipe],
 })
-export class EventContextDetailComponent implements OnInit {
-  eventContext: IEventContext | null = null;
-
-  constructor(protected activatedRoute: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ eventContext }) => {
-      this.eventContext = eventContext;
-    });
-  }
+export class EventContextDetailComponent {
+  eventContext = input<IEventContext | null>(null);
 
   previousState(): void {
     window.history.back();
