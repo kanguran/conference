@@ -1,0 +1,16 @@
+/* Bootstrap setup using @import to ensure global scope for internal mixins like _assert-ascending.
+   This avoids "Undefined mixin" when importing bootstrap/scss/_variables.scss.
+   Order: functions -> (your variable overrides) -> bootstrap (brings in variables, maps, mixins, root, components).
+*/
+
+@import "bootstrap/scss/functions";
+
+/* --- Your variable overrides go here BEFORE importing Bootstrap ---
+   Example overrides (commented out):
+   $primary: #0d6efd;
+   $dropdown-link-hover-color: #0a58ca;
+   $ria-color: #6c757d;
+*/
+
+/* Import all of Bootstrap after your overrides */
+@import "bootstrap/scss/bootstrap";

@@ -1,6 +1,8 @@
-@use 'bootstrap/scss/functions';
-@use 'bootswatch/dist/spacelab/variables';
-@use 'bootstrap/scss/variables';
+@import "../../../content/scss/_bs-setup";
+
+//@use 'bootstrap/scss/functions';
+/*@use 'bootswatch/dist/spacelab/variables' as *;
+@use "bootstrap";*/
 
 /* ==========================================================================
 Navbar
