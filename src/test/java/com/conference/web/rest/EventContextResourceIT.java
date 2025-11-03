@@ -374,7 +374,7 @@ class EventContextResourceIT {
         EventContext partialUpdatedEventContext = new EventContext();
         partialUpdatedEventContext.setId(eventContext.getId());
 
-        partialUpdatedEventContext.start(UPDATED_START).end(UPDATED_END);
+        partialUpdatedEventContext.eventContextStatus(UPDATED_EVENT_CONTEXT_STATUS);
 
         restEventContextMockMvc
             .perform(

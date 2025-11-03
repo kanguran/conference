@@ -11,7 +11,6 @@ import com.conference.IntegrationTest;
 import com.conference.domain.EventRegistration;
 import com.conference.domain.enumeration.EventRegistrationStatus;
 import com.conference.repository.EventRegistrationRepository;
-import com.conference.security.AuthoritiesConstants;
 import com.conference.service.dto.EventRegistrationDTO;
 import com.conference.service.mapper.EventRegistrationMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -160,7 +159,6 @@ class EventRegistrationResourceIT {
     }
 
     @Test
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     @Transactional
     void getAllEventRegistrations() throws Exception {
         // Initialize the database
@@ -300,6 +298,8 @@ class EventRegistrationResourceIT {
         // Update the eventRegistration using partial update
         EventRegistration partialUpdatedEventRegistration = new EventRegistration();
         partialUpdatedEventRegistration.setId(eventRegistration.getId());
+
+        partialUpdatedEventRegistration.description(UPDATED_DESCRIPTION).eventRegistrationStatus(UPDATED_EVENT_REGISTRATION_STATUS);
 
         restEventRegistrationMockMvc
             .perform(

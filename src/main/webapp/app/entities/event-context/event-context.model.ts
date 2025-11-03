@@ -10,9 +10,9 @@ export interface IEventContext {
   eventContextStatus?: keyof typeof EventContextStatus | null;
   start?: dayjs.Dayjs | null;
   end?: dayjs.Dayjs | null;
-  eventContextRoom?: Pick<IRoom, 'id' | 'name'> | null;
-  contextHost?: Pick<IApplicationUser, 'id' | 'appUser'> | null;
-  event?: Pick<IEvent, 'id' | 'name'> | null;
+  eventContextRoom?: Pick<IRoom, 'id'> | null;
+  contextHost?: Pick<IApplicationUser, 'id'> | null;
+  event?: Pick<IEvent, 'id'> | null;
 }
 
 export type NewEventContext = Omit<IEventContext, 'id'> & { id: null };

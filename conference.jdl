@@ -45,14 +45,17 @@ enum EventType {
 relationship OneToOne {
   EventContext{eventContextRoom} to Room
   ApplicationUser{appUser} to User with builtInEntity
-  EventRegistration{eventCounterparty} to ApplicationUser
-  EventContext{contextHost} to ApplicationUser
-  Event{mainHost} to ApplicationUser
 }
 
 relationship OneToMany {
   EventContext{eventContextRegistration} to EventRegistration
   Event{eventContext} to EventContext
+}
+
+relationship ManyToOne {
+  EventRegistration{eventCounterparty} to ApplicationUser
+  EventContext{contextHost} to ApplicationUser
+  Event{mainHost} to ApplicationUser
 }
 
 /* Use the JDL keyword 'paginate' */

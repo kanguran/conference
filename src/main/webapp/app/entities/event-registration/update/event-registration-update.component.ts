@@ -26,7 +26,7 @@ export class EventRegistrationUpdateComponent implements OnInit {
   eventRegistration: IEventRegistration | null = null;
   eventRegistrationStatusValues = Object.keys(EventRegistrationStatus);
 
-  eventCounterpartiesCollection: IApplicationUser[] = [];
+  applicationUsersSharedCollection: IApplicationUser[] = [];
   eventContextsSharedCollection: IEventContext[] = [];
 
   protected eventRegistrationService = inject(EventRegistrationService);
@@ -92,8 +92,8 @@ export class EventRegistrationUpdateComponent implements OnInit {
     this.eventRegistration = eventRegistration;
     this.eventRegistrationFormService.resetForm(this.editForm, eventRegistration);
 
-    this.eventCounterpartiesCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
-      this.eventCounterpartiesCollection,
+    this.applicationUsersSharedCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
+      this.applicationUsersSharedCollection,
       eventRegistration.eventCounterparty,
     );
     this.eventContextsSharedCollection = this.eventContextService.addEventContextToCollectionIfMissing<IEventContext>(
@@ -104,7 +104,7 @@ export class EventRegistrationUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.applicationUserService
-      .query({ filter: 'eventregistration-is-null' })
+      .query()
       .pipe(map((res: HttpResponse<IApplicationUser[]>) => res.body ?? []))
       .pipe(
         map((applicationUsers: IApplicationUser[]) =>
@@ -114,7 +114,7 @@ export class EventRegistrationUpdateComponent implements OnInit {
           ),
         ),
       )
-      .subscribe((applicationUsers: IApplicationUser[]) => (this.eventCounterpartiesCollection = applicationUsers));
+      .subscribe((applicationUsers: IApplicationUser[]) => (this.applicationUsersSharedCollection = applicationUsers));
 
     this.eventContextService
       .query()

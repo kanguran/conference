@@ -7,11 +7,9 @@
         <jhi-alert-error />
 
         @if (editForm.controls.id.value !== null) {
-          <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
-            <div class="mb-3" >
-              <label class="form-label" for="field_id">ID</label>
-              <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-            </div>
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         }
 
@@ -45,6 +43,7 @@
             id="field_eventContextStatus"
             data-cy="eventContextStatus"
           >
+            <option [ngValue]="null"></option>
             @for (eventContextStatus of eventContextStatusValues; track $index) {
               <option [value]="eventContextStatus">
                 {{ { null: '', AVAILABLE: 'AVAILABLE', FULLY_BOOKED: 'FULLY_BOOKED', CANCELLED: 'CANCELLED' }[eventContextStatus] }}
@@ -124,19 +123,9 @@
           >
             <option [ngValue]="null"></option>
             @for (roomOption of eventContextRoomsCollection; track $index) {
-              <option [ngValue]="roomOption">{{ roomOption.name }}</option>
+              <option [ngValue]="roomOption">{{ roomOption.id }}</option>
             }
           </select>
-          <div
-            *ngIf="
-              editForm.get('eventContextRoom')!.invalid &&
-              (editForm.get('eventContextRoom')!.dirty || editForm.get('eventContextRoom')!.touched)
-            "
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('eventContextRoom')?.errors?.required">
-              This field is required.
-            </small>
-          </div>
         </div>
 
         <div class="mb-3">
@@ -150,13 +139,10 @@
             [compareWith]="compareApplicationUser"
           >
             <option [ngValue]="null"></option>
-            @for (applicationUserOption of contextHostsCollection; track $index) {
-              <option [ngValue]="applicationUserOption">{{ applicationUserOption.appUser?.firstName }} {{ applicationUserOption.appUser?.lastName }} </option>
+            @for (applicationUserOption of applicationUsersSharedCollection; track $index) {
+              <option [ngValue]="applicationUserOption">{{ applicationUserOption.id }}</option>
             }
           </select>
-          <div *ngIf="editForm.get('contextHost')!.invalid && (editForm.get('contextHost')!.dirty || editForm.get('contextHost')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('contextHost')?.errors?.required"> This field is required. </small>
-          </div>
         </div>
 
         <div class="mb-3">
@@ -164,12 +150,9 @@
           <select class="form-control" id="field_event" data-cy="event" name="event" formControlName="event" [compareWith]="compareEvent">
             <option [ngValue]="null"></option>
             @for (eventOption of eventsSharedCollection; track $index) {
-              <option [ngValue]="eventOption">{{ eventOption.name }}</option>
+              <option [ngValue]="eventOption">{{ eventOption.id }}</option>
             }
           </select>
-          <div *ngIf="editForm.get('event')!.invalid && (editForm.get('event')!.dirty || editForm.get('event')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('event')?.errors?.required"> This field is required. </small>
-          </div>
         </div>
       </div>
 

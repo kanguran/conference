@@ -50,18 +50,17 @@ public class EventContext implements Serializable {
     @JoinColumn(unique = true)
     private Room eventContextRoom;
 
-    @JsonIgnoreProperties(value = { "appUser", "event", "eventContext", "eventRegistration" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(unique = true)
-    private ApplicationUser contextHost;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventContext")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "eventCounterparty", "eventContext" }, allowSetters = true)
     private Set<EventRegistration> eventContextRegistrations = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "mainHost", "eventContexts" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
+    private ApplicationUser contextHost;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "eventContexts", "mainHost" }, allowSetters = true)
     private Event event;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -144,19 +143,6 @@ public class EventContext implements Serializable {
         return this;
     }
 
-    public ApplicationUser getContextHost() {
-        return this.contextHost;
-    }
-
-    public void setContextHost(ApplicationUser applicationUser) {
-        this.contextHost = applicationUser;
-    }
-
-    public EventContext contextHost(ApplicationUser applicationUser) {
-        this.setContextHost(applicationUser);
-        return this;
-    }
-
     public Set<EventRegistration> getEventContextRegistrations() {
         return this.eventContextRegistrations;
     }
@@ -185,6 +171,19 @@ public class EventContext implements Serializable {
     public EventContext removeEventContextRegistration(EventRegistration eventRegistration) {
         this.eventContextRegistrations.remove(eventRegistration);
         eventRegistration.setEventContext(null);
+        return this;
+    }
+
+    public ApplicationUser getContextHost() {
+        return this.contextHost;
+    }
+
+    public void setContextHost(ApplicationUser applicationUser) {
+        this.contextHost = applicationUser;
+    }
+
+    public EventContext contextHost(ApplicationUser applicationUser) {
+        this.setContextHost(applicationUser);
         return this;
     }
 

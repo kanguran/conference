@@ -51,14 +51,15 @@ describe('EventRegistration Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should call eventCounterparty query and add missing value', () => {
+    it('should call ApplicationUser query and add missing value', () => {
       const eventRegistration: IEventRegistration = { id: 29825 };
       const eventCounterparty: IApplicationUser = { id: 2107 };
       eventRegistration.eventCounterparty = eventCounterparty;
 
-      const eventCounterpartyCollection: IApplicationUser[] = [{ id: 2107 }];
-      jest.spyOn(applicationUserService, 'query').mockReturnValue(of(new HttpResponse({ body: eventCounterpartyCollection })));
-      const expectedCollection: IApplicationUser[] = [eventCounterparty, ...eventCounterpartyCollection];
+      const applicationUserCollection: IApplicationUser[] = [{ id: 2107 }];
+      jest.spyOn(applicationUserService, 'query').mockReturnValue(of(new HttpResponse({ body: applicationUserCollection })));
+      const additionalApplicationUsers = [eventCounterparty];
+      const expectedCollection: IApplicationUser[] = [...additionalApplicationUsers, ...applicationUserCollection];
       jest.spyOn(applicationUserService, 'addApplicationUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ eventRegistration });
@@ -66,10 +67,10 @@ describe('EventRegistration Management Update Component', () => {
 
       expect(applicationUserService.query).toHaveBeenCalled();
       expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(
-        eventCounterpartyCollection,
-        eventCounterparty,
+        applicationUserCollection,
+        ...additionalApplicationUsers.map(expect.objectContaining),
       );
-      expect(comp.eventCounterpartiesCollection).toEqual(expectedCollection);
+      expect(comp.applicationUsersSharedCollection).toEqual(expectedCollection);
     });
 
     it('should call EventContext query and add missing value', () => {
@@ -104,7 +105,7 @@ describe('EventRegistration Management Update Component', () => {
       activatedRoute.data = of({ eventRegistration });
       comp.ngOnInit();
 
-      expect(comp.eventCounterpartiesCollection).toContainEqual(eventCounterparty);
+      expect(comp.applicationUsersSharedCollection).toContainEqual(eventCounterparty);
       expect(comp.eventContextsSharedCollection).toContainEqual(eventContext);
       expect(comp.eventRegistration).toEqual(eventRegistration);
     });

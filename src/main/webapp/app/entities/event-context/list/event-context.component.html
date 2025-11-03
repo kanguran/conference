@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="EventContextHeading">
-    <span>Conference Events</span>
+    <span>Event Contexts</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -33,7 +33,7 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
-            <th scope="col" jhiSortBy="id" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+            <th scope="col" jhiSortBy="id">
               <div class="d-flex">
                 <span>ID</span>
 
@@ -92,7 +92,7 @@
         <tbody>
           @for (eventContext of eventContexts(); track trackId(eventContext)) {
             <tr data-cy="entityTable">
-              <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
+              <td>
                 <a [routerLink]="['/event-context', eventContext.id, 'view']">{{ eventContext.id }}</a>
               </td>
               <td>{{ eventContext.description }}</td>
@@ -115,7 +115,7 @@
               <td>
                 @if (eventContext.contextHost) {
                   <div>
-                    <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']">{{ eventContext.contextHost.appUser?.firstName }} {{ eventContext.contextHost.appUser?.lastName }}</a>
+                    <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']">{{ eventContext.contextHost.id }}</a>
                   </div>
                 }
               </td>
@@ -138,7 +138,7 @@
                     <span class="d-none d-md-inline">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(eventContext)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                  <button type="submit" (click)="delete(eventContext)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                     <fa-icon icon="times"></fa-icon>
                     <span class="d-none d-md-inline">Delete</span>
                   </button>

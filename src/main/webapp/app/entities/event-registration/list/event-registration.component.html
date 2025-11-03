@@ -33,7 +33,7 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
-            <th scope="col" jhiSortBy="id" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+            <th scope="col" jhiSortBy="id">
               <div class="d-flex">
                 <span>ID</span>
 
@@ -72,7 +72,7 @@
         <tbody>
           @for (eventRegistration of eventRegistrations(); track trackId(eventRegistration)) {
             <tr data-cy="entityTable">
-              <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
+              <td>
                 <a [routerLink]="['/event-registration', eventRegistration.id, 'view']">{{ eventRegistration.id }}</a>
               </td>
               <td>{{ eventRegistration.description }}</td>
@@ -80,10 +80,9 @@
               <td>
                 @if (eventRegistration.eventCounterparty) {
                   <div>
-                    <a [routerLink]="['/application-user', eventRegistration.eventCounterparty.id, 'view']">
-                       {{ eventRegistration.eventCounterparty.appUser?.firstName }}
-                       {{ eventRegistration.eventCounterparty.appUser?.lastName }}
-                    </a>
+                    <a [routerLink]="['/application-user', eventRegistration.eventCounterparty.id, 'view']">{{
+                      eventRegistration.eventCounterparty.id
+                    }}</a>
                   </div>
                 }
               </td>
@@ -116,8 +115,7 @@
                     <span class="d-none d-md-inline">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(eventRegistration)"
-                          class="btn btn-danger btn-sm" data-cy="entityDeleteButton"  *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                  <button type="submit" (click)="delete(eventRegistration)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                     <fa-icon icon="times"></fa-icon>
                     <span class="d-none d-md-inline">Delete</span>
                   </button>

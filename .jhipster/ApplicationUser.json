@@ -5,26 +5,20 @@
   "applications": "*",
   "changelogDate": "20240120181159",
   "dto": "mapstruct",
-  "embedded": false,
-  "entityTableName": "application_user",
   "fields": [
     {
       "fieldName": "host",
       "fieldType": "Boolean"
     }
   ],
-  "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
   "name": "ApplicationUser",
-  "pagination": "no",
-  "readOnly": false,
   "relationships": [
     {
       "otherEntityName": "user",
-      "ownerSide": true,
       "relationshipName": "appUser",
       "relationshipSide": "left",
-      "relationshipType": "one-to-one"
+      "relationshipType": "one-to-one",
+      "relationshipWithBuiltInEntity": true
     }
   ],
   "searchEngine": "no",

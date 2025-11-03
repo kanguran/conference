@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -89,45 +88,6 @@ public class ApplicationUserService {
         return applicationUserRepository
             .findAll()
             .stream()
-            .map(applicationUserMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
-    }
-
-    /**
-     *  Get all the applicationUsers where Event is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<ApplicationUserDTO> findAllWhereEventIsNull() {
-        LOG.debug("Request to get all applicationUsers where Event is null");
-        return StreamSupport.stream(applicationUserRepository.findAll().spliterator(), false)
-            .filter(applicationUser -> applicationUser.getEvent() == null)
-            .map(applicationUserMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
-    }
-
-    /**
-     *  Get all the applicationUsers where EventContext is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<ApplicationUserDTO> findAllWhereEventContextIsNull() {
-        LOG.debug("Request to get all applicationUsers where EventContext is null");
-        return StreamSupport.stream(applicationUserRepository.findAll().spliterator(), false)
-            .filter(applicationUser -> applicationUser.getEventContext() == null)
-            .map(applicationUserMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
-    }
-
-    /**
-     *  Get all the applicationUsers where EventRegistration is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<ApplicationUserDTO> findAllWhereEventRegistrationIsNull() {
-        LOG.debug("Request to get all applicationUsers where EventRegistration is null");
-        return StreamSupport.stream(applicationUserRepository.findAll().spliterator(), false)
-            .filter(applicationUser -> applicationUser.getEventRegistration() == null)
             .map(applicationUserMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
     }

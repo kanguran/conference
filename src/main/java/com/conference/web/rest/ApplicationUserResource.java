@@ -132,25 +132,10 @@ public class ApplicationUserResource {
     /**
      * {@code GET  /application-users} : get all the applicationUsers.
      *
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of applicationUsers in body.
      */
     @GetMapping("")
-    public List<ApplicationUserDTO> getAllApplicationUsers(@RequestParam(name = "filter", required = false) String filter) {
-        if ("event-is-null".equals(filter)) {
-            LOG.debug("REST request to get all ApplicationUsers where event is null");
-            return applicationUserService.findAllWhereEventIsNull();
-        }
-
-        if ("eventcontext-is-null".equals(filter)) {
-            LOG.debug("REST request to get all ApplicationUsers where eventContext is null");
-            return applicationUserService.findAllWhereEventContextIsNull();
-        }
-
-        if ("eventregistration-is-null".equals(filter)) {
-            LOG.debug("REST request to get all ApplicationUsers where eventRegistration is null");
-            return applicationUserService.findAllWhereEventRegistrationIsNull();
-        }
+    public List<ApplicationUserDTO> getAllApplicationUsers() {
         LOG.debug("REST request to get all ApplicationUsers");
         return applicationUserService.findAll();
     }

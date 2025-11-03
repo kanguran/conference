@@ -47,22 +47,26 @@ describe('Event Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should call mainHost query and add missing value', () => {
+    it('should call ApplicationUser query and add missing value', () => {
       const event: IEvent = { id: 3268 };
       const mainHost: IApplicationUser = { id: 2107 };
       event.mainHost = mainHost;
 
-      const mainHostCollection: IApplicationUser[] = [{ id: 2107 }];
-      jest.spyOn(applicationUserService, 'query').mockReturnValue(of(new HttpResponse({ body: mainHostCollection })));
-      const expectedCollection: IApplicationUser[] = [mainHost, ...mainHostCollection];
+      const applicationUserCollection: IApplicationUser[] = [{ id: 2107 }];
+      jest.spyOn(applicationUserService, 'query').mockReturnValue(of(new HttpResponse({ body: applicationUserCollection })));
+      const additionalApplicationUsers = [mainHost];
+      const expectedCollection: IApplicationUser[] = [...additionalApplicationUsers, ...applicationUserCollection];
       jest.spyOn(applicationUserService, 'addApplicationUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ event });
       comp.ngOnInit();
 
       expect(applicationUserService.query).toHaveBeenCalled();
-      expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(mainHostCollection, mainHost);
-      expect(comp.mainHostsCollection).toEqual(expectedCollection);
+      expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(
+        applicationUserCollection,
+        ...additionalApplicationUsers.map(expect.objectContaining),
+      );
+      expect(comp.applicationUsersSharedCollection).toEqual(expectedCollection);
     });
 
     it('should update editForm', () => {
@@ -73,7 +77,7 @@ describe('Event Management Update Component', () => {
       activatedRoute.data = of({ event });
       comp.ngOnInit();
 
-      expect(comp.mainHostsCollection).toContainEqual(mainHost);
+      expect(comp.applicationUsersSharedCollection).toContainEqual(mainHost);
       expect(comp.event).toEqual(event);
     });
   });

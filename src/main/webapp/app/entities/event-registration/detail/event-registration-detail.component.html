@@ -11,13 +11,11 @@
         <jhi-alert />
 
         <dl class="row-md jh-entity-details">
-          <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
-            <dt><span>ID</span></dt>
-            <dd>
-              <span>{{ eventRegistrationRef.id }}</span>
-            </dd>
-            <dt><span>Description</span></dt>
-          </div>
+          <dt><span>ID</span></dt>
+          <dd>
+            <span>{{ eventRegistrationRef.id }}</span>
+          </dd>
+          <dt><span>Description</span></dt>
           <dd>
             <span>{{ eventRegistrationRef.description }}</span>
           </dd>
@@ -31,9 +29,9 @@
           <dd>
             @if (eventRegistration()!.eventCounterparty) {
               <div>
-                <a [routerLink]="['/application-user', eventRegistration()!.eventCounterparty?.id, 'view']">
-                  {{ eventRegistrationRef.eventCounterparty?.appUser?.firstName }} {{ eventRegistrationRef.eventCounterparty?.appUser?.lastName }}
-                </a>
+                <a [routerLink]="['/application-user', eventRegistration()!.eventCounterparty?.id, 'view']">{{
+                  eventRegistrationRef.eventCounterparty?.id
+                }}</a>
               </div>
             }
           </dd>
@@ -42,7 +40,7 @@
             @if (eventRegistration()!.eventContext) {
               <div>
                 <a [routerLink]="['/event-context', eventRegistration()!.eventContext?.id, 'view']">{{
-                  eventRegistrationRef.eventContext?.description
+                  eventRegistrationRef.eventContext?.id
                 }}</a>
               </div>
             }

@@ -7,7 +7,7 @@ export interface IEvent {
   name?: string | null;
   eventType?: keyof typeof EventType | null;
   eventStatus?: keyof typeof EventStatus | null;
-  mainHost?: Pick<IApplicationUser, 'id' | 'appUser'> | null;
+  mainHost?: Pick<IApplicationUser, 'id'> | null;
 }
 
 export type NewEvent = Omit<IEvent, 'id'> & { id: null };

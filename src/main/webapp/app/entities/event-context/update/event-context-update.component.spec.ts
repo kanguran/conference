@@ -73,22 +73,26 @@ describe('EventContext Management Update Component', () => {
       expect(comp.eventContextRoomsCollection).toEqual(expectedCollection);
     });
 
-    it('should call contextHost query and add missing value', () => {
+    it('should call ApplicationUser query and add missing value', () => {
       const eventContext: IEventContext = { id: 3213 };
       const contextHost: IApplicationUser = { id: 2107 };
       eventContext.contextHost = contextHost;
 
-      const contextHostCollection: IApplicationUser[] = [{ id: 2107 }];
-      jest.spyOn(applicationUserService, 'query').mockReturnValue(of(new HttpResponse({ body: contextHostCollection })));
-      const expectedCollection: IApplicationUser[] = [contextHost, ...contextHostCollection];
+      const applicationUserCollection: IApplicationUser[] = [{ id: 2107 }];
+      jest.spyOn(applicationUserService, 'query').mockReturnValue(of(new HttpResponse({ body: applicationUserCollection })));
+      const additionalApplicationUsers = [contextHost];
+      const expectedCollection: IApplicationUser[] = [...additionalApplicationUsers, ...applicationUserCollection];
       jest.spyOn(applicationUserService, 'addApplicationUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ eventContext });
       comp.ngOnInit();
 
       expect(applicationUserService.query).toHaveBeenCalled();
-      expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(contextHostCollection, contextHost);
-      expect(comp.contextHostsCollection).toEqual(expectedCollection);
+      expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(
+        applicationUserCollection,
+        ...additionalApplicationUsers.map(expect.objectContaining),
+      );
+      expect(comp.applicationUsersSharedCollection).toEqual(expectedCollection);
     });
 
     it('should call Event query and add missing value', () => {
@@ -126,7 +130,7 @@ describe('EventContext Management Update Component', () => {
       comp.ngOnInit();
 
       expect(comp.eventContextRoomsCollection).toContainEqual(eventContextRoom);
-      expect(comp.contextHostsCollection).toContainEqual(contextHost);
+      expect(comp.applicationUsersSharedCollection).toContainEqual(contextHost);
       expect(comp.eventsSharedCollection).toContainEqual(event);
       expect(comp.eventContext).toEqual(eventContext);
     });

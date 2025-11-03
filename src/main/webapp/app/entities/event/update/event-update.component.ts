@@ -26,7 +26,7 @@ export class EventUpdateComponent implements OnInit {
   eventTypeValues = Object.keys(EventType);
   eventStatusValues = Object.keys(EventStatus);
 
-  mainHostsCollection: IApplicationUser[] = [];
+  applicationUsersSharedCollection: IApplicationUser[] = [];
 
   protected eventService = inject(EventService);
   protected eventFormService = inject(EventFormService);
@@ -87,21 +87,21 @@ export class EventUpdateComponent implements OnInit {
     this.event = event;
     this.eventFormService.resetForm(this.editForm, event);
 
-    this.mainHostsCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
-      this.mainHostsCollection,
+    this.applicationUsersSharedCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
+      this.applicationUsersSharedCollection,
       event.mainHost,
     );
   }
 
   protected loadRelationshipsOptions(): void {
     this.applicationUserService
-      .query({ filter: 'event-is-null' })
+      .query()
       .pipe(map((res: HttpResponse<IApplicationUser[]>) => res.body ?? []))
       .pipe(
         map((applicationUsers: IApplicationUser[]) =>
           this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(applicationUsers, this.event?.mainHost),
         ),
       )
-      .subscribe((applicationUsers: IApplicationUser[]) => (this.mainHostsCollection = applicationUsers));
+      .subscribe((applicationUsers: IApplicationUser[]) => (this.applicationUsersSharedCollection = applicationUsers));
   }
 }

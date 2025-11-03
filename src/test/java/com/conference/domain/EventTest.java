@@ -27,18 +27,6 @@ class EventTest {
     }
 
     @Test
-    void mainHostTest() {
-        Event event = getEventRandomSampleGenerator();
-        ApplicationUser applicationUserBack = getApplicationUserRandomSampleGenerator();
-
-        event.setMainHost(applicationUserBack);
-        assertThat(event.getMainHost()).isEqualTo(applicationUserBack);
-
-        event.mainHost(null);
-        assertThat(event.getMainHost()).isNull();
-    }
-
-    @Test
     void eventContextTest() {
         Event event = getEventRandomSampleGenerator();
         EventContext eventContextBack = getEventContextRandomSampleGenerator();
@@ -58,5 +46,17 @@ class EventTest {
         event.setEventContexts(new HashSet<>());
         assertThat(event.getEventContexts()).doesNotContain(eventContextBack);
         assertThat(eventContextBack.getEvent()).isNull();
+    }
+
+    @Test
+    void mainHostTest() {
+        Event event = getEventRandomSampleGenerator();
+        ApplicationUser applicationUserBack = getApplicationUserRandomSampleGenerator();
+
+        event.setMainHost(applicationUserBack);
+        assertThat(event.getMainHost()).isEqualTo(applicationUserBack);
+
+        event.mainHost(null);
+        assertThat(event.getMainHost()).isNull();
     }
 }

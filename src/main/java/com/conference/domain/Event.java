@@ -42,15 +42,14 @@ public class Event implements Serializable {
     @Column(name = "event_status", nullable = false)
     private EventStatus eventStatus;
 
-    @JsonIgnoreProperties(value = { "appUser", "event", "eventContext", "eventRegistration" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(unique = true)
-    private ApplicationUser mainHost;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "eventContextRoom", "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "eventContextRoom", "eventContextRegistrations", "contextHost", "event" }, allowSetters = true)
     private Set<EventContext> eventContexts = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
+    private ApplicationUser mainHost;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -106,19 +105,6 @@ public class Event implements Serializable {
         this.eventStatus = eventStatus;
     }
 
-    public ApplicationUser getMainHost() {
-        return this.mainHost;
-    }
-
-    public void setMainHost(ApplicationUser applicationUser) {
-        this.mainHost = applicationUser;
-    }
-
-    public Event mainHost(ApplicationUser applicationUser) {
-        this.setMainHost(applicationUser);
-        return this;
-    }
-
     public Set<EventContext> getEventContexts() {
         return this.eventContexts;
     }
@@ -147,6 +133,19 @@ public class Event implements Serializable {
     public Event removeEventContext(EventContext eventContext) {
         this.eventContexts.remove(eventContext);
         eventContext.setEvent(null);
+        return this;
+    }
+
+    public ApplicationUser getMainHost() {
+        return this.mainHost;
+    }
+
+    public void setMainHost(ApplicationUser applicationUser) {
+        this.mainHost = applicationUser;
+    }
+
+    public Event mainHost(ApplicationUser applicationUser) {
+        this.setMainHost(applicationUser);
         return this;
     }
 

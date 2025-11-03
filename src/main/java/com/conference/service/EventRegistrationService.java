@@ -2,7 +2,6 @@ package com.conference.service;
 
 import com.conference.domain.EventRegistration;
 import com.conference.repository.EventRegistrationRepository;
-import com.conference.security.SecurityUtils;
 import com.conference.service.dto.EventRegistrationDTO;
 import com.conference.service.mapper.EventRegistrationMapper;
 import java.util.Optional;
@@ -90,25 +89,6 @@ public class EventRegistrationService {
     public Page<EventRegistrationDTO> findAll(Pageable pageable) {
         LOG.debug("Request to get all EventRegistrations");
         return eventRegistrationRepository.findAll(pageable).map(eventRegistrationMapper::toDto);
-    }
-
-    /**
-     * Get all the eventRegistrations.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Page<EventRegistrationDTO> findEventRegistrationByUserRole(Pageable pageable) {
-        LOG.debug("Request to get EventRegistrations by User Role");
-
-        if (SecurityUtils.isAdmin()) {
-            return eventRegistrationRepository.findAll(pageable).map(eventRegistrationMapper::toDto);
-        } else {
-            return eventRegistrationRepository
-                .findByEventCounterpartyAppUserLogin(pageable, SecurityUtils.getCurrentUserLogin().get())
-                .map(eventRegistrationMapper::toDto);
-        }
     }
 
     /**

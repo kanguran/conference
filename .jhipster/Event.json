@@ -5,8 +5,6 @@
   "applications": "*",
   "changelogDate": "20240119211626",
   "dto": "mapstruct",
-  "embedded": false,
-  "entityTableName": "event",
   "fields": [
     {
       "fieldName": "name",
@@ -26,25 +24,20 @@
       "fieldValues": "UNPUBLISHED,PUBLISHED,CANCELLED"
     }
   ],
-  "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
   "name": "Event",
   "pagination": "pagination",
-  "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "applicationUser",
-      "ownerSide": true,
-      "relationshipName": "mainHost",
-      "relationshipSide": "left",
-      "relationshipType": "one-to-one"
-    },
-    {
       "otherEntityName": "eventContext",
-      "otherEntityRelationshipName": "event",
       "relationshipName": "eventContext",
       "relationshipSide": "left",
       "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "applicationUser",
+      "relationshipName": "mainHost",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
     }
   ],
   "searchEngine": "no",

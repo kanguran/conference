@@ -41,18 +41,6 @@ class EventContextTest {
     }
 
     @Test
-    void contextHostTest() {
-        EventContext eventContext = getEventContextRandomSampleGenerator();
-        ApplicationUser applicationUserBack = getApplicationUserRandomSampleGenerator();
-
-        eventContext.setContextHost(applicationUserBack);
-        assertThat(eventContext.getContextHost()).isEqualTo(applicationUserBack);
-
-        eventContext.contextHost(null);
-        assertThat(eventContext.getContextHost()).isNull();
-    }
-
-    @Test
     void eventContextRegistrationTest() {
         EventContext eventContext = getEventContextRandomSampleGenerator();
         EventRegistration eventRegistrationBack = getEventRegistrationRandomSampleGenerator();
@@ -72,6 +60,18 @@ class EventContextTest {
         eventContext.setEventContextRegistrations(new HashSet<>());
         assertThat(eventContext.getEventContextRegistrations()).doesNotContain(eventRegistrationBack);
         assertThat(eventRegistrationBack.getEventContext()).isNull();
+    }
+
+    @Test
+    void contextHostTest() {
+        EventContext eventContext = getEventContextRandomSampleGenerator();
+        ApplicationUser applicationUserBack = getApplicationUserRandomSampleGenerator();
+
+        eventContext.setContextHost(applicationUserBack);
+        assertThat(eventContext.getContextHost()).isEqualTo(applicationUserBack);
+
+        eventContext.contextHost(null);
+        assertThat(eventContext.getContextHost()).isNull();
     }
 
     @Test

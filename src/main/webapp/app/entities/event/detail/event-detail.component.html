@@ -11,8 +11,8 @@
         <jhi-alert />
 
         <dl class="row-md jh-entity-details">
-          <dt *jhiHasAnyAuthority="'ROLE_ADMIN'"><span>ID</span></dt>
-          <dd *jhiHasAnyAuthority="'ROLE_ADMIN'">
+          <dt><span>ID</span></dt>
+          <dd>
             <span>{{ eventRef.id }}</span>
           </dd>
           <dt><span>Name</span></dt>
@@ -33,10 +33,7 @@
           <dd>
             @if (event()!.mainHost) {
               <div>
-                <a [routerLink]="['/application-user', event()!.mainHost?.id, 'view']">
-                    {{ eventRef.mainHost?.appUser?.firstName }}
-                    {{ eventRef.mainHost?.appUser?.lastName }}
-                </a>
+                <a [routerLink]="['/application-user', event()!.mainHost?.id, 'view']">{{ eventRef.mainHost?.id }}</a>
               </div>
             }
           </dd>

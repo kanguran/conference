@@ -75,9 +75,10 @@
             [compareWith]="compareApplicationUser"
           >
             <option [ngValue]="null"></option>
-            @for (applicationUserOption of mainHostsCollection; track $index) {
-              <option [ngValue]="applicationUserOption">{{ applicationUserOption.appUser?.firstName }}
-                  {{ applicationUserOption.appUser?.lastName }}</option>
+            @for (applicationUserOption of applicationUsersSharedCollection; track $index) {
+              <option [ngValue]="applicationUserOption">
+                {{ applicationUserOption.id }} {{ applicationUserOption.appUser?.firstName }} {{ applicationUserOption.appUser?.lastName }}
+              </option>
             }
           </select>
           <div *ngIf="editForm.get('mainHost')!.invalid && (editForm.get('mainHost')!.dirty || editForm.get('mainHost')!.touched)">

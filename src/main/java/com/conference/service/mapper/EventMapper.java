@@ -17,6 +17,5 @@ public interface EventMapper extends EntityMapper<EventDTO, Event> {
     @Named("applicationUserId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "appUser", source = "appUser")
     ApplicationUserDTO toDtoApplicationUserId(ApplicationUser applicationUser);
 }

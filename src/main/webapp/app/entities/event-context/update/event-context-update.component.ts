@@ -29,7 +29,7 @@ export class EventContextUpdateComponent implements OnInit {
   eventContextStatusValues = Object.keys(EventContextStatus);
 
   eventContextRoomsCollection: IRoom[] = [];
-  contextHostsCollection: IApplicationUser[] = [];
+  applicationUsersSharedCollection: IApplicationUser[] = [];
   eventsSharedCollection: IEvent[] = [];
 
   protected eventContextService = inject(EventContextService);
@@ -101,8 +101,8 @@ export class EventContextUpdateComponent implements OnInit {
       this.eventContextRoomsCollection,
       eventContext.eventContextRoom,
     );
-    this.contextHostsCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
-      this.contextHostsCollection,
+    this.applicationUsersSharedCollection = this.applicationUserService.addApplicationUserToCollectionIfMissing<IApplicationUser>(
+      this.applicationUsersSharedCollection,
       eventContext.contextHost,
     );
     this.eventsSharedCollection = this.eventService.addEventToCollectionIfMissing<IEvent>(this.eventsSharedCollection, eventContext.event);
@@ -116,7 +116,7 @@ export class EventContextUpdateComponent implements OnInit {
       .subscribe((rooms: IRoom[]) => (this.eventContextRoomsCollection = rooms));
 
     this.applicationUserService
-      .query({ filter: 'eventcontext-is-null' })
+      .query()
       .pipe(map((res: HttpResponse<IApplicationUser[]>) => res.body ?? []))
       .pipe(
         map((applicationUsers: IApplicationUser[]) =>
@@ -126,7 +126,7 @@ export class EventContextUpdateComponent implements OnInit {
           ),
         ),
       )
-      .subscribe((applicationUsers: IApplicationUser[]) => (this.contextHostsCollection = applicationUsers));
+      .subscribe((applicationUsers: IApplicationUser[]) => (this.applicationUsersSharedCollection = applicationUsers));
 
     this.eventService
       .query()

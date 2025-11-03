@@ -17,8 +17,5 @@ public interface ApplicationUserMapper extends EntityMapper<ApplicationUserDTO, 
     @Named("userId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "login", source = "login")
-    @Mapping(target = "firstName", source = "firstName")
-    @Mapping(target = "lastName", source = "lastName")
     UserDTO toDtoUserId(User user);
 }
