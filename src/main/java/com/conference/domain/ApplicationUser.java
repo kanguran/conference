@@ -95,6 +95,7 @@ public class ApplicationUser implements Serializable {
         return "ApplicationUser{" +
             "id=" + getId() +
             ", host='" + getHost() + "'" +
+            ", appUser=" + getAppUser() +
             "}";
     }
 }
