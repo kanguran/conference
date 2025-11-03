@@ -6,13 +6,6 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="20240121211630-1" author="akangur">
-        <dropUniqueConstraint  catalogName="public"
-                               constraintName="ux_event_registration__event_counterparty_id"
-                               schemaName="public"
-                               tableName="event_registration"
-                               uniqueColumns="event_counterparty_id"/>
-    </changeSet>
     <changeSet id="20240121211630-2" author="akangur">
         <dropForeignKeyConstraint  baseTableCatalogName="public"
                                    baseTableName="event_registration"
