@@ -115,7 +115,9 @@
               <td>
                 @if (eventContext.contextHost) {
                   <div>
-                    <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']">{{ eventContext.contextHost.id }}</a>
+                    <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']"
+                      >{{ eventContext.contextHost?.appUser?.firstName }} {{ eventContext.contextHost?.appUser?.lastName }}</a
+                    >
                   </div>
                 }
               </td>

@@ -11,7 +11,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link EventRegistration} and its DTO {@link EventRegistrationDTO}.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { UserMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface EventRegistrationMapper extends EntityMapper<EventRegistrationDTO, EventRegistration> {
     @Mapping(target = "eventCounterparty", source = "eventCounterparty", qualifiedByName = "applicationUserId")
     @Mapping(target = "eventContext", source = "eventContext", qualifiedByName = "eventContextId")
@@ -20,6 +20,8 @@ public interface EventRegistrationMapper extends EntityMapper<EventRegistrationD
     @Named("applicationUserId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "host", source = "host")
+    @Mapping(target = "appUser", source = "appUser", qualifiedByName = "id")
     ApplicationUserDTO toDtoApplicationUserId(ApplicationUser applicationUser);
 
     @Named("eventContextId")
