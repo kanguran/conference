@@ -176,6 +176,7 @@ public class Event implements Serializable {
             ", name='" + getName() + "'" +
             ", eventType='" + getEventType() + "'" +
             ", eventStatus='" + getEventStatus() + "'" +
+            ", mainHost=" + getMainHost() + "" +
             "}";
     }
 }

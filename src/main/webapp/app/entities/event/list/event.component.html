@@ -84,7 +84,9 @@
               <td>
                 @if (event.mainHost) {
                   <div>
-                    <a [routerLink]="['/application-user', event.mainHost.id, 'view']">{{ event.mainHost.id }}</a>
+                    <a [routerLink]="['/application-user', event.mainHost.id, 'view']"
+                      >{{ event.mainHost.appUser?.firstName }} {{ event.mainHost.appUser?.lastName }}</a
+                    >
                   </div>
                 }
               </td>

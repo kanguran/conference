@@ -33,7 +33,9 @@
           <dd>
             @if (event()!.mainHost) {
               <div>
-                <a [routerLink]="['/application-user', event()!.mainHost?.id, 'view']">{{ eventRef.mainHost?.id }}</a>
+                <a [routerLink]="['/application-user', event()!.mainHost?.id, 'view']"
+                  >{{ eventRef.mainHost?.appUser?.firstName }} {{ eventRef.mainHost?.appUser?.lastName }}</a
+                >
               </div>
             }
           </dd>

@@ -150,4 +150,20 @@ public class UserMapper {
 
         return userSet;
     }
+
+    @Named("userId")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "login", source = "login")
+    UserDTO toDtoUserId(User user) {
+        if (user == null) {
+            return null;
+        }
+        UserDTO userDto = new UserDTO();
+        userDto.setId(user.getId());
+        userDto.setLogin(user.getLogin());
+        userDto.setLastName(user.getLastName());
+        userDto.setFirstName(user.getFirstName());
+        return userDto;
+    }
 }
