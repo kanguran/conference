@@ -39,7 +39,7 @@
           <dd>
             @if (eventContext()!.eventContextRoom) {
               <div>
-                <a [routerLink]="['/room', eventContext()!.eventContextRoom?.id, 'view']">{{ eventContextRef.eventContextRoom?.id }}</a>
+                <a [routerLink]="['/room', eventContext()!.eventContextRoom?.id, 'view']">{{ eventContextRef.eventContextRoom?.name }}</a>
               </div>
             }
           </dd>
