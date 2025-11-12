@@ -124,7 +124,7 @@
               <td>
                 @if (eventContext.event) {
                   <div>
-                    <a [routerLink]="['/event', eventContext.event.id, 'view']">{{ eventContext.event.id }}</a>
+                    <a [routerLink]="['/event', eventContext.event.id, 'view']">{{ eventContext.event.name }}</a>
                   </div>
                 }
               </td>

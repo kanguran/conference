@@ -152,7 +152,7 @@
           <select class="form-control" id="field_event" data-cy="event" name="event" formControlName="event" [compareWith]="compareEvent">
             <option [ngValue]="null"></option>
             @for (eventOption of eventsSharedCollection; track $index) {
-              <option [ngValue]="eventOption">{{ eventOption.id }}</option>
+              <option [ngValue]="eventOption">{{ eventOption.name }}</option>
             }
           </select>
         </div>
