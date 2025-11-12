@@ -63,9 +63,7 @@
                 <a [routerLink]="['/application-user', applicationUser.id, 'view']">{{ applicationUser.id }}</a>
               </td>
               <td>{{ applicationUser.host }}</td>
-              <td>
-                {{ applicationUser.appUser?.id }}
-              </td>
+              <td>{{ applicationUser.appUser?.firstName }} {{ applicationUser.appUser?.lastName }}</td>
               <td class="text-end">
                 <div class="btn-group">
                   <a
