@@ -80,9 +80,10 @@
               <td>
                 @if (eventRegistration.eventCounterparty) {
                   <div>
-                    <a [routerLink]="['/application-user', eventRegistration.eventCounterparty.id, 'view']">{{
-                      eventRegistration.eventCounterparty.id
-                    }}</a>
+                    <a [routerLink]="['/application-user', eventRegistration.eventCounterparty.id, 'view']">
+                      {{ eventRegistration.eventCounterparty.appUser?.firstName }}
+                      {{ eventRegistration.eventCounterparty.appUser?.lastName }}
+                    </a>
                   </div>
                 }
               </td>

@@ -29,9 +29,10 @@
           <dd>
             @if (eventRegistration()!.eventCounterparty) {
               <div>
-                <a [routerLink]="['/application-user', eventRegistration()!.eventCounterparty?.id, 'view']">{{
-                  eventRegistrationRef.eventCounterparty?.id
-                }}</a>
+                <a [routerLink]="['/application-user', eventRegistration()!.eventCounterparty?.id, 'view']">
+                  {{ eventRegistrationRef.eventCounterparty?.appUser?.firstName }}
+                  {{ eventRegistrationRef.eventCounterparty?.appUser?.lastName }}</a
+                >
               </div>
             }
           </dd>

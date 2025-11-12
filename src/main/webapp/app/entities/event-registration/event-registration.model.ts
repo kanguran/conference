@@ -6,7 +6,7 @@ export interface IEventRegistration {
   id: number;
   description?: string | null;
   eventRegistrationStatus?: keyof typeof EventRegistrationStatus | null;
-  eventCounterparty?: Pick<IApplicationUser, 'id'> | null;
+  eventCounterparty?: Pick<IApplicationUser, 'id' | 'appUser'> | null;
   eventContext?: Pick<IEventContext, 'id'> | null;
 }
 
