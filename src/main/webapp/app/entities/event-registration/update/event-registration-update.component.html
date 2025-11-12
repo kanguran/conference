@@ -82,7 +82,7 @@
           >
             <option [ngValue]="null"></option>
             @for (eventContextOption of eventContextsSharedCollection; track $index) {
-              <option [ngValue]="eventContextOption">{{ eventContextOption.id }}</option>
+              <option [ngValue]="eventContextOption">{{ eventContextOption.description }}</option>
             }
           </select>
         </div>

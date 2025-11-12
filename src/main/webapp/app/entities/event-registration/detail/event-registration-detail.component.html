@@ -41,7 +41,7 @@
             @if (eventRegistration()!.eventContext) {
               <div>
                 <a [routerLink]="['/event-context', eventRegistration()!.eventContext?.id, 'view']">{{
-                  eventRegistrationRef.eventContext?.id
+                  eventRegistrationRef.eventContext?.description
                 }}</a>
               </div>
             }
