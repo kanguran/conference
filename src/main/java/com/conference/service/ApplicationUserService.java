@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link ApplicationUser}.
+ * Service Implementation for managing {@link com.conference.domain.ApplicationUser}.
  */
 @Service
 @Transactional
 public class ApplicationUserService {
 
-    private final Logger log = LoggerFactory.getLogger(ApplicationUserService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationUserService.class);
 
     private final ApplicationUserRepository applicationUserRepository;
 
@@ -38,7 +38,7 @@ public class ApplicationUserService {
      * @return the persisted entity.
      */
     public ApplicationUserDTO save(ApplicationUserDTO applicationUserDTO) {
-        log.debug("Request to save ApplicationUser : {}", applicationUserDTO);
+        LOG.debug("Request to save ApplicationUser : {}", applicationUserDTO);
         ApplicationUser applicationUser = applicationUserMapper.toEntity(applicationUserDTO);
         applicationUser = applicationUserRepository.save(applicationUser);
         return applicationUserMapper.toDto(applicationUser);
@@ -51,7 +51,7 @@ public class ApplicationUserService {
      * @return the persisted entity.
      */
     public ApplicationUserDTO update(ApplicationUserDTO applicationUserDTO) {
-        log.debug("Request to update ApplicationUser : {}", applicationUserDTO);
+        LOG.debug("Request to update ApplicationUser : {}", applicationUserDTO);
         ApplicationUser applicationUser = applicationUserMapper.toEntity(applicationUserDTO);
         applicationUser = applicationUserRepository.save(applicationUser);
         return applicationUserMapper.toDto(applicationUser);
@@ -64,7 +64,7 @@ public class ApplicationUserService {
      * @return the persisted entity.
      */
     public Optional<ApplicationUserDTO> partialUpdate(ApplicationUserDTO applicationUserDTO) {
-        log.debug("Request to partially update ApplicationUser : {}", applicationUserDTO);
+        LOG.debug("Request to partially update ApplicationUser : {}", applicationUserDTO);
 
         return applicationUserRepository
             .findById(applicationUserDTO.getId())
@@ -84,7 +84,7 @@ public class ApplicationUserService {
      */
     @Transactional(readOnly = true)
     public List<ApplicationUserDTO> findAll() {
-        log.debug("Request to get all ApplicationUsers");
+        LOG.debug("Request to get all ApplicationUsers");
         return applicationUserRepository
             .findAll()
             .stream()
@@ -100,7 +100,7 @@ public class ApplicationUserService {
      */
     @Transactional(readOnly = true)
     public Optional<ApplicationUserDTO> findOne(Long id) {
-        log.debug("Request to get ApplicationUser : {}", id);
+        LOG.debug("Request to get ApplicationUser : {}", id);
         return applicationUserRepository.findById(id).map(applicationUserMapper::toDto);
     }
 
@@ -110,7 +110,7 @@ public class ApplicationUserService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        log.debug("Request to delete ApplicationUser : {}", id);
+        LOG.debug("Request to delete ApplicationUser : {}", id);
         applicationUserRepository.deleteById(id);
     }
 }

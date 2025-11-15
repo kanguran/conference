@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithRequiredData, sampleWithNewData } from '../event-registration.test-samples';
+import { sampleWithNewData, sampleWithRequiredData } from '../event-registration.test-samples';
 
 import { EventRegistrationFormService } from './event-registration-form.service';
 
@@ -24,7 +24,7 @@ describe('EventRegistration Form Service', () => {
             eventRegistrationStatus: expect.any(Object),
             eventCounterparty: expect.any(Object),
             eventContext: expect.any(Object),
-          })
+          }),
         );
       });
 
@@ -38,14 +38,13 @@ describe('EventRegistration Form Service', () => {
             eventRegistrationStatus: expect.any(Object),
             eventCounterparty: expect.any(Object),
             eventContext: expect.any(Object),
-          })
+          }),
         );
       });
     });
 
     describe('getEventRegistration', () => {
       it('should return NewEventRegistration for default EventRegistration initial value', () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createEventRegistrationFormGroup(sampleWithNewData);
 
         const eventRegistration = service.getEventRegistration(formGroup) as any;

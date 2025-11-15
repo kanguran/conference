@@ -1,12 +1,13 @@
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
 import { EventType } from 'app/entities/enumerations/event-type.model';
 import { EventStatus } from 'app/entities/enumerations/event-status.model';
+import { IUser } from '../user/user.model';
 
 export interface IEvent {
   id: number;
   name?: string | null;
-  eventType?: EventType | null;
-  eventStatus?: EventStatus | null;
+  eventType?: keyof typeof EventType | null;
+  eventStatus?: keyof typeof EventStatus | null;
   mainHost?: Pick<IApplicationUser, 'id' | 'appUser'> | null;
 }
 

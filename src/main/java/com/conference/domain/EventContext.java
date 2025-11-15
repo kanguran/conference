@@ -2,12 +2,12 @@ package com.conference.domain;
 
 import com.conference.domain.enumeration.EventContextStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -45,22 +45,22 @@ public class EventContext implements Serializable {
     @Column(name = "jhi_end", nullable = false)
     private Instant end;
 
-    @OneToOne
+    @JsonIgnoreProperties(value = { "eventContext" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private Room eventContextRoom;
 
-    @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ApplicationUser contextHost;
-
-    @OneToMany(mappedBy = "eventContext")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "eventContext")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "eventCounterparty", "eventContext" }, allowSetters = true)
     private Set<EventRegistration> eventContextRegistrations = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "mainHost", "eventContexts" }, allowSetters = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
+    private ApplicationUser contextHost;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "eventContexts", "mainHost" }, allowSetters = true)
     private Event event;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -143,19 +143,6 @@ public class EventContext implements Serializable {
         return this;
     }
 
-    public ApplicationUser getContextHost() {
-        return this.contextHost;
-    }
-
-    public void setContextHost(ApplicationUser applicationUser) {
-        this.contextHost = applicationUser;
-    }
-
-    public EventContext contextHost(ApplicationUser applicationUser) {
-        this.setContextHost(applicationUser);
-        return this;
-    }
-
     public Set<EventRegistration> getEventContextRegistrations() {
         return this.eventContextRegistrations;
     }
@@ -187,6 +174,19 @@ public class EventContext implements Serializable {
         return this;
     }
 
+    public ApplicationUser getContextHost() {
+        return this.contextHost;
+    }
+
+    public void setContextHost(ApplicationUser applicationUser) {
+        this.contextHost = applicationUser;
+    }
+
+    public EventContext contextHost(ApplicationUser applicationUser) {
+        this.setContextHost(applicationUser);
+        return this;
+    }
+
     public Event getEvent() {
         return this.event;
     }
@@ -210,7 +210,7 @@ public class EventContext implements Serializable {
         if (!(o instanceof EventContext)) {
             return false;
         }
-        return id != null && id.equals(((EventContext) o).id);
+        return getId() != null && getId().equals(((EventContext) o).getId());
     }
 
     @Override

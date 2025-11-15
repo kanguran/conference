@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { EventRegistrationDetailComponent } from './event-registration-detail.component';
@@ -8,29 +9,46 @@ describe('EventRegistration Management Detail Component', () => {
   let comp: EventRegistrationDetailComponent;
   let fixture: ComponentFixture<EventRegistrationDetailComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [EventRegistrationDetailComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [EventRegistrationDetailComponent],
       providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: { data: of({ eventRegistration: { id: 123 } }) },
-        },
+        provideRouter(
+          [
+            {
+              path: '**',
+              loadComponent: () => import('./event-registration-detail.component').then(m => m.EventRegistrationDetailComponent),
+              resolve: { eventRegistration: () => of({ id: 3555 }) },
+            },
+          ],
+          withComponentInputBinding(),
+        ),
       ],
     })
       .overrideTemplate(EventRegistrationDetailComponent, '')
       .compileComponents();
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(EventRegistrationDetailComponent);
     comp = fixture.componentInstance;
   });
 
   describe('OnInit', () => {
-    it('Should load eventRegistration on init', () => {
-      // WHEN
-      comp.ngOnInit();
+    it('should load eventRegistration on init', async () => {
+      const harness = await RouterTestingHarness.create();
+      const instance = await harness.navigateByUrl('/', EventRegistrationDetailComponent);
 
       // THEN
-      expect(comp.eventRegistration).toEqual(expect.objectContaining({ id: 123 }));
+      expect(instance.eventRegistration()).toEqual(expect.objectContaining({ id: 3555 }));
+    });
+  });
+
+  describe('PreviousState', () => {
+    it('should navigate to previous state', () => {
+      jest.spyOn(window.history, 'back');
+      comp.previousState();
+      expect(window.history.back).toHaveBeenCalled();
     });
   });
 });

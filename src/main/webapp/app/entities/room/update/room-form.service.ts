@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { IRoom, NewRoom } from '../room.model';
 
@@ -37,7 +37,7 @@ export class RoomFormService {
         {
           nonNullable: true,
           validators: [Validators.required],
-        }
+        },
       ),
       name: new FormControl(roomRawValue.name, {
         validators: [Validators.required],
@@ -58,7 +58,7 @@ export class RoomFormService {
       {
         ...roomRawValue,
         id: { value: roomRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
+      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
     );
   }
 

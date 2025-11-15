@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 import { IRoom } from '../room.model';
-import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../room.test-samples';
+import { sampleWithFullData, sampleWithNewData, sampleWithPartialData, sampleWithRequiredData } from '../room.test-samples';
 
 import { RoomService } from './room.service';
 
@@ -17,7 +18,7 @@ describe('Room Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
     expectedResult = null;
     service = TestBed.inject(RoomService);
@@ -37,7 +38,6 @@ describe('Room Service', () => {
     });
 
     it('should create a Room', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const room = { ...sampleWithNewData };
       const returnedFromService = { ...requireRestSample };
       const expected = { ...sampleWithRequiredData };
@@ -155,7 +155,7 @@ describe('Room Service', () => {
     });
 
     describe('compareRoom', () => {
-      it('Should return true if both entities are null', () => {
+      it('should return true if both entities are null', () => {
         const entity1 = null;
         const entity2 = null;
 
@@ -164,8 +164,8 @@ describe('Room Service', () => {
         expect(compareResult).toEqual(true);
       });
 
-      it('Should return false if one entity is null', () => {
-        const entity1 = { id: 123 };
+      it('should return false if one entity is null', () => {
+        const entity1 = { id: 31469 };
         const entity2 = null;
 
         const compareResult1 = service.compareRoom(entity1, entity2);
@@ -175,9 +175,9 @@ describe('Room Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('Should return false if primaryKey differs', () => {
-        const entity1 = { id: 123 };
-        const entity2 = { id: 456 };
+      it('should return false if primaryKey differs', () => {
+        const entity1 = { id: 31469 };
+        const entity2 = { id: 22394 };
 
         const compareResult1 = service.compareRoom(entity1, entity2);
         const compareResult2 = service.compareRoom(entity2, entity1);
@@ -186,9 +186,9 @@ describe('Room Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('Should return false if primaryKey matches', () => {
-        const entity1 = { id: 123 };
-        const entity2 = { id: 123 };
+      it('should return false if primaryKey matches', () => {
+        const entity1 = { id: 31469 };
+        const entity2 = { id: 31469 };
 
         const compareResult1 = service.compareRoom(entity1, entity2);
         const compareResult2 = service.compareRoom(entity2, entity1);

@@ -2,9 +2,9 @@ package com.conference.domain;
 
 import com.conference.domain.enumeration.EventRegistrationStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -33,13 +33,12 @@ public class EventRegistration implements Serializable {
     @Column(name = "event_registration_status", nullable = false)
     private EventRegistrationStatus eventRegistrationStatus;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
-    @OneToOne
-    @JoinColumn(unique = true)
     private ApplicationUser eventCounterparty;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "eventContextRoom", "contextHost", "eventContextRegistrations", "event" }, allowSetters = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "eventContextRoom", "eventContextRegistrations", "contextHost", "event" }, allowSetters = true)
     private EventContext eventContext;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -119,7 +118,7 @@ public class EventRegistration implements Serializable {
         if (!(o instanceof EventRegistration)) {
             return false;
         }
-        return id != null && id.equals(((EventRegistration) o).id);
+        return getId() != null && getId().equals(((EventRegistration) o).getId());
     }
 
     @Override

@@ -1,60 +1,65 @@
 entity Event {
-	name String required
-    eventType EventType required
-    eventStatus EventStatus required
+  name String required
+  eventType EventType required
+  eventStatus EventStatus required
 }
 
 entity EventContext {
-    description String required
-	eventContextStatus EventContextStatus required
-    start Instant required
-	end Instant required
+  description String required
+  eventContextStatus EventContextStatus required
+  start Instant required
+  end Instant required
 }
 
 entity EventRegistration {
-    description String
-	eventRegistrationStatus EventRegistrationStatus required
+  description String
+  eventRegistrationStatus EventRegistrationStatus required
 }
 
 entity Room {
-	name String required
-	maxSeats Integer required
+  name String required
+  maxSeats Integer required
 }
 
 entity ApplicationUser {
-    host Boolean
+  host Boolean
 }
 
 enum EventStatus {
-	UNPUBLISHED, PUBLISHED, CANCELLED
+  UNPUBLISHED, PUBLISHED, CANCELLED
 }
 
 enum EventRegistrationStatus {
-	ACTIVE, CANCELLED
+  ACTIVE, CANCELLED
 }
 
 enum EventContextStatus {
-	AVAILABLE, FULLY_BOOKED, CANCELLED
+  AVAILABLE, FULLY_BOOKED, CANCELLED
 }
 
 enum EventType {
-    CONFERENCE
+  CONFERENCE
 }
 
+/* Relationships */
 relationship OneToOne {
-    EventContext{eventContextRoom} to Room
-    ApplicationUser{appUser} to User
-    EventRegistration{eventCounterparty} to ApplicationUser
-    EventContext{contextHost} to ApplicationUser
-    Event{mainHost} to ApplicationUser
+  EventContext{eventContextRoom} to Room
+  ApplicationUser{appUser} to User with builtInEntity
 }
 
 relationship OneToMany {
-	EventContext{eventContextRegistration} to EventRegistration
-	Event{eventContext} to EventContext
+  EventContext{eventContextRegistration} to EventRegistration
+  Event{eventContext} to EventContext
 }
 
+relationship ManyToOne {
+  EventRegistration{eventCounterparty} to ApplicationUser
+  EventContext{contextHost} to ApplicationUser
+  Event{mainHost} to ApplicationUser
+}
+
+/* Use the JDL keyword 'paginate' */
 paginate Event, EventContext, Room, EventRegistration with pagination
 
-// Use Data Transfer Objects (DTO)
+/* DTOs */
 dto * with mapstruct

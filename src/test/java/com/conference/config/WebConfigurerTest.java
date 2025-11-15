@@ -1,18 +1,15 @@
 package com.conference.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.File;
+import jakarta.servlet.*;
+import java.nio.file.Path;
 import java.util.*;
-import javax.servlet.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
@@ -38,7 +35,7 @@ class WebConfigurerTest {
     private JHipsterProperties props;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         servletContext = spy(new MockServletContext());
         doReturn(mock(FilterRegistration.Dynamic.class)).when(servletContext).addFilter(anyString(), any(Filter.class));
         doReturn(mock(ServletRegistration.Dynamic.class)).when(servletContext).addServlet(anyString(), any(Servlet.class));
@@ -58,7 +55,7 @@ class WebConfigurerTest {
         assertThat(container.getMimeMappings().get("html")).isEqualTo("text/html");
         assertThat(container.getMimeMappings().get("json")).isEqualTo("application/json");
         if (container.getDocumentRoot() != null) {
-            assertThat(container.getDocumentRoot()).isEqualTo(new File("build/resources/main/static/"));
+            assertThat(container.getDocumentRoot()).isEqualTo(Path.of("build/resources/main/static/").toFile());
         }
     }
 

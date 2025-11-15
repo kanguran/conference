@@ -4,7 +4,7 @@
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
         <span>Refresh list</span>
       </button>
 
@@ -15,132 +15,136 @@
         [routerLink]="['/event-registration/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Event Registration </span>
+        <span>Create a new Event Registration</span>
       </button>
     </div>
   </h2>
 
-  <jhi-alert-error></jhi-alert-error>
+  <jhi-alert-error />
 
-  <jhi-alert></jhi-alert>
+  <jhi-alert />
 
-  <div class="alert alert-warning" id="no-result" *ngIf="eventRegistrations?.length === 0">
-    <span>No Event Registrations found</span>
-  </div>
-
-  <div class="table-responsive table-entities" id="entities" *ngIf="eventRegistrations && eventRegistrations.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id" *jhiHasAnyAuthority="'ROLE_ADMIN'">
-            <div class="d-flex">
-              <span>ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="description">
-            <div class="d-flex">
-              <span>Description</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="eventRegistrationStatus">
-            <div class="d-flex">
-              <span>Event Registration Status</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="eventCounterparty.id">
-            <div class="d-flex">
-              <span>Event Counterparty</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="eventContext.id">
-            <div class="d-flex">
-              <span>Event Context</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let eventRegistration of eventRegistrations; trackBy: trackId" data-cy="entityTable">
-          <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
-            <a [routerLink]="['/event-registration', eventRegistration.id, 'view']">{{ eventRegistration.id }}</a>
-          </td>
-          <td>{{ eventRegistration.description }}</td>
-          <td>{{ eventRegistration.eventRegistrationStatus }}</td>
-          <td>
-            <div *ngIf="eventRegistration.eventCounterparty">
-              <a [routerLink]="['/application-user', eventRegistration.eventCounterparty.id, 'view']">
-                {{ eventRegistration.eventCounterparty.appUser?.firstName }}
-                {{ eventRegistration.eventCounterparty.appUser?.lastName }}
-              </a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="eventRegistration.eventContext">
-              <a [routerLink]="['/event-context', eventRegistration.eventContext.id, 'view']">{{
-                eventRegistration.eventContext.description
-              }}</a>
-            </div>
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/event-registration', eventRegistration.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
-              </button>
-
-              <button
-                type="submit"
-                [routerLink]="['/event-registration', eventRegistration.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
-              </button>
-
-              <button
-                type="submit"
-                (click)="delete(eventRegistration)"
-                class="btn btn-danger btn-sm"
-                data-cy="entityDeleteButton"
-                *jhiHasAnyAuthority="'ROLE_ADMIN'"
-              >
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div *ngIf="eventRegistrations && eventRegistrations.length > 0">
-    <div class="d-flex justify-content-center">
-      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+  @if (eventRegistrations().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span>No Event Registrations found</span>
     </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>ID</span>
 
-    <div class="d-flex justify-content-center">
-      <ngb-pagination
-        [collectionSize]="totalItems"
-        [page]="page"
-        [pageSize]="itemsPerPage"
-        [maxSize]="5"
-        [rotate]="true"
-        [boundaryLinks]="true"
-        (pageChange)="navigateToPage($event)"
-      ></ngb-pagination>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="description">
+              <div class="d-flex">
+                <span>Description</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="eventRegistrationStatus">
+              <div class="d-flex">
+                <span>Event Registration Status</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="eventCounterparty.id">
+              <div class="d-flex">
+                <span>Event Counterparty</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="eventContext.id">
+              <div class="d-flex">
+                <span>Event Context</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (eventRegistration of eventRegistrations(); track trackId(eventRegistration)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/event-registration', eventRegistration.id, 'view']">{{ eventRegistration.id }}</a>
+              </td>
+              <td>{{ eventRegistration.description }}</td>
+              <td>{{ { null: '', ACTIVE: 'ACTIVE', CANCELLED: 'CANCELLED' }[eventRegistration.eventRegistrationStatus ?? 'null'] }}</td>
+              <td>
+                @if (eventRegistration.eventCounterparty) {
+                  <div>
+                    <a [routerLink]="['/application-user', eventRegistration.eventCounterparty.id, 'view']">
+                      {{ eventRegistration.eventCounterparty.appUser?.firstName }}
+                      {{ eventRegistration.eventCounterparty.appUser?.lastName }}
+                    </a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (eventRegistration.eventContext) {
+                  <div>
+                    <a [routerLink]="['/event-context', eventRegistration.eventContext.id, 'view']">{{
+                      eventRegistration.eventContext.description
+                    }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/event-registration', eventRegistration.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">View</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/event-registration', eventRegistration.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(eventRegistration)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
-  </div>
+  }
+  @if (eventRegistrations().length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page, totalItems, itemsPerPage }" />
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
 </div>

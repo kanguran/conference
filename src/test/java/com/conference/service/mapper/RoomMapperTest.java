@@ -1,6 +1,7 @@
 package com.conference.service.mapper;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.conference.domain.RoomAsserts.*;
+import static com.conference.domain.RoomTestSamples.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,14 @@ class RoomMapperTest {
     private RoomMapper roomMapper;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         roomMapper = new RoomMapperImpl();
+    }
+
+    @Test
+    void shouldConvertToDtoAndBack() {
+        var expected = getRoomSample1();
+        var actual = roomMapper.toEntity(roomMapper.toDto(expected));
+        assertRoomAllPropertiesEquals(expected, actual);
     }
 }

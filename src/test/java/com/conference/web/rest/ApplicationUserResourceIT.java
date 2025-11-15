@@ -1,5 +1,7 @@
 package com.conference.web.rest;
 
+import static com.conference.domain.ApplicationUserAsserts.*;
+import static com.conference.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -8,12 +10,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.conference.IntegrationTest;
 import com.conference.domain.ApplicationUser;
 import com.conference.repository.ApplicationUserRepository;
+import com.conference.repository.UserRepository;
 import com.conference.service.dto.ApplicationUserDTO;
 import com.conference.service.mapper.ApplicationUserMapper;
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +42,16 @@ class ApplicationUserResourceIT {
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
-    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+
+    @Autowired
+    private ObjectMapper om;
 
     @Autowired
     private ApplicationUserRepository applicationUserRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ApplicationUserMapper applicationUserMapper;
@@ -54,15 +64,16 @@ class ApplicationUserResourceIT {
 
     private ApplicationUser applicationUser;
 
+    private ApplicationUser insertedApplicationUser;
+
     /**
      * Create an entity for this test.
      *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ApplicationUser createEntity(EntityManager em) {
-        ApplicationUser applicationUser = new ApplicationUser().host(DEFAULT_HOST);
-        return applicationUser;
+    public static ApplicationUser createEntity() {
+        return new ApplicationUser().host(DEFAULT_HOST);
     }
 
     /**
@@ -71,33 +82,45 @@ class ApplicationUserResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ApplicationUser createUpdatedEntity(EntityManager em) {
-        ApplicationUser applicationUser = new ApplicationUser().host(UPDATED_HOST);
-        return applicationUser;
+    public static ApplicationUser createUpdatedEntity() {
+        return new ApplicationUser().host(UPDATED_HOST);
     }
 
     @BeforeEach
-    public void initTest() {
-        applicationUser = createEntity(em);
+    void initTest() {
+        applicationUser = createEntity();
+    }
+
+    @AfterEach
+    void cleanup() {
+        if (insertedApplicationUser != null) {
+            applicationUserRepository.delete(insertedApplicationUser);
+            insertedApplicationUser = null;
+        }
     }
 
     @Test
     @Transactional
     void createApplicationUser() throws Exception {
-        int databaseSizeBeforeCreate = applicationUserRepository.findAll().size();
+        long databaseSizeBeforeCreate = getRepositoryCount();
         // Create the ApplicationUser
         ApplicationUserDTO applicationUserDTO = applicationUserMapper.toDto(applicationUser);
-        restApplicationUserMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(applicationUserDTO))
-            )
-            .andExpect(status().isCreated());
+        var returnedApplicationUserDTO = om.readValue(
+            restApplicationUserMockMvc
+                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(applicationUserDTO)))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(),
+            ApplicationUserDTO.class
+        );
 
         // Validate the ApplicationUser in the database
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeCreate + 1);
-        ApplicationUser testApplicationUser = applicationUserList.get(applicationUserList.size() - 1);
-        assertThat(testApplicationUser.getHost()).isEqualTo(DEFAULT_HOST);
+        assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
+        var returnedApplicationUser = applicationUserMapper.toEntity(returnedApplicationUserDTO);
+        assertApplicationUserUpdatableFieldsEquals(returnedApplicationUser, getPersistedApplicationUser(returnedApplicationUser));
+
+        insertedApplicationUser = returnedApplicationUser;
     }
 
     @Test
@@ -107,25 +130,22 @@ class ApplicationUserResourceIT {
         applicationUser.setId(1L);
         ApplicationUserDTO applicationUserDTO = applicationUserMapper.toDto(applicationUser);
 
-        int databaseSizeBeforeCreate = applicationUserRepository.findAll().size();
+        long databaseSizeBeforeCreate = getRepositoryCount();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restApplicationUserMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(applicationUserDTO))
-            )
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(applicationUserDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the ApplicationUser in the database
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeCreate);
+        assertSameRepositoryCount(databaseSizeBeforeCreate);
     }
 
     @Test
     @Transactional
     void getAllApplicationUsers() throws Exception {
         // Initialize the database
-        applicationUserRepository.saveAndFlush(applicationUser);
+        insertedApplicationUser = applicationUserRepository.saveAndFlush(applicationUser);
 
         // Get all the applicationUserList
         restApplicationUserMockMvc
@@ -133,14 +153,14 @@ class ApplicationUserResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(applicationUser.getId().intValue())))
-            .andExpect(jsonPath("$.[*].host").value(hasItem(DEFAULT_HOST.booleanValue())));
+            .andExpect(jsonPath("$.[*].host").value(hasItem(DEFAULT_HOST)));
     }
 
     @Test
     @Transactional
     void getApplicationUser() throws Exception {
         // Initialize the database
-        applicationUserRepository.saveAndFlush(applicationUser);
+        insertedApplicationUser = applicationUserRepository.saveAndFlush(applicationUser);
 
         // Get the applicationUser
         restApplicationUserMockMvc
@@ -148,7 +168,7 @@ class ApplicationUserResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(applicationUser.getId().intValue()))
-            .andExpect(jsonPath("$.host").value(DEFAULT_HOST.booleanValue()));
+            .andExpect(jsonPath("$.host").value(DEFAULT_HOST));
     }
 
     @Test
@@ -162,12 +182,12 @@ class ApplicationUserResourceIT {
     @Transactional
     void putExistingApplicationUser() throws Exception {
         // Initialize the database
-        applicationUserRepository.saveAndFlush(applicationUser);
+        insertedApplicationUser = applicationUserRepository.saveAndFlush(applicationUser);
 
-        int databaseSizeBeforeUpdate = applicationUserRepository.findAll().size();
+        long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the applicationUser
-        ApplicationUser updatedApplicationUser = applicationUserRepository.findById(applicationUser.getId()).get();
+        ApplicationUser updatedApplicationUser = applicationUserRepository.findById(applicationUser.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedApplicationUser are not directly saved in db
         em.detach(updatedApplicationUser);
         updatedApplicationUser.host(UPDATED_HOST);
@@ -177,22 +197,20 @@ class ApplicationUserResourceIT {
             .perform(
                 put(ENTITY_API_URL_ID, applicationUserDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(applicationUserDTO))
+                    .content(om.writeValueAsBytes(applicationUserDTO))
             )
             .andExpect(status().isOk());
 
         // Validate the ApplicationUser in the database
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeUpdate);
-        ApplicationUser testApplicationUser = applicationUserList.get(applicationUserList.size() - 1);
-        assertThat(testApplicationUser.getHost()).isEqualTo(UPDATED_HOST);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        assertPersistedApplicationUserToMatchAllProperties(updatedApplicationUser);
     }
 
     @Test
     @Transactional
     void putNonExistingApplicationUser() throws Exception {
-        int databaseSizeBeforeUpdate = applicationUserRepository.findAll().size();
-        applicationUser.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        applicationUser.setId(longCount.incrementAndGet());
 
         // Create the ApplicationUser
         ApplicationUserDTO applicationUserDTO = applicationUserMapper.toDto(applicationUser);
@@ -202,20 +220,19 @@ class ApplicationUserResourceIT {
             .perform(
                 put(ENTITY_API_URL_ID, applicationUserDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(applicationUserDTO))
+                    .content(om.writeValueAsBytes(applicationUserDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the ApplicationUser in the database
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithIdMismatchApplicationUser() throws Exception {
-        int databaseSizeBeforeUpdate = applicationUserRepository.findAll().size();
-        applicationUser.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        applicationUser.setId(longCount.incrementAndGet());
 
         // Create the ApplicationUser
         ApplicationUserDTO applicationUserDTO = applicationUserMapper.toDto(applicationUser);
@@ -223,45 +240,41 @@ class ApplicationUserResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restApplicationUserMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(applicationUserDTO))
+                    .content(om.writeValueAsBytes(applicationUserDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the ApplicationUser in the database
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithMissingIdPathParamApplicationUser() throws Exception {
-        int databaseSizeBeforeUpdate = applicationUserRepository.findAll().size();
-        applicationUser.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        applicationUser.setId(longCount.incrementAndGet());
 
         // Create the ApplicationUser
         ApplicationUserDTO applicationUserDTO = applicationUserMapper.toDto(applicationUser);
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restApplicationUserMockMvc
-            .perform(
-                put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(applicationUserDTO))
-            )
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(applicationUserDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the ApplicationUser in the database
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void partialUpdateApplicationUserWithPatch() throws Exception {
         // Initialize the database
-        applicationUserRepository.saveAndFlush(applicationUser);
+        insertedApplicationUser = applicationUserRepository.saveAndFlush(applicationUser);
 
-        int databaseSizeBeforeUpdate = applicationUserRepository.findAll().size();
+        long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the applicationUser using partial update
         ApplicationUser partialUpdatedApplicationUser = new ApplicationUser();
@@ -271,24 +284,26 @@ class ApplicationUserResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedApplicationUser.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedApplicationUser))
+                    .content(om.writeValueAsBytes(partialUpdatedApplicationUser))
             )
             .andExpect(status().isOk());
 
         // Validate the ApplicationUser in the database
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeUpdate);
-        ApplicationUser testApplicationUser = applicationUserList.get(applicationUserList.size() - 1);
-        assertThat(testApplicationUser.getHost()).isEqualTo(DEFAULT_HOST);
+
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        assertApplicationUserUpdatableFieldsEquals(
+            createUpdateProxyForBean(partialUpdatedApplicationUser, applicationUser),
+            getPersistedApplicationUser(applicationUser)
+        );
     }
 
     @Test
     @Transactional
     void fullUpdateApplicationUserWithPatch() throws Exception {
         // Initialize the database
-        applicationUserRepository.saveAndFlush(applicationUser);
+        insertedApplicationUser = applicationUserRepository.saveAndFlush(applicationUser);
 
-        int databaseSizeBeforeUpdate = applicationUserRepository.findAll().size();
+        long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the applicationUser using partial update
         ApplicationUser partialUpdatedApplicationUser = new ApplicationUser();
@@ -300,22 +315,24 @@ class ApplicationUserResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedApplicationUser.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedApplicationUser))
+                    .content(om.writeValueAsBytes(partialUpdatedApplicationUser))
             )
             .andExpect(status().isOk());
 
         // Validate the ApplicationUser in the database
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeUpdate);
-        ApplicationUser testApplicationUser = applicationUserList.get(applicationUserList.size() - 1);
-        assertThat(testApplicationUser.getHost()).isEqualTo(UPDATED_HOST);
+
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        assertApplicationUserUpdatableFieldsEquals(
+            partialUpdatedApplicationUser,
+            getPersistedApplicationUser(partialUpdatedApplicationUser)
+        );
     }
 
     @Test
     @Transactional
     void patchNonExistingApplicationUser() throws Exception {
-        int databaseSizeBeforeUpdate = applicationUserRepository.findAll().size();
-        applicationUser.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        applicationUser.setId(longCount.incrementAndGet());
 
         // Create the ApplicationUser
         ApplicationUserDTO applicationUserDTO = applicationUserMapper.toDto(applicationUser);
@@ -325,20 +342,19 @@ class ApplicationUserResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, applicationUserDTO.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(applicationUserDTO))
+                    .content(om.writeValueAsBytes(applicationUserDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the ApplicationUser in the database
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithIdMismatchApplicationUser() throws Exception {
-        int databaseSizeBeforeUpdate = applicationUserRepository.findAll().size();
-        applicationUser.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        applicationUser.setId(longCount.incrementAndGet());
 
         // Create the ApplicationUser
         ApplicationUserDTO applicationUserDTO = applicationUserMapper.toDto(applicationUser);
@@ -346,47 +362,41 @@ class ApplicationUserResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restApplicationUserMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, count.incrementAndGet())
+                patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(applicationUserDTO))
+                    .content(om.writeValueAsBytes(applicationUserDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the ApplicationUser in the database
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithMissingIdPathParamApplicationUser() throws Exception {
-        int databaseSizeBeforeUpdate = applicationUserRepository.findAll().size();
-        applicationUser.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        applicationUser.setId(longCount.incrementAndGet());
 
         // Create the ApplicationUser
         ApplicationUserDTO applicationUserDTO = applicationUserMapper.toDto(applicationUser);
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restApplicationUserMockMvc
-            .perform(
-                patch(ENTITY_API_URL)
-                    .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(applicationUserDTO))
-            )
+            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(om.writeValueAsBytes(applicationUserDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the ApplicationUser in the database
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void deleteApplicationUser() throws Exception {
         // Initialize the database
-        applicationUserRepository.saveAndFlush(applicationUser);
+        insertedApplicationUser = applicationUserRepository.saveAndFlush(applicationUser);
 
-        int databaseSizeBeforeDelete = applicationUserRepository.findAll().size();
+        long databaseSizeBeforeDelete = getRepositoryCount();
 
         // Delete the applicationUser
         restApplicationUserMockMvc
@@ -394,7 +404,34 @@ class ApplicationUserResourceIT {
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<ApplicationUser> applicationUserList = applicationUserRepository.findAll();
-        assertThat(applicationUserList).hasSize(databaseSizeBeforeDelete - 1);
+        assertDecrementedRepositoryCount(databaseSizeBeforeDelete);
+    }
+
+    protected long getRepositoryCount() {
+        return applicationUserRepository.count();
+    }
+
+    protected void assertIncrementedRepositoryCount(long countBefore) {
+        assertThat(countBefore + 1).isEqualTo(getRepositoryCount());
+    }
+
+    protected void assertDecrementedRepositoryCount(long countBefore) {
+        assertThat(countBefore - 1).isEqualTo(getRepositoryCount());
+    }
+
+    protected void assertSameRepositoryCount(long countBefore) {
+        assertThat(countBefore).isEqualTo(getRepositoryCount());
+    }
+
+    protected ApplicationUser getPersistedApplicationUser(ApplicationUser applicationUser) {
+        return applicationUserRepository.findById(applicationUser.getId()).orElseThrow();
+    }
+
+    protected void assertPersistedApplicationUserToMatchAllProperties(ApplicationUser expectedApplicationUser) {
+        assertApplicationUserAllPropertiesEquals(expectedApplicationUser, getPersistedApplicationUser(expectedApplicationUser));
+    }
+
+    protected void assertPersistedApplicationUserToMatchUpdatableProperties(ApplicationUser expectedApplicationUser) {
+        assertApplicationUserAllUpdatablePropertiesEquals(expectedApplicationUser, getPersistedApplicationUser(expectedApplicationUser));
     }
 }

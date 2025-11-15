@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link EventContext}.
+ * Service Implementation for managing {@link com.conference.domain.EventContext}.
  */
 @Service
 @Transactional
 public class EventContextService {
 
-    private final Logger log = LoggerFactory.getLogger(EventContextService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EventContextService.class);
 
     private final EventContextRepository eventContextRepository;
 
@@ -37,7 +37,7 @@ public class EventContextService {
      * @return the persisted entity.
      */
     public EventContextDTO save(EventContextDTO eventContextDTO) {
-        log.debug("Request to save EventContext : {}", eventContextDTO);
+        LOG.debug("Request to save EventContext : {}", eventContextDTO);
         EventContext eventContext = eventContextMapper.toEntity(eventContextDTO);
         eventContext = eventContextRepository.save(eventContext);
         return eventContextMapper.toDto(eventContext);
@@ -50,7 +50,7 @@ public class EventContextService {
      * @return the persisted entity.
      */
     public EventContextDTO update(EventContextDTO eventContextDTO) {
-        log.debug("Request to update EventContext : {}", eventContextDTO);
+        LOG.debug("Request to update EventContext : {}", eventContextDTO);
         EventContext eventContext = eventContextMapper.toEntity(eventContextDTO);
         eventContext = eventContextRepository.save(eventContext);
         return eventContextMapper.toDto(eventContext);
@@ -63,7 +63,7 @@ public class EventContextService {
      * @return the persisted entity.
      */
     public Optional<EventContextDTO> partialUpdate(EventContextDTO eventContextDTO) {
-        log.debug("Request to partially update EventContext : {}", eventContextDTO);
+        LOG.debug("Request to partially update EventContext : {}", eventContextDTO);
 
         return eventContextRepository
             .findById(eventContextDTO.getId())
@@ -84,7 +84,7 @@ public class EventContextService {
      */
     @Transactional(readOnly = true)
     public Page<EventContextDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all EventContexts");
+        LOG.debug("Request to get all EventContexts");
         return eventContextRepository.findAll(pageable).map(eventContextMapper::toDto);
     }
 
@@ -96,7 +96,7 @@ public class EventContextService {
      */
     @Transactional(readOnly = true)
     public Optional<EventContextDTO> findOne(Long id) {
-        log.debug("Request to get EventContext : {}", id);
+        LOG.debug("Request to get EventContext : {}", id);
         return eventContextRepository.findById(id).map(eventContextMapper::toDto);
     }
 
@@ -106,7 +106,7 @@ public class EventContextService {
      * @param id the id of the entity.
      */
     public void delete(Long id) {
-        log.debug("Request to delete EventContext : {}", id);
+        LOG.debug("Request to delete EventContext : {}", id);
         eventContextRepository.deleteById(id);
     }
 }

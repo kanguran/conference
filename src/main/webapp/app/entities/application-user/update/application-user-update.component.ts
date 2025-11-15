@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { ApplicationUserFormService, ApplicationUserFormGroup } from './application-user-form.service';
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/service/user.service';
 import { IApplicationUser } from '../application-user.model';
 import { ApplicationUserService } from '../service/application-user.service';
-import { IUser } from 'app/entities/user/user.model';
-import { UserService } from 'app/entities/user/user.service';
+import { ApplicationUserFormGroup, ApplicationUserFormService } from './application-user-form.service';
 
 @Component({
   selector: 'jhi-application-user-update',
   templateUrl: './application-user-update.component.html',
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class ApplicationUserUpdateComponent implements OnInit {
   isSaving = false;
@@ -20,14 +24,13 @@ export class ApplicationUserUpdateComponent implements OnInit {
 
   usersSharedCollection: IUser[] = [];
 
-  editForm: ApplicationUserFormGroup = this.applicationUserFormService.createApplicationUserFormGroup();
+  protected applicationUserService = inject(ApplicationUserService);
+  protected applicationUserFormService = inject(ApplicationUserFormService);
+  protected userService = inject(UserService);
+  protected activatedRoute = inject(ActivatedRoute);
 
-  constructor(
-    protected applicationUserService: ApplicationUserService,
-    protected applicationUserFormService: ApplicationUserFormService,
-    protected userService: UserService,
-    protected activatedRoute: ActivatedRoute
-  ) {}
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  editForm: ApplicationUserFormGroup = this.applicationUserFormService.createApplicationUserFormGroup();
 
   compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 

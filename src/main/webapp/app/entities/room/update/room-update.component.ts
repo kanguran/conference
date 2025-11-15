@@ -1,24 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { RoomFormService, RoomFormGroup } from './room-form.service';
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { IRoom } from '../room.model';
 import { RoomService } from '../service/room.service';
+import { RoomFormGroup, RoomFormService } from './room-form.service';
 
 @Component({
   selector: 'jhi-room-update',
   templateUrl: './room-update.component.html',
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class RoomUpdateComponent implements OnInit {
   isSaving = false;
   room: IRoom | null = null;
 
-  editForm: RoomFormGroup = this.roomFormService.createRoomFormGroup();
+  protected roomService = inject(RoomService);
+  protected roomFormService = inject(RoomFormService);
+  protected activatedRoute = inject(ActivatedRoute);
 
-  constructor(protected roomService: RoomService, protected roomFormService: RoomFormService, protected activatedRoute: ActivatedRoute) {}
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  editForm: RoomFormGroup = this.roomFormService.createRoomFormGroup();
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ room }) => {

@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 import { IEventContext } from '../event-context.model';
-import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../event-context.test-samples';
+import { sampleWithFullData, sampleWithNewData, sampleWithPartialData, sampleWithRequiredData } from '../event-context.test-samples';
 
 import { EventContextService, RestEventContext } from './event-context.service';
 
@@ -19,7 +20,7 @@ describe('EventContext Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
     expectedResult = null;
     service = TestBed.inject(EventContextService);
@@ -39,7 +40,6 @@ describe('EventContext Service', () => {
     });
 
     it('should create a EventContext', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const eventContext = { ...sampleWithNewData };
       const returnedFromService = { ...requireRestSample };
       const expected = { ...sampleWithRequiredData };
@@ -157,7 +157,7 @@ describe('EventContext Service', () => {
     });
 
     describe('compareEventContext', () => {
-      it('Should return true if both entities are null', () => {
+      it('should return true if both entities are null', () => {
         const entity1 = null;
         const entity2 = null;
 
@@ -166,8 +166,8 @@ describe('EventContext Service', () => {
         expect(compareResult).toEqual(true);
       });
 
-      it('Should return false if one entity is null', () => {
-        const entity1 = { id: 123 };
+      it('should return false if one entity is null', () => {
+        const entity1 = { id: 18286 };
         const entity2 = null;
 
         const compareResult1 = service.compareEventContext(entity1, entity2);
@@ -177,9 +177,9 @@ describe('EventContext Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('Should return false if primaryKey differs', () => {
-        const entity1 = { id: 123 };
-        const entity2 = { id: 456 };
+      it('should return false if primaryKey differs', () => {
+        const entity1 = { id: 18286 };
+        const entity2 = { id: 3213 };
 
         const compareResult1 = service.compareEventContext(entity1, entity2);
         const compareResult2 = service.compareEventContext(entity2, entity1);
@@ -188,9 +188,9 @@ describe('EventContext Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('Should return false if primaryKey matches', () => {
-        const entity1 = { id: 123 };
-        const entity2 = { id: 123 };
+      it('should return false if primaryKey matches', () => {
+        const entity1 = { id: 18286 };
+        const entity2 = { id: 18286 };
 
         const compareResult1 = service.compareEventContext(entity1, entity2);
         const compareResult2 = service.compareEventContext(entity2, entity1);

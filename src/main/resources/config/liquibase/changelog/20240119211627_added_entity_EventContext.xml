@@ -30,7 +30,7 @@
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_event_context__event_context_room_id" />
             </column>
             <column name="context_host_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_event_context__context_host_id" />
+                <constraints nullable="true" />
             </column>
             <column name="event_id" type="bigint">
                 <constraints nullable="true" />

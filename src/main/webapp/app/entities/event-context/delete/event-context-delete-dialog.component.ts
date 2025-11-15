@@ -1,17 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import SharedModule from 'app/shared/shared.module';
+import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 import { IEventContext } from '../event-context.model';
 import { EventContextService } from '../service/event-context.service';
-import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 
 @Component({
   templateUrl: './event-context-delete-dialog.component.html',
+  imports: [SharedModule, FormsModule],
 })
 export class EventContextDeleteDialogComponent {
   eventContext?: IEventContext;
 
-  constructor(protected eventContextService: EventContextService, protected activeModal: NgbActiveModal) {}
+  protected eventContextService = inject(EventContextService);
+  protected activeModal = inject(NgbActiveModal);
 
   cancel(): void {
     this.activeModal.dismiss();

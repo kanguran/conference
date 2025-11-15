@@ -4,7 +4,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import dayjs from 'dayjs/esm';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IEventContext, NewEventContext } from '../event-context.model';
-import { EventContextStatus } from '../../enumerations/event-context-status.model';
 
 /**
  * A partial Type with required key is used as form input.
@@ -46,9 +45,7 @@ export type EventContextFormGroup = FormGroup<EventContextFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class EventContextFormService {
-  createEventContextFormGroup(
-    eventContext: EventContextFormGroupInput = { id: null, eventContextStatus: EventContextStatus.AVAILABLE }
-  ): EventContextFormGroup {
+  createEventContextFormGroup(eventContext: EventContextFormGroupInput = { id: null }): EventContextFormGroup {
     const eventContextRawValue = this.convertEventContextToEventContextRawValue({
       ...this.getFormDefaults(),
       ...eventContext,
@@ -59,7 +56,7 @@ export class EventContextFormService {
         {
           nonNullable: true,
           validators: [Validators.required],
-        }
+        },
       ),
       description: new FormControl(eventContextRawValue.description, {
         validators: [Validators.required],
@@ -74,12 +71,8 @@ export class EventContextFormService {
         validators: [Validators.required],
       }),
       eventContextRoom: new FormControl(eventContextRawValue.eventContextRoom),
-      contextHost: new FormControl(eventContextRawValue.contextHost, {
-        validators: [Validators.required],
-      }),
-      event: new FormControl(eventContextRawValue.event, {
-        validators: [Validators.required],
-      }),
+      contextHost: new FormControl(eventContextRawValue.contextHost),
+      event: new FormControl(eventContextRawValue.event),
     });
   }
 
@@ -93,7 +86,7 @@ export class EventContextFormService {
       {
         ...eventContextRawValue,
         id: { value: eventContextRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
+      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
     );
   }
 
@@ -108,7 +101,7 @@ export class EventContextFormService {
   }
 
   private convertEventContextRawValueToEventContext(
-    rawEventContext: EventContextFormRawValue | NewEventContextFormRawValue
+    rawEventContext: EventContextFormRawValue | NewEventContextFormRawValue,
   ): IEventContext | NewEventContext {
     return {
       ...rawEventContext,
@@ -118,7 +111,7 @@ export class EventContextFormService {
   }
 
   private convertEventContextToEventContextRawValue(
-    eventContext: IEventContext | (Partial<NewEventContext> & EventContextFormDefaults)
+    eventContext: IEventContext | (Partial<NewEventContext> & EventContextFormDefaults),
   ): EventContextFormRawValue | PartialWithRequiredKeyOf<NewEventContextFormRawValue> {
     return {
       ...eventContext,

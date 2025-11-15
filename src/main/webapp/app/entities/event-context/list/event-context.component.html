@@ -1,10 +1,10 @@
 <div>
   <h2 id="page-heading" data-cy="EventContextHeading">
-    <span>Conference Events</span>
+    <span>Event Contexts</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
         <span>Refresh list</span>
       </button>
 
@@ -15,154 +15,160 @@
         [routerLink]="['/event-context/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Event Context </span>
+        <span>Create a new Event Context</span>
       </button>
     </div>
   </h2>
 
-  <jhi-alert-error></jhi-alert-error>
+  <jhi-alert-error />
 
-  <jhi-alert></jhi-alert>
+  <jhi-alert />
 
-  <div class="alert alert-warning" id="no-result" *ngIf="eventContexts?.length === 0">
-    <span>No Event Contexts found</span>
-  </div>
-
-  <div class="table-responsive table-entities" id="entities" *ngIf="eventContexts && eventContexts.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id" *jhiHasAnyAuthority="'ROLE_ADMIN'">
-            <div class="d-flex">
-              <span>ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="description">
-            <div class="d-flex">
-              <span>Description</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="eventContextStatus">
-            <div class="d-flex">
-              <span>Event Context Status</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="start">
-            <div class="d-flex">
-              <span>Start</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="end">
-            <div class="d-flex">
-              <span>End</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="eventContextRoom.id">
-            <div class="d-flex">
-              <span>Event Context Room</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="contextHost.id">
-            <div class="d-flex">
-              <span>Context Host</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="event.id">
-            <div class="d-flex">
-              <span>Event</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let eventContext of eventContexts; trackBy: trackId" data-cy="entityTable">
-          <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
-            <a [routerLink]="['/event-context', eventContext.id, 'view']">{{ eventContext.id }}</a>
-          </td>
-          <td>{{ eventContext.description }}</td>
-          <td>{{ eventContext.eventContextStatus }}</td>
-          <td>{{ eventContext.start | formatMediumDatetime }}</td>
-          <td>{{ eventContext.end | formatMediumDatetime }}</td>
-          <td>
-            <div *ngIf="eventContext.eventContextRoom">
-              <a [routerLink]="['/room', eventContext.eventContextRoom.id, 'view']">{{ eventContext.eventContextRoom.name }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="eventContext.contextHost">
-              <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']">
-                {{ eventContext.contextHost.appUser?.firstName }} {{ eventContext.contextHost.appUser?.lastName }}</a
-              >
-            </div>
-          </td>
-          <td>
-            <div *ngIf="eventContext.event">
-              <a [routerLink]="['/event', eventContext.event.id, 'view']">{{ eventContext.event.name }}</a>
-            </div>
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/event-context', eventContext.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
-              </button>
-
-              <button
-                type="submit"
-                [routerLink]="['/event-context', eventContext.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
-              </button>
-
-              <button
-                type="submit"
-                (click)="delete(eventContext)"
-                class="btn btn-danger btn-sm"
-                data-cy="entityDeleteButton"
-                *jhiHasAnyAuthority="'ROLE_ADMIN'"
-              >
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div *ngIf="eventContexts && eventContexts.length > 0">
-    <div class="d-flex justify-content-center">
-      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+  @if (eventContexts().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span>No Event Contexts found</span>
     </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>ID</span>
 
-    <div class="d-flex justify-content-center">
-      <ngb-pagination
-        [collectionSize]="totalItems"
-        [page]="page"
-        [pageSize]="itemsPerPage"
-        [maxSize]="5"
-        [rotate]="true"
-        [boundaryLinks]="true"
-        (pageChange)="navigateToPage($event)"
-      ></ngb-pagination>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="description">
+              <div class="d-flex">
+                <span>Description</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="eventContextStatus">
+              <div class="d-flex">
+                <span>Event Context Status</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="start">
+              <div class="d-flex">
+                <span>Start</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="end">
+              <div class="d-flex">
+                <span>End</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="eventContextRoom.id">
+              <div class="d-flex">
+                <span>Event Context Room</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="contextHost.id">
+              <div class="d-flex">
+                <span>Context Host</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="event.id">
+              <div class="d-flex">
+                <span>Event</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (eventContext of eventContexts(); track trackId(eventContext)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/event-context', eventContext.id, 'view']">{{ eventContext.id }}</a>
+              </td>
+              <td>{{ eventContext.description }}</td>
+              <td>
+                {{
+                  { null: '', AVAILABLE: 'AVAILABLE', FULLY_BOOKED: 'FULLY_BOOKED', CANCELLED: 'CANCELLED' }[
+                    eventContext.eventContextStatus ?? 'null'
+                  ]
+                }}
+              </td>
+              <td>{{ eventContext.start | formatMediumDatetime }}</td>
+              <td>{{ eventContext.end | formatMediumDatetime }}</td>
+              <td>
+                @if (eventContext.eventContextRoom) {
+                  <div>
+                    <a [routerLink]="['/room', eventContext.eventContextRoom.id, 'view']">{{ eventContext.eventContextRoom?.name }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (eventContext.contextHost) {
+                  <div>
+                    <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']"
+                      >{{ eventContext.contextHost?.appUser?.firstName }} {{ eventContext.contextHost?.appUser?.lastName }}</a
+                    >
+                  </div>
+                }
+              </td>
+              <td>
+                @if (eventContext.event) {
+                  <div>
+                    <a [routerLink]="['/event', eventContext.event.id, 'view']">{{ eventContext.event.name }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/event-context', eventContext.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">View</span>
+                  </a>
+
+                  <a [routerLink]="['/event-context', eventContext.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(eventContext)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
-  </div>
+  }
+  @if (eventContexts().length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page, totalItems, itemsPerPage }" />
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
 </div>

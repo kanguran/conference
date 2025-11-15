@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
+
 import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
@@ -27,9 +27,10 @@ export type EntityArrayResponseType = HttpResponse<IEventContext[]>;
 
 @Injectable({ providedIn: 'root' })
 export class EventContextService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/event-contexts');
+  protected readonly http = inject(HttpClient);
+  protected readonly applicationConfigService = inject(ApplicationConfigService);
 
-  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/event-contexts');
 
   create(eventContext: NewEventContext): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(eventContext);
@@ -83,8 +84,8 @@ export class EventContextService {
   ): Type[] {
     const eventContexts: Type[] = eventContextsToCheck.filter(isPresent);
     if (eventContexts.length > 0) {
-      const eventContextCollectionIdentifiers = eventContextCollection.map(
-        eventContextItem => this.getEventContextIdentifier(eventContextItem)!
+      const eventContextCollectionIdentifiers = eventContextCollection.map(eventContextItem =>
+        this.getEventContextIdentifier(eventContextItem),
       );
       const eventContextsToAdd = eventContexts.filter(eventContextItem => {
         const eventContextIdentifier = this.getEventContextIdentifier(eventContextItem);

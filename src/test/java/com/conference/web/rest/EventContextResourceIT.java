@@ -1,5 +1,7 @@
 package com.conference.web.rest;
 
+import static com.conference.domain.EventContextAsserts.*;
+import static com.conference.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -11,12 +13,13 @@ import com.conference.domain.enumeration.EventContextStatus;
 import com.conference.repository.EventContextRepository;
 import com.conference.service.dto.EventContextDTO;
 import com.conference.service.mapper.EventContextMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +53,10 @@ class EventContextResourceIT {
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
-    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+
+    @Autowired
+    private ObjectMapper om;
 
     @Autowired
     private EventContextRepository eventContextRepository;
@@ -66,19 +72,20 @@ class EventContextResourceIT {
 
     private EventContext eventContext;
 
+    private EventContext insertedEventContext;
+
     /**
      * Create an entity for this test.
      *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static EventContext createEntity(EntityManager em) {
-        EventContext eventContext = new EventContext()
+    public static EventContext createEntity() {
+        return new EventContext()
             .description(DEFAULT_DESCRIPTION)
             .eventContextStatus(DEFAULT_EVENT_CONTEXT_STATUS)
             .start(DEFAULT_START)
             .end(DEFAULT_END);
-        return eventContext;
     }
 
     /**
@@ -87,40 +94,49 @@ class EventContextResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static EventContext createUpdatedEntity(EntityManager em) {
-        EventContext eventContext = new EventContext()
+    public static EventContext createUpdatedEntity() {
+        return new EventContext()
             .description(UPDATED_DESCRIPTION)
             .eventContextStatus(UPDATED_EVENT_CONTEXT_STATUS)
             .start(UPDATED_START)
             .end(UPDATED_END);
-        return eventContext;
     }
 
     @BeforeEach
-    public void initTest() {
-        eventContext = createEntity(em);
+    void initTest() {
+        eventContext = createEntity();
+    }
+
+    @AfterEach
+    void cleanup() {
+        if (insertedEventContext != null) {
+            eventContextRepository.delete(insertedEventContext);
+            insertedEventContext = null;
+        }
     }
 
     @Test
     @Transactional
     void createEventContext() throws Exception {
-        int databaseSizeBeforeCreate = eventContextRepository.findAll().size();
+        long databaseSizeBeforeCreate = getRepositoryCount();
         // Create the EventContext
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
-        restEventContextMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
-            )
-            .andExpect(status().isCreated());
+        var returnedEventContextDTO = om.readValue(
+            restEventContextMockMvc
+                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(eventContextDTO)))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(),
+            EventContextDTO.class
+        );
 
         // Validate the EventContext in the database
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeCreate + 1);
-        EventContext testEventContext = eventContextList.get(eventContextList.size() - 1);
-        assertThat(testEventContext.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testEventContext.getEventContextStatus()).isEqualTo(DEFAULT_EVENT_CONTEXT_STATUS);
-        assertThat(testEventContext.getStart()).isEqualTo(DEFAULT_START);
-        assertThat(testEventContext.getEnd()).isEqualTo(DEFAULT_END);
+        assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
+        var returnedEventContext = eventContextMapper.toEntity(returnedEventContextDTO);
+        assertEventContextUpdatableFieldsEquals(returnedEventContext, getPersistedEventContext(returnedEventContext));
+
+        insertedEventContext = returnedEventContext;
     }
 
     @Test
@@ -130,24 +146,21 @@ class EventContextResourceIT {
         eventContext.setId(1L);
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
 
-        int databaseSizeBeforeCreate = eventContextRepository.findAll().size();
+        long databaseSizeBeforeCreate = getRepositoryCount();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restEventContextMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
-            )
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(eventContextDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the EventContext in the database
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeCreate);
+        assertSameRepositoryCount(databaseSizeBeforeCreate);
     }
 
     @Test
     @Transactional
     void checkDescriptionIsRequired() throws Exception {
-        int databaseSizeBeforeTest = eventContextRepository.findAll().size();
+        long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
         eventContext.setDescription(null);
 
@@ -155,19 +168,16 @@ class EventContextResourceIT {
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
 
         restEventContextMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
-            )
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(eventContextDTO)))
             .andExpect(status().isBadRequest());
 
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeTest);
+        assertSameRepositoryCount(databaseSizeBeforeTest);
     }
 
     @Test
     @Transactional
     void checkEventContextStatusIsRequired() throws Exception {
-        int databaseSizeBeforeTest = eventContextRepository.findAll().size();
+        long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
         eventContext.setEventContextStatus(null);
 
@@ -175,19 +185,16 @@ class EventContextResourceIT {
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
 
         restEventContextMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
-            )
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(eventContextDTO)))
             .andExpect(status().isBadRequest());
 
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeTest);
+        assertSameRepositoryCount(databaseSizeBeforeTest);
     }
 
     @Test
     @Transactional
     void checkStartIsRequired() throws Exception {
-        int databaseSizeBeforeTest = eventContextRepository.findAll().size();
+        long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
         eventContext.setStart(null);
 
@@ -195,19 +202,16 @@ class EventContextResourceIT {
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
 
         restEventContextMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
-            )
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(eventContextDTO)))
             .andExpect(status().isBadRequest());
 
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeTest);
+        assertSameRepositoryCount(databaseSizeBeforeTest);
     }
 
     @Test
     @Transactional
     void checkEndIsRequired() throws Exception {
-        int databaseSizeBeforeTest = eventContextRepository.findAll().size();
+        long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
         eventContext.setEnd(null);
 
@@ -215,20 +219,17 @@ class EventContextResourceIT {
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
 
         restEventContextMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
-            )
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(eventContextDTO)))
             .andExpect(status().isBadRequest());
 
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeTest);
+        assertSameRepositoryCount(databaseSizeBeforeTest);
     }
 
     @Test
     @Transactional
     void getAllEventContexts() throws Exception {
         // Initialize the database
-        eventContextRepository.saveAndFlush(eventContext);
+        insertedEventContext = eventContextRepository.saveAndFlush(eventContext);
 
         // Get all the eventContextList
         restEventContextMockMvc
@@ -246,7 +247,7 @@ class EventContextResourceIT {
     @Transactional
     void getEventContext() throws Exception {
         // Initialize the database
-        eventContextRepository.saveAndFlush(eventContext);
+        insertedEventContext = eventContextRepository.saveAndFlush(eventContext);
 
         // Get the eventContext
         restEventContextMockMvc
@@ -271,12 +272,12 @@ class EventContextResourceIT {
     @Transactional
     void putExistingEventContext() throws Exception {
         // Initialize the database
-        eventContextRepository.saveAndFlush(eventContext);
+        insertedEventContext = eventContextRepository.saveAndFlush(eventContext);
 
-        int databaseSizeBeforeUpdate = eventContextRepository.findAll().size();
+        long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the eventContext
-        EventContext updatedEventContext = eventContextRepository.findById(eventContext.getId()).get();
+        EventContext updatedEventContext = eventContextRepository.findById(eventContext.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedEventContext are not directly saved in db
         em.detach(updatedEventContext);
         updatedEventContext
@@ -290,25 +291,20 @@ class EventContextResourceIT {
             .perform(
                 put(ENTITY_API_URL_ID, eventContextDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
+                    .content(om.writeValueAsBytes(eventContextDTO))
             )
             .andExpect(status().isOk());
 
         // Validate the EventContext in the database
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
-        EventContext testEventContext = eventContextList.get(eventContextList.size() - 1);
-        assertThat(testEventContext.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-        assertThat(testEventContext.getEventContextStatus()).isEqualTo(UPDATED_EVENT_CONTEXT_STATUS);
-        assertThat(testEventContext.getStart()).isEqualTo(UPDATED_START);
-        assertThat(testEventContext.getEnd()).isEqualTo(UPDATED_END);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        assertPersistedEventContextToMatchAllProperties(updatedEventContext);
     }
 
     @Test
     @Transactional
     void putNonExistingEventContext() throws Exception {
-        int databaseSizeBeforeUpdate = eventContextRepository.findAll().size();
-        eventContext.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        eventContext.setId(longCount.incrementAndGet());
 
         // Create the EventContext
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
@@ -318,20 +314,19 @@ class EventContextResourceIT {
             .perform(
                 put(ENTITY_API_URL_ID, eventContextDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
+                    .content(om.writeValueAsBytes(eventContextDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the EventContext in the database
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithIdMismatchEventContext() throws Exception {
-        int databaseSizeBeforeUpdate = eventContextRepository.findAll().size();
-        eventContext.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        eventContext.setId(longCount.incrementAndGet());
 
         // Create the EventContext
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
@@ -339,77 +334,72 @@ class EventContextResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEventContextMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
+                    .content(om.writeValueAsBytes(eventContextDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the EventContext in the database
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithMissingIdPathParamEventContext() throws Exception {
-        int databaseSizeBeforeUpdate = eventContextRepository.findAll().size();
-        eventContext.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        eventContext.setId(longCount.incrementAndGet());
 
         // Create the EventContext
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEventContextMockMvc
-            .perform(
-                put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
-            )
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(eventContextDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the EventContext in the database
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void partialUpdateEventContextWithPatch() throws Exception {
         // Initialize the database
-        eventContextRepository.saveAndFlush(eventContext);
+        insertedEventContext = eventContextRepository.saveAndFlush(eventContext);
 
-        int databaseSizeBeforeUpdate = eventContextRepository.findAll().size();
+        long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the eventContext using partial update
         EventContext partialUpdatedEventContext = new EventContext();
         partialUpdatedEventContext.setId(eventContext.getId());
 
-        partialUpdatedEventContext.description(UPDATED_DESCRIPTION);
+        partialUpdatedEventContext.eventContextStatus(UPDATED_EVENT_CONTEXT_STATUS);
 
         restEventContextMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedEventContext.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedEventContext))
+                    .content(om.writeValueAsBytes(partialUpdatedEventContext))
             )
             .andExpect(status().isOk());
 
         // Validate the EventContext in the database
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
-        EventContext testEventContext = eventContextList.get(eventContextList.size() - 1);
-        assertThat(testEventContext.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-        assertThat(testEventContext.getEventContextStatus()).isEqualTo(DEFAULT_EVENT_CONTEXT_STATUS);
-        assertThat(testEventContext.getStart()).isEqualTo(DEFAULT_START);
-        assertThat(testEventContext.getEnd()).isEqualTo(DEFAULT_END);
+
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        assertEventContextUpdatableFieldsEquals(
+            createUpdateProxyForBean(partialUpdatedEventContext, eventContext),
+            getPersistedEventContext(eventContext)
+        );
     }
 
     @Test
     @Transactional
     void fullUpdateEventContextWithPatch() throws Exception {
         // Initialize the database
-        eventContextRepository.saveAndFlush(eventContext);
+        insertedEventContext = eventContextRepository.saveAndFlush(eventContext);
 
-        int databaseSizeBeforeUpdate = eventContextRepository.findAll().size();
+        long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the eventContext using partial update
         EventContext partialUpdatedEventContext = new EventContext();
@@ -425,25 +415,21 @@ class EventContextResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedEventContext.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedEventContext))
+                    .content(om.writeValueAsBytes(partialUpdatedEventContext))
             )
             .andExpect(status().isOk());
 
         // Validate the EventContext in the database
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
-        EventContext testEventContext = eventContextList.get(eventContextList.size() - 1);
-        assertThat(testEventContext.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-        assertThat(testEventContext.getEventContextStatus()).isEqualTo(UPDATED_EVENT_CONTEXT_STATUS);
-        assertThat(testEventContext.getStart()).isEqualTo(UPDATED_START);
-        assertThat(testEventContext.getEnd()).isEqualTo(UPDATED_END);
+
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        assertEventContextUpdatableFieldsEquals(partialUpdatedEventContext, getPersistedEventContext(partialUpdatedEventContext));
     }
 
     @Test
     @Transactional
     void patchNonExistingEventContext() throws Exception {
-        int databaseSizeBeforeUpdate = eventContextRepository.findAll().size();
-        eventContext.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        eventContext.setId(longCount.incrementAndGet());
 
         // Create the EventContext
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
@@ -453,20 +439,19 @@ class EventContextResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, eventContextDTO.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
+                    .content(om.writeValueAsBytes(eventContextDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the EventContext in the database
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithIdMismatchEventContext() throws Exception {
-        int databaseSizeBeforeUpdate = eventContextRepository.findAll().size();
-        eventContext.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        eventContext.setId(longCount.incrementAndGet());
 
         // Create the EventContext
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
@@ -474,47 +459,41 @@ class EventContextResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEventContextMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, count.incrementAndGet())
+                patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
+                    .content(om.writeValueAsBytes(eventContextDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the EventContext in the database
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithMissingIdPathParamEventContext() throws Exception {
-        int databaseSizeBeforeUpdate = eventContextRepository.findAll().size();
-        eventContext.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        eventContext.setId(longCount.incrementAndGet());
 
         // Create the EventContext
         EventContextDTO eventContextDTO = eventContextMapper.toDto(eventContext);
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEventContextMockMvc
-            .perform(
-                patch(ENTITY_API_URL)
-                    .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(eventContextDTO))
-            )
+            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(om.writeValueAsBytes(eventContextDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the EventContext in the database
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void deleteEventContext() throws Exception {
         // Initialize the database
-        eventContextRepository.saveAndFlush(eventContext);
+        insertedEventContext = eventContextRepository.saveAndFlush(eventContext);
 
-        int databaseSizeBeforeDelete = eventContextRepository.findAll().size();
+        long databaseSizeBeforeDelete = getRepositoryCount();
 
         // Delete the eventContext
         restEventContextMockMvc
@@ -522,7 +501,34 @@ class EventContextResourceIT {
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<EventContext> eventContextList = eventContextRepository.findAll();
-        assertThat(eventContextList).hasSize(databaseSizeBeforeDelete - 1);
+        assertDecrementedRepositoryCount(databaseSizeBeforeDelete);
+    }
+
+    protected long getRepositoryCount() {
+        return eventContextRepository.count();
+    }
+
+    protected void assertIncrementedRepositoryCount(long countBefore) {
+        assertThat(countBefore + 1).isEqualTo(getRepositoryCount());
+    }
+
+    protected void assertDecrementedRepositoryCount(long countBefore) {
+        assertThat(countBefore - 1).isEqualTo(getRepositoryCount());
+    }
+
+    protected void assertSameRepositoryCount(long countBefore) {
+        assertThat(countBefore).isEqualTo(getRepositoryCount());
+    }
+
+    protected EventContext getPersistedEventContext(EventContext eventContext) {
+        return eventContextRepository.findById(eventContext.getId()).orElseThrow();
+    }
+
+    protected void assertPersistedEventContextToMatchAllProperties(EventContext expectedEventContext) {
+        assertEventContextAllPropertiesEquals(expectedEventContext, getPersistedEventContext(expectedEventContext));
+    }
+
+    protected void assertPersistedEventContextToMatchUpdatableProperties(EventContext expectedEventContext) {
+        assertEventContextAllUpdatablePropertiesEquals(expectedEventContext, getPersistedEventContext(expectedEventContext));
     }
 }

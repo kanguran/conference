@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,9 +14,10 @@ export type EntityArrayResponseType = HttpResponse<IApplicationUser[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ApplicationUserService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/application-users');
+  protected readonly http = inject(HttpClient);
+  protected readonly applicationConfigService = inject(ApplicationConfigService);
 
-  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/application-users');
 
   create(applicationUser: NewApplicationUser): Observable<EntityResponseType> {
     return this.http.post<IApplicationUser>(this.resourceUrl, applicationUser, { observe: 'response' });
@@ -61,8 +62,8 @@ export class ApplicationUserService {
   ): Type[] {
     const applicationUsers: Type[] = applicationUsersToCheck.filter(isPresent);
     if (applicationUsers.length > 0) {
-      const applicationUserCollectionIdentifiers = applicationUserCollection.map(
-        applicationUserItem => this.getApplicationUserIdentifier(applicationUserItem)!
+      const applicationUserCollectionIdentifiers = applicationUserCollection.map(applicationUserItem =>
+        this.getApplicationUserIdentifier(applicationUserItem),
       );
       const applicationUsersToAdd = applicationUsers.filter(applicationUserItem => {
         const applicationUserIdentifier = this.getApplicationUserIdentifier(applicationUserItem);

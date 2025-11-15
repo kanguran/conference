@@ -1,22 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, input } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
+import SharedModule from 'app/shared/shared.module';
 import { IEvent } from '../event.model';
 
 @Component({
   selector: 'jhi-event-detail',
   templateUrl: './event-detail.component.html',
+  imports: [SharedModule, RouterModule],
 })
-export class EventDetailComponent implements OnInit {
-  event: IEvent | null = null;
-
-  constructor(protected activatedRoute: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ event }) => {
-      this.event = event;
-    });
-  }
+export class EventDetailComponent {
+  event = input<IEvent | null>(null);
 
   previousState(): void {
     window.history.back();

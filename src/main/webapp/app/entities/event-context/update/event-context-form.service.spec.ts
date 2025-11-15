@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithRequiredData, sampleWithNewData } from '../event-context.test-samples';
+import { sampleWithNewData, sampleWithRequiredData } from '../event-context.test-samples';
 
 import { EventContextFormService } from './event-context-form.service';
 
@@ -27,7 +27,7 @@ describe('EventContext Form Service', () => {
             eventContextRoom: expect.any(Object),
             contextHost: expect.any(Object),
             event: expect.any(Object),
-          })
+          }),
         );
       });
 
@@ -44,14 +44,13 @@ describe('EventContext Form Service', () => {
             eventContextRoom: expect.any(Object),
             contextHost: expect.any(Object),
             event: expect.any(Object),
-          })
+          }),
         );
       });
     });
 
     describe('getEventContext', () => {
       it('should return NewEventContext for default EventContext initial value', () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createEventContextFormGroup(sampleWithNewData);
 
         const eventContext = service.getEventContext(formGroup) as any;

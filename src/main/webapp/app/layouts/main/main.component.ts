@@ -1,40 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 
 import { AccountService } from 'app/core/auth/account.service';
+import { AppPageTitleStrategy } from 'app/app-page-title-strategy';
+import FooterComponent from '../footer/footer.component';
+import PageRibbonComponent from '../profiles/page-ribbon.component';
 
 @Component({
   selector: 'jhi-main',
   templateUrl: './main.component.html',
+  providers: [AppPageTitleStrategy],
+  imports: [RouterOutlet, FooterComponent, PageRibbonComponent],
 })
-export class MainComponent implements OnInit {
-  constructor(private accountService: AccountService, private titleService: Title, private router: Router) {}
+export default class MainComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly appPageTitleStrategy = inject(AppPageTitleStrategy);
+  private readonly accountService = inject(AccountService);
 
   ngOnInit(): void {
     // try to log in automatically
     this.accountService.identity().subscribe();
-
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.updateTitle();
-      }
-    });
-  }
-
-  private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {
-    const title: string = routeSnapshot.data['pageTitle'] ?? '';
-    if (routeSnapshot.firstChild) {
-      return this.getPageTitle(routeSnapshot.firstChild) || title;
-    }
-    return title;
-  }
-
-  private updateTitle(): void {
-    let pageTitle = this.getPageTitle(this.router.routerState.snapshot.root);
-    if (!pageTitle) {
-      pageTitle = 'Conference';
-    }
-    this.titleService.setTitle(pageTitle);
   }
 }

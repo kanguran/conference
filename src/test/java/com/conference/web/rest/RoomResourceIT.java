@@ -1,5 +1,7 @@
 package com.conference.web.rest;
 
+import static com.conference.domain.RoomAsserts.*;
+import static com.conference.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -10,10 +12,11 @@ import com.conference.domain.Room;
 import com.conference.repository.RoomRepository;
 import com.conference.service.dto.RoomDTO;
 import com.conference.service.mapper.RoomMapper;
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +44,10 @@ class RoomResourceIT {
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
-    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+
+    @Autowired
+    private ObjectMapper om;
 
     @Autowired
     private RoomRepository roomRepository;
@@ -57,15 +63,16 @@ class RoomResourceIT {
 
     private Room room;
 
+    private Room insertedRoom;
+
     /**
      * Create an entity for this test.
      *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Room createEntity(EntityManager em) {
-        Room room = new Room().name(DEFAULT_NAME).maxSeats(DEFAULT_MAX_SEATS);
-        return room;
+    public static Room createEntity() {
+        return new Room().name(DEFAULT_NAME).maxSeats(DEFAULT_MAX_SEATS);
     }
 
     /**
@@ -74,32 +81,45 @@ class RoomResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Room createUpdatedEntity(EntityManager em) {
-        Room room = new Room().name(UPDATED_NAME).maxSeats(UPDATED_MAX_SEATS);
-        return room;
+    public static Room createUpdatedEntity() {
+        return new Room().name(UPDATED_NAME).maxSeats(UPDATED_MAX_SEATS);
     }
 
     @BeforeEach
-    public void initTest() {
-        room = createEntity(em);
+    void initTest() {
+        room = createEntity();
+    }
+
+    @AfterEach
+    void cleanup() {
+        if (insertedRoom != null) {
+            roomRepository.delete(insertedRoom);
+            insertedRoom = null;
+        }
     }
 
     @Test
     @Transactional
     void createRoom() throws Exception {
-        int databaseSizeBeforeCreate = roomRepository.findAll().size();
+        long databaseSizeBeforeCreate = getRepositoryCount();
         // Create the Room
         RoomDTO roomDTO = roomMapper.toDto(room);
-        restRoomMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(roomDTO)))
-            .andExpect(status().isCreated());
+        var returnedRoomDTO = om.readValue(
+            restRoomMockMvc
+                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(roomDTO)))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(),
+            RoomDTO.class
+        );
 
         // Validate the Room in the database
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeCreate + 1);
-        Room testRoom = roomList.get(roomList.size() - 1);
-        assertThat(testRoom.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testRoom.getMaxSeats()).isEqualTo(DEFAULT_MAX_SEATS);
+        assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
+        var returnedRoom = roomMapper.toEntity(returnedRoomDTO);
+        assertRoomUpdatableFieldsEquals(returnedRoom, getPersistedRoom(returnedRoom));
+
+        insertedRoom = returnedRoom;
     }
 
     @Test
@@ -109,22 +129,21 @@ class RoomResourceIT {
         room.setId(1L);
         RoomDTO roomDTO = roomMapper.toDto(room);
 
-        int databaseSizeBeforeCreate = roomRepository.findAll().size();
+        long databaseSizeBeforeCreate = getRepositoryCount();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restRoomMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(roomDTO)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(roomDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Room in the database
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeCreate);
+        assertSameRepositoryCount(databaseSizeBeforeCreate);
     }
 
     @Test
     @Transactional
     void checkNameIsRequired() throws Exception {
-        int databaseSizeBeforeTest = roomRepository.findAll().size();
+        long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
         room.setName(null);
 
@@ -132,17 +151,16 @@ class RoomResourceIT {
         RoomDTO roomDTO = roomMapper.toDto(room);
 
         restRoomMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(roomDTO)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(roomDTO)))
             .andExpect(status().isBadRequest());
 
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeTest);
+        assertSameRepositoryCount(databaseSizeBeforeTest);
     }
 
     @Test
     @Transactional
     void checkMaxSeatsIsRequired() throws Exception {
-        int databaseSizeBeforeTest = roomRepository.findAll().size();
+        long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
         room.setMaxSeats(null);
 
@@ -150,18 +168,17 @@ class RoomResourceIT {
         RoomDTO roomDTO = roomMapper.toDto(room);
 
         restRoomMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(roomDTO)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(roomDTO)))
             .andExpect(status().isBadRequest());
 
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeTest);
+        assertSameRepositoryCount(databaseSizeBeforeTest);
     }
 
     @Test
     @Transactional
     void getAllRooms() throws Exception {
         // Initialize the database
-        roomRepository.saveAndFlush(room);
+        insertedRoom = roomRepository.saveAndFlush(room);
 
         // Get all the roomList
         restRoomMockMvc
@@ -177,7 +194,7 @@ class RoomResourceIT {
     @Transactional
     void getRoom() throws Exception {
         // Initialize the database
-        roomRepository.saveAndFlush(room);
+        insertedRoom = roomRepository.saveAndFlush(room);
 
         // Get the room
         restRoomMockMvc
@@ -200,61 +217,49 @@ class RoomResourceIT {
     @Transactional
     void putExistingRoom() throws Exception {
         // Initialize the database
-        roomRepository.saveAndFlush(room);
+        insertedRoom = roomRepository.saveAndFlush(room);
 
-        int databaseSizeBeforeUpdate = roomRepository.findAll().size();
+        long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the room
-        Room updatedRoom = roomRepository.findById(room.getId()).get();
+        Room updatedRoom = roomRepository.findById(room.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedRoom are not directly saved in db
         em.detach(updatedRoom);
         updatedRoom.name(UPDATED_NAME).maxSeats(UPDATED_MAX_SEATS);
         RoomDTO roomDTO = roomMapper.toDto(updatedRoom);
 
         restRoomMockMvc
-            .perform(
-                put(ENTITY_API_URL_ID, roomDTO.getId())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(roomDTO))
-            )
+            .perform(put(ENTITY_API_URL_ID, roomDTO.getId()).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(roomDTO)))
             .andExpect(status().isOk());
 
         // Validate the Room in the database
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeUpdate);
-        Room testRoom = roomList.get(roomList.size() - 1);
-        assertThat(testRoom.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testRoom.getMaxSeats()).isEqualTo(UPDATED_MAX_SEATS);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        assertPersistedRoomToMatchAllProperties(updatedRoom);
     }
 
     @Test
     @Transactional
     void putNonExistingRoom() throws Exception {
-        int databaseSizeBeforeUpdate = roomRepository.findAll().size();
-        room.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        room.setId(longCount.incrementAndGet());
 
         // Create the Room
         RoomDTO roomDTO = roomMapper.toDto(room);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restRoomMockMvc
-            .perform(
-                put(ENTITY_API_URL_ID, roomDTO.getId())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(roomDTO))
-            )
+            .perform(put(ENTITY_API_URL_ID, roomDTO.getId()).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(roomDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Room in the database
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithIdMismatchRoom() throws Exception {
-        int databaseSizeBeforeUpdate = roomRepository.findAll().size();
-        room.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        room.setId(longCount.incrementAndGet());
 
         // Create the Room
         RoomDTO roomDTO = roomMapper.toDto(room);
@@ -262,73 +267,67 @@ class RoomResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRoomMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(roomDTO))
+                    .content(om.writeValueAsBytes(roomDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Room in the database
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithMissingIdPathParamRoom() throws Exception {
-        int databaseSizeBeforeUpdate = roomRepository.findAll().size();
-        room.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        room.setId(longCount.incrementAndGet());
 
         // Create the Room
         RoomDTO roomDTO = roomMapper.toDto(room);
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRoomMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(roomDTO)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(roomDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Room in the database
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void partialUpdateRoomWithPatch() throws Exception {
         // Initialize the database
-        roomRepository.saveAndFlush(room);
+        insertedRoom = roomRepository.saveAndFlush(room);
 
-        int databaseSizeBeforeUpdate = roomRepository.findAll().size();
+        long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the room using partial update
         Room partialUpdatedRoom = new Room();
         partialUpdatedRoom.setId(room.getId());
 
-        partialUpdatedRoom.maxSeats(UPDATED_MAX_SEATS);
-
         restRoomMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedRoom.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedRoom))
+                    .content(om.writeValueAsBytes(partialUpdatedRoom))
             )
             .andExpect(status().isOk());
 
         // Validate the Room in the database
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeUpdate);
-        Room testRoom = roomList.get(roomList.size() - 1);
-        assertThat(testRoom.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testRoom.getMaxSeats()).isEqualTo(UPDATED_MAX_SEATS);
+
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        assertRoomUpdatableFieldsEquals(createUpdateProxyForBean(partialUpdatedRoom, room), getPersistedRoom(room));
     }
 
     @Test
     @Transactional
     void fullUpdateRoomWithPatch() throws Exception {
         // Initialize the database
-        roomRepository.saveAndFlush(room);
+        insertedRoom = roomRepository.saveAndFlush(room);
 
-        int databaseSizeBeforeUpdate = roomRepository.findAll().size();
+        long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the room using partial update
         Room partialUpdatedRoom = new Room();
@@ -340,23 +339,21 @@ class RoomResourceIT {
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedRoom.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedRoom))
+                    .content(om.writeValueAsBytes(partialUpdatedRoom))
             )
             .andExpect(status().isOk());
 
         // Validate the Room in the database
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeUpdate);
-        Room testRoom = roomList.get(roomList.size() - 1);
-        assertThat(testRoom.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testRoom.getMaxSeats()).isEqualTo(UPDATED_MAX_SEATS);
+
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
+        assertRoomUpdatableFieldsEquals(partialUpdatedRoom, getPersistedRoom(partialUpdatedRoom));
     }
 
     @Test
     @Transactional
     void patchNonExistingRoom() throws Exception {
-        int databaseSizeBeforeUpdate = roomRepository.findAll().size();
-        room.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        room.setId(longCount.incrementAndGet());
 
         // Create the Room
         RoomDTO roomDTO = roomMapper.toDto(room);
@@ -364,22 +361,19 @@ class RoomResourceIT {
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restRoomMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, roomDTO.getId())
-                    .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(roomDTO))
+                patch(ENTITY_API_URL_ID, roomDTO.getId()).contentType("application/merge-patch+json").content(om.writeValueAsBytes(roomDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Room in the database
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithIdMismatchRoom() throws Exception {
-        int databaseSizeBeforeUpdate = roomRepository.findAll().size();
-        room.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        room.setId(longCount.incrementAndGet());
 
         // Create the Room
         RoomDTO roomDTO = roomMapper.toDto(room);
@@ -387,43 +381,41 @@ class RoomResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRoomMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, count.incrementAndGet())
+                patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(roomDTO))
+                    .content(om.writeValueAsBytes(roomDTO))
             )
             .andExpect(status().isBadRequest());
 
         // Validate the Room in the database
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithMissingIdPathParamRoom() throws Exception {
-        int databaseSizeBeforeUpdate = roomRepository.findAll().size();
-        room.setId(count.incrementAndGet());
+        long databaseSizeBeforeUpdate = getRepositoryCount();
+        room.setId(longCount.incrementAndGet());
 
         // Create the Room
         RoomDTO roomDTO = roomMapper.toDto(room);
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRoomMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(roomDTO)))
+            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(om.writeValueAsBytes(roomDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Room in the database
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeUpdate);
+        assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void deleteRoom() throws Exception {
         // Initialize the database
-        roomRepository.saveAndFlush(room);
+        insertedRoom = roomRepository.saveAndFlush(room);
 
-        int databaseSizeBeforeDelete = roomRepository.findAll().size();
+        long databaseSizeBeforeDelete = getRepositoryCount();
 
         // Delete the room
         restRoomMockMvc
@@ -431,7 +423,34 @@ class RoomResourceIT {
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<Room> roomList = roomRepository.findAll();
-        assertThat(roomList).hasSize(databaseSizeBeforeDelete - 1);
+        assertDecrementedRepositoryCount(databaseSizeBeforeDelete);
+    }
+
+    protected long getRepositoryCount() {
+        return roomRepository.count();
+    }
+
+    protected void assertIncrementedRepositoryCount(long countBefore) {
+        assertThat(countBefore + 1).isEqualTo(getRepositoryCount());
+    }
+
+    protected void assertDecrementedRepositoryCount(long countBefore) {
+        assertThat(countBefore - 1).isEqualTo(getRepositoryCount());
+    }
+
+    protected void assertSameRepositoryCount(long countBefore) {
+        assertThat(countBefore).isEqualTo(getRepositoryCount());
+    }
+
+    protected Room getPersistedRoom(Room room) {
+        return roomRepository.findById(room.getId()).orElseThrow();
+    }
+
+    protected void assertPersistedRoomToMatchAllProperties(Room expectedRoom) {
+        assertRoomAllPropertiesEquals(expectedRoom, getPersistedRoom(expectedRoom));
+    }
+
+    protected void assertPersistedRoomToMatchUpdatableProperties(Room expectedRoom) {
+        assertRoomAllUpdatablePropertiesEquals(expectedRoom, getPersistedRoom(expectedRoom));
     }
 }

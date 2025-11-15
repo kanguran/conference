@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 import { IApplicationUser } from '../application-user.model';
-import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../application-user.test-samples';
+import { sampleWithFullData, sampleWithNewData, sampleWithPartialData, sampleWithRequiredData } from '../application-user.test-samples';
 
 import { ApplicationUserService } from './application-user.service';
 
@@ -17,7 +18,7 @@ describe('ApplicationUser Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
     expectedResult = null;
     service = TestBed.inject(ApplicationUserService);
@@ -37,7 +38,6 @@ describe('ApplicationUser Service', () => {
     });
 
     it('should create a ApplicationUser', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const applicationUser = { ...sampleWithNewData };
       const returnedFromService = { ...requireRestSample };
       const expected = { ...sampleWithRequiredData };
@@ -155,7 +155,7 @@ describe('ApplicationUser Service', () => {
     });
 
     describe('compareApplicationUser', () => {
-      it('Should return true if both entities are null', () => {
+      it('should return true if both entities are null', () => {
         const entity1 = null;
         const entity2 = null;
 
@@ -164,8 +164,8 @@ describe('ApplicationUser Service', () => {
         expect(compareResult).toEqual(true);
       });
 
-      it('Should return false if one entity is null', () => {
-        const entity1 = { id: 123 };
+      it('should return false if one entity is null', () => {
+        const entity1 = { id: 2107 };
         const entity2 = null;
 
         const compareResult1 = service.compareApplicationUser(entity1, entity2);
@@ -175,9 +175,9 @@ describe('ApplicationUser Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('Should return false if primaryKey differs', () => {
-        const entity1 = { id: 123 };
-        const entity2 = { id: 456 };
+      it('should return false if primaryKey differs', () => {
+        const entity1 = { id: 2107 };
+        const entity2 = { id: 4268 };
 
         const compareResult1 = service.compareApplicationUser(entity1, entity2);
         const compareResult2 = service.compareApplicationUser(entity2, entity1);
@@ -186,9 +186,9 @@ describe('ApplicationUser Service', () => {
         expect(compareResult2).toEqual(false);
       });
 
-      it('Should return false if primaryKey matches', () => {
-        const entity1 = { id: 123 };
-        const entity2 = { id: 123 };
+      it('should return false if primaryKey matches', () => {
+        const entity1 = { id: 2107 };
+        const entity2 = { id: 2107 };
 
         const compareResult1 = service.compareApplicationUser(entity1, entity2);
         const compareResult2 = service.compareApplicationUser(entity2, entity1);

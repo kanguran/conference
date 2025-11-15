@@ -1,54 +1,61 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <div *ngIf="eventRegistration">
-      <h2 data-cy="eventRegistrationDetailsHeading"><span>Event Registration</span></h2>
+    @if (eventRegistration(); as eventRegistrationRef) {
+      <div>
+        <h2 data-cy="eventRegistrationDetailsHeading"><span>Event Registration</span></h2>
 
-      <hr />
+        <hr />
 
-      <jhi-alert-error></jhi-alert-error>
+        <jhi-alert-error />
 
-      <jhi-alert></jhi-alert>
+        <jhi-alert />
 
-      <dl class="row-md jh-entity-details">
-        <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <dl class="row-md jh-entity-details">
           <dt><span>ID</span></dt>
           <dd>
-            <span>{{ eventRegistration.id }}</span>
+            <span>{{ eventRegistrationRef.id }}</span>
           </dd>
           <dt><span>Description</span></dt>
-        </div>
-        <dd>
-          <span>{{ eventRegistration.description }}</span>
-        </dd>
-        <dt><span>Event Registration Status</span></dt>
-        <dd>
-          <span>{{ eventRegistration.eventRegistrationStatus }}</span>
-        </dd>
-        <dt><span>Event Counterparty</span></dt>
-        <dd>
-          <div *ngIf="eventRegistration.eventCounterparty">
-            <a [routerLink]="['/application-user', eventRegistration.eventCounterparty.id, 'view']">
-              {{ eventRegistration.eventCounterparty.appUser?.firstName }} {{ eventRegistration.eventCounterparty.appUser?.lastName }}
-            </a>
-          </div>
-        </dd>
-        <dt><span>Event Context</span></dt>
-        <dd>
-          <div *ngIf="eventRegistration.eventContext">
-            <a [routerLink]="['/event-context', eventRegistration.eventContext.id, 'view']">{{
-              eventRegistration.eventContext.description
-            }}</a>
-          </div>
-        </dd>
-      </dl>
+          <dd>
+            <span>{{ eventRegistrationRef.description }}</span>
+          </dd>
+          <dt><span>Event Registration Status</span></dt>
+          <dd>
+            <span>{{
+              { null: '', ACTIVE: 'ACTIVE', CANCELLED: 'CANCELLED' }[eventRegistrationRef.eventRegistrationStatus ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span>Event Counterparty</span></dt>
+          <dd>
+            @if (eventRegistration()!.eventCounterparty) {
+              <div>
+                <a [routerLink]="['/application-user', eventRegistration()!.eventCounterparty?.id, 'view']">
+                  {{ eventRegistrationRef.eventCounterparty?.appUser?.firstName }}
+                  {{ eventRegistrationRef.eventCounterparty?.appUser?.lastName }}</a
+                >
+              </div>
+            }
+          </dd>
+          <dt><span>Event Context</span></dt>
+          <dd>
+            @if (eventRegistration()!.eventContext) {
+              <div>
+                <a [routerLink]="['/event-context', eventRegistration()!.eventContext?.id, 'view']">{{
+                  eventRegistrationRef.eventContext?.description
+                }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-      </button>
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        </button>
 
-      <button type="button" [routerLink]="['/event-registration', eventRegistration.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-      </button>
-    </div>
+        <button type="button" [routerLink]="['/event-registration', eventRegistrationRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        </button>
+      </div>
+    }
   </div>
 </div>

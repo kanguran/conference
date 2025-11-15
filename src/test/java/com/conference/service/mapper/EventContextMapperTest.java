@@ -1,6 +1,7 @@
 package com.conference.service.mapper;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.conference.domain.EventContextAsserts.*;
+import static com.conference.domain.EventContextTestSamples.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,14 @@ class EventContextMapperTest {
     private EventContextMapper eventContextMapper;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         eventContextMapper = new EventContextMapperImpl();
+    }
+
+    @Test
+    void shouldConvertToDtoAndBack() {
+        var expected = getEventContextSample1();
+        var actual = eventContextMapper.toEntity(eventContextMapper.toDto(expected));
+        assertEventContextAllPropertiesEquals(expected, actual);
     }
 }

@@ -1,64 +1,76 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <div *ngIf="eventContext">
-      <h2 data-cy="eventContextDetailsHeading"><span>Event Context</span></h2>
+    @if (eventContext(); as eventContextRef) {
+      <div>
+        <h2 data-cy="eventContextDetailsHeading"><span>Event Context</span></h2>
 
-      <hr />
+        <hr />
 
-      <jhi-alert-error></jhi-alert-error>
+        <jhi-alert-error />
 
-      <jhi-alert></jhi-alert>
+        <jhi-alert />
 
-      <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
-        <dd>
-          <span>{{ eventContext.id }}</span>
-        </dd>
-        <dt><span>Description</span></dt>
-        <dd>
-          <span>{{ eventContext.description }}</span>
-        </dd>
-        <dt><span>Event Context Status</span></dt>
-        <dd>
-          <span>{{ eventContext.eventContextStatus }}</span>
-        </dd>
-        <dt><span>Start</span></dt>
-        <dd>
-          <span>{{ eventContext.start | formatMediumDatetime }}</span>
-        </dd>
-        <dt><span>End</span></dt>
-        <dd>
-          <span>{{ eventContext.end | formatMediumDatetime }}</span>
-        </dd>
-        <dt><span>Event Context Room</span></dt>
-        <dd>
-          <div *ngIf="eventContext.eventContextRoom">
-            <a [routerLink]="['/room', eventContext.eventContextRoom.id, 'view']">{{ eventContext.eventContextRoom.id }}</a>
-          </div>
-        </dd>
-        <dt><span>Context Host</span></dt>
-        <dd>
-          <div *ngIf="eventContext.contextHost">
-            <a [routerLink]="['/application-user', eventContext.contextHost.id, 'view']">
-              {{ eventContext.contextHost.appUser?.firstName }} {{ eventContext.contextHost.appUser?.lastName }}</a
-            >
-          </div>
-        </dd>
-        <dt><span>Event</span></dt>
-        <dd>
-          <div *ngIf="eventContext.event">
-            <a [routerLink]="['/event', eventContext.event.id, 'view']">{{ eventContext.event.name }}</a>
-          </div>
-        </dd>
-      </dl>
+        <dl class="row-md jh-entity-details">
+          <dt><span>ID</span></dt>
+          <dd>
+            <span>{{ eventContextRef.id }}</span>
+          </dd>
+          <dt><span>Description</span></dt>
+          <dd>
+            <span>{{ eventContextRef.description }}</span>
+          </dd>
+          <dt><span>Event Context Status</span></dt>
+          <dd>
+            <span>{{
+              { null: '', AVAILABLE: 'AVAILABLE', FULLY_BOOKED: 'FULLY_BOOKED', CANCELLED: 'CANCELLED' }[
+                eventContextRef.eventContextStatus ?? 'null'
+              ]
+            }}</span>
+          </dd>
+          <dt><span>Start</span></dt>
+          <dd>
+            <span>{{ eventContextRef.start | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>End</span></dt>
+          <dd>
+            <span>{{ eventContextRef.end | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Event Context Room</span></dt>
+          <dd>
+            @if (eventContext()!.eventContextRoom) {
+              <div>
+                <a [routerLink]="['/room', eventContext()!.eventContextRoom?.id, 'view']">{{ eventContextRef.eventContextRoom?.name }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span>Context Host</span></dt>
+          <dd>
+            @if (eventContext()!.contextHost) {
+              <div>
+                <a [routerLink]="['/application-user', eventContext()!.contextHost?.id, 'view']"
+                  >{{ eventContextRef.contextHost?.appUser?.firstName }} {{ eventContextRef.contextHost?.appUser?.lastName }}</a
+                >
+              </div>
+            }
+          </dd>
+          <dt><span>Event</span></dt>
+          <dd>
+            @if (eventContext()!.event) {
+              <div>
+                <a [routerLink]="['/event', eventContext()!.event?.id, 'view']">{{ eventContextRef.event?.name }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-      </button>
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        </button>
 
-      <button type="button" [routerLink]="['/event-context', eventContext.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-      </button>
-    </div>
+        <button type="button" [routerLink]="['/event-context', eventContextRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        </button>
+      </div>
+    }
   </div>
 </div>

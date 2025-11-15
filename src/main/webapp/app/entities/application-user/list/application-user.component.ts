@@ -1,37 +1,50 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { Component, NgZone, OnInit, inject, signal } from '@angular/core';
+import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
+import { Observable, Subscription, combineLatest, filter, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import SharedModule from 'app/shared/shared.module';
+import { SortByDirective, SortDirective, SortService, type SortState, sortStateSignal } from 'app/shared/sort';
+import { FormsModule } from '@angular/forms';
+import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigation.constants';
 import { IApplicationUser } from '../application-user.model';
-import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
-import { EntityArrayResponseType, ApplicationUserService } from '../service/application-user.service';
+import { ApplicationUserService, EntityArrayResponseType } from '../service/application-user.service';
 import { ApplicationUserDeleteDialogComponent } from '../delete/application-user-delete-dialog.component';
-import { SortService } from 'app/shared/sort/sort.service';
 
 @Component({
   selector: 'jhi-application-user',
   templateUrl: './application-user.component.html',
+  imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective],
 })
 export class ApplicationUserComponent implements OnInit {
-  applicationUsers?: IApplicationUser[];
+  subscription: Subscription | null = null;
+  applicationUsers = signal<IApplicationUser[]>([]);
   isLoading = false;
 
-  predicate = 'id';
-  ascending = true;
+  sortState = sortStateSignal({});
 
-  constructor(
-    protected applicationUserService: ApplicationUserService,
-    protected activatedRoute: ActivatedRoute,
-    public router: Router,
-    protected sortService: SortService,
-    protected modalService: NgbModal
-  ) {}
+  public readonly router = inject(Router);
+  protected readonly applicationUserService = inject(ApplicationUserService);
+  protected readonly activatedRoute = inject(ActivatedRoute);
+  protected readonly sortService = inject(SortService);
+  protected modalService = inject(NgbModal);
+  protected ngZone = inject(NgZone);
 
-  trackId = (_index: number, item: IApplicationUser): number => this.applicationUserService.getApplicationUserIdentifier(item);
+  trackId = (item: IApplicationUser): number => this.applicationUserService.getApplicationUserIdentifier(item);
 
   ngOnInit(): void {
-    this.load();
+    this.subscription = combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data])
+      .pipe(
+        tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+        tap(() => {
+          if (this.applicationUsers().length === 0) {
+            this.load();
+          } else {
+            this.applicationUsers.set(this.refineData(this.applicationUsers()));
+          }
+        }),
+      )
+      .subscribe();
   }
 
   delete(applicationUser: IApplicationUser): void {
@@ -41,78 +54,59 @@ export class ApplicationUserComponent implements OnInit {
     modalRef.closed
       .pipe(
         filter(reason => reason === ITEM_DELETED_EVENT),
-        switchMap(() => this.loadFromBackendWithRouteInformations())
+        tap(() => this.load()),
       )
-      .subscribe({
-        next: (res: EntityArrayResponseType) => {
-          this.onResponseSuccess(res);
-        },
-      });
+      .subscribe();
   }
 
   load(): void {
-    this.loadFromBackendWithRouteInformations().subscribe({
+    this.queryBackend().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
       },
     });
   }
 
-  navigateToWithComponentValues(): void {
-    this.handleNavigation(this.predicate, this.ascending);
-  }
-
-  protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
-    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
-      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
-      switchMap(() => this.queryBackend(this.predicate, this.ascending))
-    );
+  navigateToWithComponentValues(event: SortState): void {
+    this.handleNavigation(event);
   }
 
   protected fillComponentAttributeFromRoute(params: ParamMap, data: Data): void {
-    const sort = (params.get(SORT) ?? data[DEFAULT_SORT_DATA]).split(',');
-    this.predicate = sort[0];
-    this.ascending = sort[1] === ASC;
+    this.sortState.set(this.sortService.parseSortParam(params.get(SORT) ?? data[DEFAULT_SORT_DATA]));
   }
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
-    this.applicationUsers = this.refineData(dataFromBody);
+    this.applicationUsers.set(this.refineData(dataFromBody));
   }
 
   protected refineData(data: IApplicationUser[]): IApplicationUser[] {
-    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+    const { predicate, order } = this.sortState();
+    return predicate && order ? data.sort(this.sortService.startSort({ predicate, order })) : data;
   }
 
   protected fillComponentAttributesFromResponseBody(data: IApplicationUser[] | null): IApplicationUser[] {
     return data ?? [];
   }
 
-  protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
+  protected queryBackend(): Observable<EntityArrayResponseType> {
     this.isLoading = true;
-    const queryObject = {
-      sort: this.getSortQueryParam(predicate, ascending),
+    const queryObject: any = {
+      sort: this.sortService.buildSortParam(this.sortState()),
     };
     return this.applicationUserService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
-  protected handleNavigation(predicate?: string, ascending?: boolean): void {
+  protected handleNavigation(sortState: SortState): void {
     const queryParamsObj = {
-      sort: this.getSortQueryParam(predicate, ascending),
+      sort: this.sortService.buildSortParam(sortState),
     };
 
-    this.router.navigate(['./'], {
-      relativeTo: this.activatedRoute,
-      queryParams: queryParamsObj,
+    this.ngZone.run(() => {
+      this.router.navigate(['./'], {
+        relativeTo: this.activatedRoute,
+        queryParams: queryParamsObj,
+      });
     });
-  }
-
-  protected getSortQueryParam(predicate = this.predicate, ascending = this.ascending): string[] {
-    const ascendingQueryParam = ascending ? ASC : DESC;
-    if (predicate === '') {
-      return [];
-    } else {
-      return [predicate + ',' + ascendingQueryParam];
-    }
   }
 }

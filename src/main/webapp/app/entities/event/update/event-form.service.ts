@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { IEvent, NewEvent } from '../event.model';
-import { EventStatus } from '../../enumerations/event-status.model';
 
 /**
  * A partial Type with required key is used as form input.
@@ -29,7 +28,7 @@ export type EventFormGroup = FormGroup<EventFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class EventFormService {
-  createEventFormGroup(event: EventFormGroupInput = { id: null, eventStatus: EventStatus.UNPUBLISHED }): EventFormGroup {
+  createEventFormGroup(event: EventFormGroupInput = { id: null }): EventFormGroup {
     const eventRawValue = {
       ...this.getFormDefaults(),
       ...event,
@@ -40,7 +39,7 @@ export class EventFormService {
         {
           nonNullable: true,
           validators: [Validators.required],
-        }
+        },
       ),
       name: new FormControl(eventRawValue.name, {
         validators: [Validators.required],
@@ -51,9 +50,7 @@ export class EventFormService {
       eventStatus: new FormControl(eventRawValue.eventStatus, {
         validators: [Validators.required],
       }),
-      mainHost: new FormControl(eventRawValue.mainHost, {
-        validators: [Validators.required],
-      }),
+      mainHost: new FormControl(eventRawValue.mainHost),
     });
   }
 
@@ -67,7 +64,7 @@ export class EventFormService {
       {
         ...eventRawValue,
         id: { value: eventRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
+      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
     );
   }
 

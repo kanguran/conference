@@ -1,17 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpResponse, provideHttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { of, Subject, from } from 'rxjs';
-
-import { ApplicationUserFormService } from './application-user-form.service';
-import { ApplicationUserService } from '../service/application-user.service';
-import { IApplicationUser } from '../application-user.model';
+import { Subject, from, of } from 'rxjs';
 
 import { IUser } from 'app/entities/user/user.model';
-import { UserService } from 'app/entities/user/user.service';
+import { UserService } from 'app/entities/user/service/user.service';
+import { ApplicationUserService } from '../service/application-user.service';
+import { IApplicationUser } from '../application-user.model';
+import { ApplicationUserFormService } from './application-user-form.service';
 
 import { ApplicationUserUpdateComponent } from './application-user-update.component';
 
@@ -25,9 +22,9 @@ describe('ApplicationUser Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      declarations: [ApplicationUserUpdateComponent],
+      imports: [ApplicationUserUpdateComponent],
       providers: [
+        provideHttpClient(),
         FormBuilder,
         {
           provide: ActivatedRoute,
@@ -50,12 +47,12 @@ describe('ApplicationUser Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call User query and add missing value', () => {
-      const applicationUser: IApplicationUser = { id: 456 };
-      const appUser: IUser = { id: 32396 };
+    it('should call User query and add missing value', () => {
+      const applicationUser: IApplicationUser = { id: 4268 };
+      const appUser: IUser = { id: 3944 };
       applicationUser.appUser = appUser;
 
-      const userCollection: IUser[] = [{ id: 67663 }];
+      const userCollection: IUser[] = [{ id: 3944 }];
       jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
       const additionalUsers = [appUser];
       const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
@@ -67,29 +64,29 @@ describe('ApplicationUser Management Update Component', () => {
       expect(userService.query).toHaveBeenCalled();
       expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
         userCollection,
-        ...additionalUsers.map(expect.objectContaining)
+        ...additionalUsers.map(expect.objectContaining),
       );
       expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should update editForm', () => {
-      const applicationUser: IApplicationUser = { id: 456 };
-      const appUser: IUser = { id: 45793 };
+    it('should update editForm', () => {
+      const applicationUser: IApplicationUser = { id: 4268 };
+      const appUser: IUser = { id: 3944 };
       applicationUser.appUser = appUser;
 
       activatedRoute.data = of({ applicationUser });
       comp.ngOnInit();
 
-      expect(comp.usersSharedCollection).toContain(appUser);
+      expect(comp.usersSharedCollection).toContainEqual(appUser);
       expect(comp.applicationUser).toEqual(applicationUser);
     });
   });
 
   describe('save', () => {
-    it('Should call update service on save for existing entity', () => {
+    it('should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IApplicationUser>>();
-      const applicationUser = { id: 123 };
+      const applicationUser = { id: 2107 };
       jest.spyOn(applicationUserFormService, 'getApplicationUser').mockReturnValue(applicationUser);
       jest.spyOn(applicationUserService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -109,10 +106,10 @@ describe('ApplicationUser Management Update Component', () => {
       expect(comp.isSaving).toEqual(false);
     });
 
-    it('Should call create service on save for new entity', () => {
+    it('should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IApplicationUser>>();
-      const applicationUser = { id: 123 };
+      const applicationUser = { id: 2107 };
       jest.spyOn(applicationUserFormService, 'getApplicationUser').mockReturnValue({ id: null });
       jest.spyOn(applicationUserService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -132,10 +129,10 @@ describe('ApplicationUser Management Update Component', () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it('Should set isSaving to false on error', () => {
+    it('should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IApplicationUser>>();
-      const applicationUser = { id: 123 };
+      const applicationUser = { id: 2107 };
       jest.spyOn(applicationUserService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ applicationUser });
@@ -155,9 +152,9 @@ describe('ApplicationUser Management Update Component', () => {
 
   describe('Compare relationships', () => {
     describe('compareUser', () => {
-      it('Should forward to userService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+      it('should forward to userService', () => {
+        const entity = { id: 3944 };
+        const entity2 = { id: 6275 };
         jest.spyOn(userService, 'compareUser');
         comp.compareUser(entity, entity2);
         expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);

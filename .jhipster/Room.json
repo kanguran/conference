@@ -1,9 +1,10 @@
 {
+  "annotations": {
+    "changelogDate": "20240119211629"
+  },
   "applications": "*",
   "changelogDate": "20240119211629",
   "dto": "mapstruct",
-  "embedded": false,
-  "entityTableName": "room",
   "fields": [
     {
       "fieldName": "name",
@@ -16,11 +17,9 @@
       "fieldValidateRules": ["required"]
     }
   ],
-  "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
   "name": "Room",
   "pagination": "pagination",
-  "readOnly": false,
   "relationships": [],
+  "searchEngine": "no",
   "service": "serviceClass"
 }

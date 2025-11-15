@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithRequiredData, sampleWithNewData } from '../application-user.test-samples';
+import { sampleWithNewData, sampleWithRequiredData } from '../application-user.test-samples';
 
 import { ApplicationUserFormService } from './application-user-form.service';
 
@@ -22,7 +22,7 @@ describe('ApplicationUser Form Service', () => {
             id: expect.any(Object),
             host: expect.any(Object),
             appUser: expect.any(Object),
-          })
+          }),
         );
       });
 
@@ -34,14 +34,13 @@ describe('ApplicationUser Form Service', () => {
             id: expect.any(Object),
             host: expect.any(Object),
             appUser: expect.any(Object),
-          })
+          }),
         );
       });
     });
 
     describe('getApplicationUser', () => {
       it('should return NewApplicationUser for default ApplicationUser initial value', () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createApplicationUserFormGroup(sampleWithNewData);
 
         const applicationUser = service.getApplicationUser(formGroup) as any;

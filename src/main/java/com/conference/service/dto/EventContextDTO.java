@@ -1,10 +1,10 @@
 package com.conference.service.dto;
 
 import com.conference.domain.enumeration.EventContextStatus;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
-import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.conference.domain.EventContext} entity.

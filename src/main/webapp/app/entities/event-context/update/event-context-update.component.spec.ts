@@ -1,20 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpResponse, provideHttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { of, Subject, from } from 'rxjs';
+import { Subject, from, of } from 'rxjs';
 
-import { EventContextFormService } from './event-context-form.service';
-import { EventContextService } from '../service/event-context.service';
-import { IEventContext } from '../event-context.model';
 import { IRoom } from 'app/entities/room/room.model';
 import { RoomService } from 'app/entities/room/service/room.service';
 import { IApplicationUser } from 'app/entities/application-user/application-user.model';
 import { ApplicationUserService } from 'app/entities/application-user/service/application-user.service';
 import { IEvent } from 'app/entities/event/event.model';
 import { EventService } from 'app/entities/event/service/event.service';
+import { IEventContext } from '../event-context.model';
+import { EventContextService } from '../service/event-context.service';
+import { EventContextFormService } from './event-context-form.service';
 
 import { EventContextUpdateComponent } from './event-context-update.component';
 
@@ -30,9 +28,9 @@ describe('EventContext Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      declarations: [EventContextUpdateComponent],
+      imports: [EventContextUpdateComponent],
       providers: [
+        provideHttpClient(),
         FormBuilder,
         {
           provide: ActivatedRoute,
@@ -57,34 +55,30 @@ describe('EventContext Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call Room query and add missing value', () => {
-      const eventContext: IEventContext = { id: 456 };
-      const eventContextRoom: IRoom = { id: 60785 };
+    it('should call eventContextRoom query and add missing value', () => {
+      const eventContext: IEventContext = { id: 3213 };
+      const eventContextRoom: IRoom = { id: 31469 };
       eventContext.eventContextRoom = eventContextRoom;
 
-      const roomCollection: IRoom[] = [{ id: 16843 }];
-      jest.spyOn(roomService, 'query').mockReturnValue(of(new HttpResponse({ body: roomCollection })));
-      const additionalRooms = [eventContextRoom];
-      const expectedCollection: IRoom[] = [...additionalRooms, ...roomCollection];
+      const eventContextRoomCollection: IRoom[] = [{ id: 31469 }];
+      jest.spyOn(roomService, 'query').mockReturnValue(of(new HttpResponse({ body: eventContextRoomCollection })));
+      const expectedCollection: IRoom[] = [eventContextRoom, ...eventContextRoomCollection];
       jest.spyOn(roomService, 'addRoomToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ eventContext });
       comp.ngOnInit();
 
       expect(roomService.query).toHaveBeenCalled();
-      expect(roomService.addRoomToCollectionIfMissing).toHaveBeenCalledWith(
-        roomCollection,
-        ...additionalRooms.map(expect.objectContaining)
-      );
-      expect(comp.roomsSharedCollection).toEqual(expectedCollection);
+      expect(roomService.addRoomToCollectionIfMissing).toHaveBeenCalledWith(eventContextRoomCollection, eventContextRoom);
+      expect(comp.eventContextRoomsCollection).toEqual(expectedCollection);
     });
 
-    it('Should call ApplicationUser query and add missing value', () => {
-      const eventContext: IEventContext = { id: 456 };
-      const contextHost: IApplicationUser = { id: 27615 };
+    it('should call ApplicationUser query and add missing value', () => {
+      const eventContext: IEventContext = { id: 3213 };
+      const contextHost: IApplicationUser = { id: 2107 };
       eventContext.contextHost = contextHost;
 
-      const applicationUserCollection: IApplicationUser[] = [{ id: 86902 }];
+      const applicationUserCollection: IApplicationUser[] = [{ id: 2107 }];
       jest.spyOn(applicationUserService, 'query').mockReturnValue(of(new HttpResponse({ body: applicationUserCollection })));
       const additionalApplicationUsers = [contextHost];
       const expectedCollection: IApplicationUser[] = [...additionalApplicationUsers, ...applicationUserCollection];
@@ -96,17 +90,17 @@ describe('EventContext Management Update Component', () => {
       expect(applicationUserService.query).toHaveBeenCalled();
       expect(applicationUserService.addApplicationUserToCollectionIfMissing).toHaveBeenCalledWith(
         applicationUserCollection,
-        ...additionalApplicationUsers.map(expect.objectContaining)
+        ...additionalApplicationUsers.map(expect.objectContaining),
       );
       expect(comp.applicationUsersSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call Event query and add missing value', () => {
-      const eventContext: IEventContext = { id: 456 };
-      const event: IEvent = { id: 49686 };
+    it('should call Event query and add missing value', () => {
+      const eventContext: IEventContext = { id: 3213 };
+      const event: IEvent = { id: 22576 };
       eventContext.event = event;
 
-      const eventCollection: IEvent[] = [{ id: 57172 }];
+      const eventCollection: IEvent[] = [{ id: 22576 }];
       jest.spyOn(eventService, 'query').mockReturnValue(of(new HttpResponse({ body: eventCollection })));
       const additionalEvents = [event];
       const expectedCollection: IEvent[] = [...additionalEvents, ...eventCollection];
@@ -118,35 +112,35 @@ describe('EventContext Management Update Component', () => {
       expect(eventService.query).toHaveBeenCalled();
       expect(eventService.addEventToCollectionIfMissing).toHaveBeenCalledWith(
         eventCollection,
-        ...additionalEvents.map(expect.objectContaining)
+        ...additionalEvents.map(expect.objectContaining),
       );
       expect(comp.eventsSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should update editForm', () => {
-      const eventContext: IEventContext = { id: 456 };
-      const eventContextRoom: IRoom = { id: 87486 };
+    it('should update editForm', () => {
+      const eventContext: IEventContext = { id: 3213 };
+      const eventContextRoom: IRoom = { id: 31469 };
       eventContext.eventContextRoom = eventContextRoom;
-      const contextHost: IApplicationUser = { id: 28317 };
+      const contextHost: IApplicationUser = { id: 2107 };
       eventContext.contextHost = contextHost;
-      const event: IEvent = { id: 79512 };
+      const event: IEvent = { id: 22576 };
       eventContext.event = event;
 
       activatedRoute.data = of({ eventContext });
       comp.ngOnInit();
 
-      expect(comp.roomsSharedCollection).toContain(eventContextRoom);
-      expect(comp.applicationUsersSharedCollection).toContain(contextHost);
-      expect(comp.eventsSharedCollection).toContain(event);
+      expect(comp.eventContextRoomsCollection).toContainEqual(eventContextRoom);
+      expect(comp.applicationUsersSharedCollection).toContainEqual(contextHost);
+      expect(comp.eventsSharedCollection).toContainEqual(event);
       expect(comp.eventContext).toEqual(eventContext);
     });
   });
 
   describe('save', () => {
-    it('Should call update service on save for existing entity', () => {
+    it('should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IEventContext>>();
-      const eventContext = { id: 123 };
+      const eventContext = { id: 18286 };
       jest.spyOn(eventContextFormService, 'getEventContext').mockReturnValue(eventContext);
       jest.spyOn(eventContextService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -166,10 +160,10 @@ describe('EventContext Management Update Component', () => {
       expect(comp.isSaving).toEqual(false);
     });
 
-    it('Should call create service on save for new entity', () => {
+    it('should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IEventContext>>();
-      const eventContext = { id: 123 };
+      const eventContext = { id: 18286 };
       jest.spyOn(eventContextFormService, 'getEventContext').mockReturnValue({ id: null });
       jest.spyOn(eventContextService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -189,10 +183,10 @@ describe('EventContext Management Update Component', () => {
       expect(comp.previousState).toHaveBeenCalled();
     });
 
-    it('Should set isSaving to false on error', () => {
+    it('should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IEventContext>>();
-      const eventContext = { id: 123 };
+      const eventContext = { id: 18286 };
       jest.spyOn(eventContextService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ eventContext });
@@ -212,9 +206,9 @@ describe('EventContext Management Update Component', () => {
 
   describe('Compare relationships', () => {
     describe('compareRoom', () => {
-      it('Should forward to roomService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+      it('should forward to roomService', () => {
+        const entity = { id: 31469 };
+        const entity2 = { id: 22394 };
         jest.spyOn(roomService, 'compareRoom');
         comp.compareRoom(entity, entity2);
         expect(roomService.compareRoom).toHaveBeenCalledWith(entity, entity2);
@@ -222,9 +216,9 @@ describe('EventContext Management Update Component', () => {
     });
 
     describe('compareApplicationUser', () => {
-      it('Should forward to applicationUserService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+      it('should forward to applicationUserService', () => {
+        const entity = { id: 2107 };
+        const entity2 = { id: 4268 };
         jest.spyOn(applicationUserService, 'compareApplicationUser');
         comp.compareApplicationUser(entity, entity2);
         expect(applicationUserService.compareApplicationUser).toHaveBeenCalledWith(entity, entity2);
@@ -232,9 +226,9 @@ describe('EventContext Management Update Component', () => {
     });
 
     describe('compareEvent', () => {
-      it('Should forward to eventService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+      it('should forward to eventService', () => {
+        const entity = { id: 22576 };
+        const entity2 = { id: 3268 };
         jest.spyOn(eventService, 'compareEvent');
         comp.compareEvent(entity, entity2);
         expect(eventService.compareEvent).toHaveBeenCalledWith(entity, entity2);

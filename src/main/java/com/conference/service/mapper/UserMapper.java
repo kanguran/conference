@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class UserMapper {
 
     public List<UserDTO> usersToUserDTOs(List<User> users) {
-        return users.stream().filter(Objects::nonNull).map(this::userToUserDTO).collect(Collectors.toList());
+        return users.stream().filter(Objects::nonNull).map(this::userToUserDTO).toList();
     }
 
     public UserDTO userToUserDTO(User user) {
@@ -29,7 +29,7 @@ public class UserMapper {
     }
 
     public List<AdminUserDTO> usersToAdminUserDTOs(List<User> users) {
-        return users.stream().filter(Objects::nonNull).map(this::userToAdminUserDTO).collect(Collectors.toList());
+        return users.stream().filter(Objects::nonNull).map(this::userToAdminUserDTO).toList();
     }
 
     public AdminUserDTO userToAdminUserDTO(User user) {
@@ -37,7 +37,7 @@ public class UserMapper {
     }
 
     public List<User> userDTOsToUsers(List<AdminUserDTO> userDTOs) {
-        return userDTOs.stream().filter(Objects::nonNull).map(this::userDTOToUser).collect(Collectors.toList());
+        return userDTOs.stream().filter(Objects::nonNull).map(this::userDTOToUser).toList();
     }
 
     public User userDTOToUser(AdminUserDTO userDTO) {
@@ -51,6 +51,10 @@ public class UserMapper {
             user.setLastName(userDTO.getLastName());
             user.setEmail(userDTO.getEmail());
             user.setImageUrl(userDTO.getImageUrl());
+            user.setCreatedBy(userDTO.getCreatedBy());
+            user.setCreatedDate(userDTO.getCreatedDate());
+            user.setLastModifiedBy(userDTO.getLastModifiedBy());
+            user.setLastModifiedDate(userDTO.getLastModifiedDate());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
@@ -63,15 +67,14 @@ public class UserMapper {
         Set<Authority> authorities = new HashSet<>();
 
         if (authoritiesAsString != null) {
-            authorities =
-                authoritiesAsString
-                    .stream()
-                    .map(string -> {
-                        Authority auth = new Authority();
-                        auth.setName(string);
-                        return auth;
-                    })
-                    .collect(Collectors.toSet());
+            authorities = authoritiesAsString
+                .stream()
+                .map(string -> {
+                    Authority auth = new Authority();
+                    auth.setName(string);
+                    return auth;
+                })
+                .collect(Collectors.toSet());
         }
 
         return authorities;
@@ -146,5 +149,21 @@ public class UserMapper {
         }
 
         return userSet;
+    }
+
+    @Named("userId")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "login", source = "login")
+    UserDTO toDtoUserId(User user) {
+        if (user == null) {
+            return null;
+        }
+        UserDTO userDto = new UserDTO();
+        userDto.setId(user.getId());
+        userDto.setLogin(user.getLogin());
+        userDto.setLastName(user.getLastName());
+        userDto.setFirstName(user.getFirstName());
+        return userDto;
     }
 }

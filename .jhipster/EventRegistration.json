@@ -1,9 +1,10 @@
 {
+  "annotations": {
+    "changelogDate": "20240119211628"
+  },
   "applications": "*",
   "changelogDate": "20240119211628",
   "dto": "mapstruct",
-  "embedded": false,
-  "entityTableName": "event_registration",
   "fields": [
     {
       "fieldName": "description",
@@ -16,24 +17,16 @@
       "fieldValues": "ACTIVE,CANCELLED"
     }
   ],
-  "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
   "name": "EventRegistration",
   "pagination": "pagination",
-  "readOnly": false,
   "relationships": [
     {
       "otherEntityName": "applicationUser",
-      "ownerSide": true,
       "relationshipName": "eventCounterparty",
-      "relationshipType": "one-to-one"
-    },
-    {
-      "otherEntityName": "eventContext",
-      "otherEntityRelationshipName": "eventContextRegistration",
-      "relationshipName": "eventContext",
+      "relationshipSide": "left",
       "relationshipType": "many-to-one"
     }
   ],
+  "searchEngine": "no",
   "service": "serviceClass"
 }

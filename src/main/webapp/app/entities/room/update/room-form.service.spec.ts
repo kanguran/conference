@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { sampleWithRequiredData, sampleWithNewData } from '../room.test-samples';
+import { sampleWithNewData, sampleWithRequiredData } from '../room.test-samples';
 
 import { RoomFormService } from './room-form.service';
 
@@ -22,7 +22,7 @@ describe('Room Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             maxSeats: expect.any(Object),
-          })
+          }),
         );
       });
 
@@ -34,14 +34,13 @@ describe('Room Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             maxSeats: expect.any(Object),
-          })
+          }),
         );
       });
     });
 
     describe('getRoom', () => {
       it('should return NewRoom for default Room initial value', () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createRoomFormGroup(sampleWithNewData);
 
         const room = service.getRoom(formGroup) as any;

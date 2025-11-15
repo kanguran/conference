@@ -27,12 +27,17 @@ spring:
       additional-exclude: static/**,.h2.server.properties
     livereload:
       enabled: false # we use Webpack dev server + BrowserSync for livereload
+  docker:
+    compose:
+      enabled: false
+      profiles:
+        active: dev
   jackson:
     serialization:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./build/h2db/db/conference;DB_CLOSE_DELAY=-1;MODE=LEGACY
+    url: jdbc:h2:file:./build/h2db/db/conference;DB_CLOSE_DELAY=-1
     username: conference
     password:
     hikari:
@@ -40,9 +45,8 @@ spring:
       auto-commit: false
   h2:
     console:
-      # disable spring boot built-in h2-console since we start it manually with correct configuration
-      enabled: false
-  jpa:
+      # JHipster uses a custom h2-console initializer
+      enabled: true
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
@@ -58,6 +62,8 @@ spring:
 
 server:
   port: 8080
+  # make sure requests the proxy uri instead of the server one
+  forward-headers-strategy: native
 
 # ===================================================================
 # JHipster specific properties
@@ -97,7 +103,7 @@ jhipster:
       enabled: false
       host: localhost
       port: 5000
-      queue-size: 512
+      ring-buffer-size: 512
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

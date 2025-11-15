@@ -1,46 +1,70 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-event-heading" data-cy="EventCreateUpdateHeading">Create or edit a Event</h2>
 
       <div>
-        <jhi-alert-error></jhi-alert-error>
+        <jhi-alert-error />
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
 
-        <div class="row mb-3">
+        @let nameRef = editForm.get('name')!;
+        <div class="mb-3">
           <label class="form-label" for="field_name">Name</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
-          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
-          </div>
+          @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
+            <div>
+              @if (editForm.get('name')?.errors?.required) {
+                <small class="form-text text-danger">This field is required.</small>
+              }
+            </div>
+          }
         </div>
 
-        <div class="row mb-3">
+        @let eventTypeRef = editForm.get('eventType')!;
+        <div class="mb-3">
           <label class="form-label" for="field_eventType">Event Type</label>
           <select class="form-control" name="eventType" formControlName="eventType" id="field_eventType" data-cy="eventType">
             <option [ngValue]="null"></option>
-            <option *ngFor="let eventType of eventTypeValues" [value]="eventType">{{ eventType }}</option>
+            @for (eventType of eventTypeValues; track $index) {
+              <option [value]="eventType">{{ { null: '', CONFERENCE: 'CONFERENCE' }[eventType] }}</option>
+            }
           </select>
-          <div *ngIf="editForm.get('eventType')!.invalid && (editForm.get('eventType')!.dirty || editForm.get('eventType')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('eventType')?.errors?.required"> This field is required. </small>
-          </div>
+          @if (eventTypeRef.invalid && (eventTypeRef.dirty || eventTypeRef.touched)) {
+            <div>
+              @if (editForm.get('eventType')?.errors?.required) {
+                <small class="form-text text-danger">This field is required.</small>
+              }
+            </div>
+          }
         </div>
 
-        <div class="row mb-3">
+        @let eventStatusRef = editForm.get('eventStatus')!;
+        <div class="mb-3">
           <label class="form-label" for="field_eventStatus">Event Status</label>
           <select class="form-control" name="eventStatus" formControlName="eventStatus" id="field_eventStatus" data-cy="eventStatus">
-            <option *ngFor="let eventStatus of eventStatusValues" [value]="eventStatus">{{ eventStatus }}</option>
+            <option [ngValue]="null"></option>
+            @for (eventStatus of eventStatusValues; track $index) {
+              <option [value]="eventStatus">
+                {{ { null: '', UNPUBLISHED: 'UNPUBLISHED', PUBLISHED: 'PUBLISHED', CANCELLED: 'CANCELLED' }[eventStatus] }}
+              </option>
+            }
           </select>
-          <div *ngIf="editForm.get('eventStatus')!.invalid && (editForm.get('eventStatus')!.dirty || editForm.get('eventStatus')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('eventStatus')?.errors?.required"> This field is required. </small>
-          </div>
+          @if (eventStatusRef.invalid && (eventStatusRef.dirty || eventStatusRef.touched)) {
+            <div>
+              @if (editForm.get('eventStatus')?.errors?.required) {
+                <small class="form-text text-danger">This field is required.</small>
+              }
+            </div>
+          }
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" for="field_mainHost">Main Host</label>
           <select
             class="form-control"
@@ -51,9 +75,11 @@
             [compareWith]="compareApplicationUser"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="applicationUserOption" *ngFor="let applicationUserOption of applicationUsersSharedCollection">
-              {{ applicationUserOption.appUser?.firstName }} {{ applicationUserOption.appUser?.lastName }}
-            </option>
+            @for (applicationUserOption of applicationUsersSharedCollection; track $index) {
+              <option [ngValue]="applicationUserOption" *ngIf="applicationUserOption.appUser != null">
+                {{ applicationUserOption.appUser?.firstName }} {{ applicationUserOption.appUser?.lastName }}
+              </option>
+            }
           </select>
           <div *ngIf="editForm.get('mainHost')!.invalid && (editForm.get('mainHost')!.dirty || editForm.get('mainHost')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('mainHost')?.errors?.required"> This field is required. </small>

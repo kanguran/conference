@@ -1,9 +1,10 @@
 {
+  "annotations": {
+    "changelogDate": "20240119211627"
+  },
   "applications": "*",
   "changelogDate": "20240119211627",
   "dto": "mapstruct",
-  "embedded": false,
-  "entityTableName": "event_context",
   "fields": [
     {
       "fieldName": "description",
@@ -27,36 +28,28 @@
       "fieldValidateRules": ["required"]
     }
   ],
-  "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
   "name": "EventContext",
   "pagination": "pagination",
-  "readOnly": false,
   "relationships": [
     {
       "otherEntityName": "room",
-      "ownerSide": true,
       "relationshipName": "eventContextRoom",
-      "relationshipType": "one-to-one"
-    },
-    {
-      "otherEntityName": "applicationUser",
-      "ownerSide": true,
-      "relationshipName": "contextHost",
+      "relationshipSide": "left",
       "relationshipType": "one-to-one"
     },
     {
       "otherEntityName": "eventRegistration",
-      "otherEntityRelationshipName": "eventContext",
       "relationshipName": "eventContextRegistration",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
-      "otherEntityName": "event",
-      "otherEntityRelationshipName": "eventContext",
-      "relationshipName": "event",
+      "otherEntityName": "applicationUser",
+      "relationshipName": "contextHost",
+      "relationshipSide": "left",
       "relationshipType": "many-to-one"
     }
   ],
+  "searchEngine": "no",
   "service": "serviceClass"
 }
