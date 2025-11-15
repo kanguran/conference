@@ -140,7 +140,7 @@
           >
             <option [ngValue]="null"></option>
             @for (applicationUserOption of applicationUsersSharedCollection; track $index) {
-              <option [ngValue]="applicationUserOption" *ngIf="applicationUserOption.appUser != null">
+              <option [ngValue]="applicationUserOption" *ngIf="applicationUserOption.appUser !== null">
                 {{ applicationUserOption.appUser?.firstName }} {{ applicationUserOption.appUser?.lastName }}
               </option>
             }

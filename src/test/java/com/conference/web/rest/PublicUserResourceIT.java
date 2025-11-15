@@ -81,7 +81,7 @@ class PublicUserResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[?(@.id == %d)].login", user.getId()).value(user.getLogin()))
-            .andExpect(jsonPath("$.[?(@.id == %d)].keys()", user.getId()).value(Set.of("id", "login")))
+            .andExpect(jsonPath("$.[?(@.id == %d)].keys()", user.getId()).value(Set.of("id", "login", "firstName", "lastName")))
             .andExpect(jsonPath("$.[*].email").doesNotHaveJsonPath())
             .andExpect(jsonPath("$.[*].imageUrl").doesNotHaveJsonPath())
             .andExpect(jsonPath("$.[*].langKey").doesNotHaveJsonPath());
